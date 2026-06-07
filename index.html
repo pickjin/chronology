@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 연대기 — 생년월일로 보는 나의 시대</title>
+<meta property="og:title" content="나의 연대기 — 생년월일로 보는 나의 시대">
+<meta property="og:description" content="내가 태어난 해, 내가 자란 시대, 우리 동네 사투리까지. 생년월일 하나로 나만의 연대기를 확인해보세요.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--card:#181818;--border:#2a2a2a;--accent:#e8d5a3;--accent2:#c9a96e;--accent3:#8fb8ad;--text:#e8e4dc;--muted:#666;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Gmarket Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+#landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.badge{display:inline-block;border:1px solid var(--accent2);color:var(--accent2);font-size:10px;letter-spacing:3px;padding:5px 14px;border-radius:20px;text-transform:uppercase;margin-bottom:28px}
+h1{font-family:'Nanum Myeongjo',serif;font-size:clamp(48px,12vw,96px);font-weight:800;line-height:0.95;text-align:center;color:var(--accent);letter-spacing:-2px;margin-bottom:20px}
+h1 span{display:block;font-size:0.38em;font-weight:400;letter-spacing:6px;color:var(--muted);text-transform:uppercase;font-family:'Gmarket Sans',sans-serif;margin-bottom:8px}
+.subtitle{font-size:14px;color:var(--muted);text-align:center;line-height:1.8;max-width:360px;margin-bottom:48px}
+.input-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px;width:100%;max-width:400px}
+.field-label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:block}
+input[type="date"]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:18px;padding:14px 16px;margin-bottom:20px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;color-scheme:dark}
+input[type="date"]:focus{border-color:var(--accent2)}
+.gender-row{display:flex;gap:10px;margin-bottom:24px}
+.gender-btn{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Gmarket Sans',sans-serif;font-size:14px;padding:12px;cursor:pointer;transition:all 0.2s}
+.gender-btn.active{border-color:var(--accent2);color:var(--accent2);background:rgba(201,169,110,0.08)}
+.submit-btn{width:100%;background:var(--accent);border:none;border-radius:8px;color:#0d0d0d;font-family:'Gmarket Sans',sans-serif;font-size:15px;font-weight:700;padding:16px;cursor:pointer;transition:all 0.15s;letter-spacing:1px}
+.submit-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+.disclaimer-small{font-size:10px;color:#444;text-align:center;margin-top:16px;line-height:1.6}
+#result{display:none;min-height:100vh;padding:0 0 80px}
+.result-header{background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border-bottom:1px solid var(--border);padding:32px 20px 28px;text-align:center}
+.result-header h2{font-family:'Nanum Myeongjo',serif;font-size:24px;color:var(--accent);margin-bottom:6px}
+.result-header p{font-size:12px;color:var(--muted)}
+.sections{max-width:520px;margin:0 auto;padding:0 16px}
+.score-hero{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px 24px;text-align:center;margin:24px 0 16px;position:relative;overflow:hidden}
+.score-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent2),transparent)}
+.score-number{font-family:'Nanum Myeongjo',serif;font-size:80px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:8px}
+.score-label{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.score-rank{display:inline-block;background:rgba(143,184,173,0.12);border:1px solid rgba(143,184,173,0.3);color:var(--accent3);font-size:13px;padding:6px 16px;border-radius:20px;margin-bottom:16px}
+.ai-comment{font-size:14px;color:var(--text);line-height:1.7;background:rgba(255,255,255,0.03);border-radius:8px;padding:14px 16px;border-left:2px solid var(--accent2)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;margin-bottom:12px}
+.card-title{font-size:10px;letter-spacing:3px;color:var(--accent2);text-transform:uppercase;margin-bottom:16px}
+.progress-pct{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f1f1f;font-size:13px}
+.stat-row:last-child{border-bottom:none}
+.stat-key{color:var(--muted)}
+.stat-val{color:var(--text);font-weight:500}
+.stat-val.highlight{color:var(--accent)}
+.stat-val.teal{color:var(--accent3)}
+.compare-item{padding:12px 0;border-bottom:1px solid #1f1f1f}
+.compare-item:last-child{border-bottom:none}
+.compare-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.compare-name{font-size:13px;color:var(--muted)}
+.compare-delta{font-size:12px;font-weight:700}
+.compare-delta.plus{color:#8fb8ad}
+.compare-delta.minus{color:#c0a07a}
+.compare-delta.neutral{color:var(--muted)}
+.compare-bar-wrap{height:4px;background:#1f1f1f;border-radius:2px;overflow:hidden}
+.compare-bar-fill{height:100%;border-radius:2px;background:var(--accent2);transition:width 1.4s ease}
+.history-item{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid #1f1f1f}
+.history-item:last-child{border-bottom:none}
+.history-year{font-size:11px;color:var(--accent2);letter-spacing:1px;white-space:nowrap;padding-top:2px;min-width:36px}
+.history-content{font-size:12px;color:var(--text);line-height:1.6}
+.history-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.pop-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #1f1f1f}
+.pop-row:last-child{border-bottom:none}
+.pop-icon{font-size:20px}
+.pop-text{flex:1;font-size:13px;color:var(--muted)}
+.pop-val{font-size:14px;color:var(--text);font-weight:500}
+.share-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;margin-bottom:12px}
+.share-section h3{font-size:15px;color:var(--accent);margin-bottom:6px}
+.share-section p{font-size:12px;color:var(--muted);margin-bottom:18px}
+.share-btns{display:flex;gap:10px}
+.share-btn{flex:1;padding:13px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s}
+.share-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.ad-slot{background:#111;border:1px dashed #222;border-radius:8px;padding:20px;text-align:center;font-size:11px;color:#333;letter-spacing:1px;margin-bottom:12px;min-height:80px;display:flex;align-items:center;justify-content:center}
+.disclaimer{font-size:10px;color:#333;line-height:1.7;text-align:center;padding:0 10px;margin-top:20px}
+.restart-btn{display:block;width:100%;max-width:520px;margin:20px auto 0;background:transparent;border:1px solid #2a2a2a;color:var(--muted);font-family:'Gmarket Sans',sans-serif;font-size:13px;padding:14px;border-radius:8px;cursor:pointer;transition:all 0.2s}
+.restart-btn:hover{border-color:var(--muted);color:var(--text)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card,.score-hero,.share-section{animation:fadeUp 0.5s ease both}
+#loading{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.spinner{width:36px;height:36px;border:2px solid #222;border-top-color:var(--accent2);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading p{font-size:13px;color:var(--muted);letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><p>평균 계산 중...</p></div>
+
+<section id="landing">
+  <div class="badge">나의 연대기</div>
+  <h1><span>생년월일로 보는</span>나의<br>연대기</h1>
+  <p class="subtitle">내가 태어난 날, 내가 자란 시대,<br>우리 동네만의 사투리까지.<br><br>오직 나만을 위한 연대기.</p>
+  <div class="input-box">
+    <label class="field-label">생년월일</label>
+    <input type="date" id="birthdate" max="2010-01-01" min="1940-01-01">
+    <label class="field-label">성별</label>
+    <div class="gender-row">
+      <button class="gender-btn active" onclick="selectGender('M',this)">남성</button>
+      <button class="gender-btn" onclick="selectGender('F',this)">여성</button>
+    </div>
+    <label class="field-label">어릴 때 살던 지역</label>
+    <select id="region-select" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:15px;padding:14px 16px;margin-bottom:24px;outline:none;color-scheme:dark;-webkit-appearance:none;appearance:none;cursor:pointer">
+      <option value="">지역 선택</option>
+      <option value="서울">서울특별시</option>
+      <option value="경기">경기도</option>
+      <option value="인천">인천광역시</option>
+      <option value="강원">강원도</option>
+      <option value="충북">충청북도</option>
+      <option value="충남">충청남도</option>
+      <option value="대전">대전광역시</option>
+      <option value="경북">경상북도</option>
+      <option value="대구">대구광역시</option>
+      <option value="경남">경상남도</option>
+      <option value="부산">부산광역시</option>
+      <option value="울산">울산광역시</option>
+      <option value="전북">전라북도</option>
+      <option value="전남">전라남도</option>
+      <option value="광주">광주광역시</option>
+      <option value="제주">제주특별자치도</option>
+    </select>
+    <button class="submit-btn" onclick="calculate()">나의 연대기 확인하기 →</button>
+    <p class="disclaimer-small">개인정보 저장 없음 · 브라우저에서만 계산</p>
+  </div>
+</section>
+
+<div id="result">
+  <div class="result-header">
+    <h2 id="res-name">리포트</h2>
+    <p id="res-date"></p>
+  </div>
+  <div class="sections">
+    <div class="score-hero" style="animation-delay:0.05s">
+      <div class="score-label">평균 인간 점수 (재미용)</div>
+      <div class="score-number" id="score-num">--</div>
+      <div class="score-rank" id="score-rank">계산 중</div>
+      <div class="ai-comment" id="ai-comment"></div>
+    </div>
+
+    <div class="card" style="animation-delay:0.08s">
+      <div class="card-title">👶 내 또래 흔한 이름 (대법원 통계 기반)</div>
+      <div id="names-display"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 대법원 출생신고 통계·언론보도 분석 기반 / 연대별 대표 이름</p>
+    </div>
+
+    <div class="card" id="region-card" style="animation-delay:0.09s;display:none">
+      <div class="card-title" id="region-title">📍 우리 지역 특색</div>
+      <div id="region-display"></div>
+    </div>
+
+    <div class="card" style="animation-delay:0.1s">
+      <div class="card-title">📅 나이 정보</div>
+      <div class="stat-row"><span class="stat-key">만 나이</span><span class="stat-val highlight" id="r-age">-</span></div>
+      <div class="stat-row"><span class="stat-key">태어난 지</span><span class="stat-val" id="r-days">-</span></div>
+      <div class="stat-row"><span class="stat-key">살아온 시간</span><span class="stat-val" id="r-hours">-</span></div>
+      <div class="stat-row"><span class="stat-key">다음 생일까지</span><span class="stat-val teal" id="r-birthday">-</span></div>
+    </div>
+
+    <div class="card" style="animation-delay:0.15s">
+      <div class="card-title">⏳ 인생 진행률</div>
+      <div class="progress-pct" id="life-pct">0%</div>
+      <div class="progress-info"><span>출생</span><span id="life-exp-label">기대수명</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="life-bar" style="width:0%"></div></div>
+      <div style="margin-top:14px">
+        <div class="stat-row"><span class="stat-key">남은 날</span><span class="stat-val highlight" id="r-remain-days">-</span></div>
+        <div class="stat-row"><span class="stat-key">남은 주말</span><span class="stat-val" id="r-weekends">-</span></div>
+        <div class="stat-row"><span class="stat-key">남은 벚꽃 시즌</span><span class="stat-val" id="r-cherry">-</span></div>
+        <div class="stat-row"><span class="stat-key">남은 여름</span><span class="stat-val" id="r-summer">-</span></div>
+      </div>
+    </div>
+
+    <div class="ad-slot">AD · 광고 영역</div>
+
+    <div class="card" style="animation-delay:0.2s">
+      <div class="card-title">📊 대한민국 평균 비교</div>
+      <div id="compare-list"></div>
+    </div>
+
+    <div class="card" style="animation-delay:0.25s">
+      <div class="card-title">🇰🇷 대한민국에서 나의 위치</div>
+      <div class="pop-row"><span class="pop-icon">⬆️</span><span class="pop-text">나보다 나이 많은 사람</span><span class="pop-val" id="older-pct">-</span></div>
+      <div class="pop-row"><span class="pop-icon">⬇️</span><span class="pop-text">나보다 어린 사람</span><span class="pop-val" id="younger-pct">-</span></div>
+      <div class="pop-row"><span class="pop-icon">🎂</span><span class="pop-text">같은 연도 출생자 (통계청)</span><span class="pop-val" id="same-year">-</span></div>
+      <div class="pop-row"><span class="pop-icon">🎉</span><span class="pop-text">같은 생일 추정 인원</span><span class="pop-val" id="same-bday">-</span></div>
+    </div>
+
+    <div class="card" style="animation-delay:0.3s">
+      <div class="card-title">🕰️ 내가 태어났을 때</div>
+      <div id="history-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 짜장면: 한국물가정보·통계청 / 최저임금: 고용노동부 / 삼성전자: 수정주가</p>
+    </div>
+
+    <div class="card" style="animation-delay:0.33s">
+      <div class="card-title">🍜🍦🍘 내 생년의 라면·과자·아이스크림</div>
+      <div id="snack-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 위키백과·제조사 공식자료 기반</p>
+    </div>
+
+    <div class="card" style="animation-delay:0.36s">
+      <div class="card-title">🎤 K-POP 아이돌 데뷔 연도</div>
+      <div id="idol-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 나무위키·위키백과 공식 데뷔일 기준</p>
+    </div>
+
+    <div class="card" style="animation-delay:0.39s">
+      <div class="card-title">📺 내가 초등학교 때 본 만화</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="anime-label"></div>
+      <div id="anime-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 공중파·케이블 첫 방영연도 기준</p>
+    </div>
+
+    <div class="card" style="animation-delay:0.42s">
+      <div class="card-title">🎮 내가 초등~중학교 때 유행한 게임</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="game-label"></div>
+      <div id="game-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 서비스 시작 기준</p>
+    </div>
+
+    <div class="card" style="animation-delay:0.45s">
+      <div class="card-title">📱 내가 중고등학교 때 핸드폰</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="phone-label"></div>
+      <div id="phone-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 출시·상용화 기준</p>
+    </div>
+
+    <div class="ad-slot">AD · 광고 영역</div>
+
+    <div class="share-section" style="animation-delay:0.4s">
+      <h3>📤 내 연대기 공유하기</h3>
+      <div id="story-preview" style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.8;margin-bottom:16px;font-style:italic"></div>
+      <div class="share-btns">
+        <button class="share-btn" onclick="copyStoryLink()">🔗 링크 복사</button>
+        <button class="share-btn" onclick="shareStory()">📱 공유</button>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      본 결과는 개인 예측이 아니라 공공통계 기반 참고 정보입니다.<br>
+      건강·수명·질병 관련 내용은 의학적 진단이 아닙니다.<br>
+      재미용 점수는 실제 통계 점수와 무관합니다.<br>
+      출처: 통계청, 보건복지부, 고용노동부, 한국물가정보 공공데이터
+    </p>
+  </div>
+  <button class="restart-btn" onclick="goMakeMyOwn()">✏️ 나의 연대기 만들기</button>
+</div>
+
+<script>
+var selectedGender = 'M';
+var selectedRegion = '';
+
+function selectGender(g, el) {
+  selectedGender = g;
+  document.querySelectorAll('.gender-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+var STATS = {
+  lifeExpM:80.6, lifeExpF:86.6, lifeExpN:83.6,
+  avgMarriage1M:34.0, avgMarriage1F:31.5, avgMarriage1N:32.8,
+  avgMarriage2M:50.2, avgMarriage2F:46.8, avgMarriage2N:48.5,
+  retireAge:61.1, youthAge:34, startupAge:42.0, cancerAge:63
+};
+
+// 비트코인 연도별 연말 기준 원화 근사값 (2009년 창시, 이전 연도 없음)
+// 출처: CoinMarketCap, 나무위키 비트코인/역사, 디지털투데이
+var BTC = {
+  2009:"거래소 없음 (채굴로만 획득)",
+  2010:"약 100원 (0.08달러 · 피자 2판=1만BTC)",
+  2011:"약 1,300원 ~ 39,000원 (30달러 고점)",
+  2012:"약 13,000원 ~ 15,700원 (12달러)",
+  2013:"약 17,000원 ~ 163만원 (1,242달러 고점)",
+  2014:"약 36만원 ~ 125만원 (급락장)",
+  2015:"약 21만원 ~ 50만원 (저점 반등)",
+  2016:"약 45만원 ~ 120만원",
+  2017:"약 120만원 ~ 2,400만원 (버블 고점)",
+  2018:"약 700만원 ~ 2,300만원 (급락)",
+  2019:"약 400만원 ~ 1,500만원",
+  2020:"약 900만원 ~ 3,200만원 (연말 급등)",
+  2021:"약 3,000만원 ~ 8,200만원 (역대 최고)",
+  2022:"약 2,000만원 ~ 6,000만원 (루나 폭락)",
+  2023:"약 2,200만원 ~ 5,700만원 (ETF 기대감)",
+  2024:"약 5,500만원 ~ 15,000만원 (현물 ETF 승인)"
+};
+
+// SK하이닉스 연도별 주가 근사값
+// 1983년 현대전자 설립 → 2001년 하이닉스반도체 → 2012년 SK하이닉스
+// 출처: 나무위키, 데이터뉴스, 한국거래소
+var SKH = {
+  1996:"약 20,000원대 (현대전자 시절)",
+  1997:"약 5,000원대 (IMF 폭락)",
+  1998:"약 2,000원대 (워크아웃 위기)",
+  1999:"약 15,000원대 (반등)",
+  2000:"약 8,000원대",
+  2001:"약 1,000원대 (하이닉스반도체 출범, 감자)",
+  2002:"약 280원 (21:1 감자 직후)",
+  2003:"약 5,600원 (흑자 전환)",
+  2004:"약 11,650원",
+  2005:"약 20,000원대 (워크아웃 졸업)",
+  2006:"약 36,450원 (역대 최고 당시)",
+  2007:"약 30,000원대",
+  2008:"약 6,700원 (금융위기 폭락)",
+  2009:"약 15,000원대",
+  2010:"약 25,000원대",
+  2011:"약 22,000원대",
+  2012:"약 25,000원대 (SK 인수, 사명 변경)",
+  2013:"약 35,000원대",
+  2014:"약 46,000원 ~ 50,700원 (시총 2위)",
+  2015:"약 30,000원대",
+  2016:"약 25,650원 (저점) ~ 45,000원",
+  2017:"약 80,000원 돌파 (도시바 인수)",
+  2018:"약 97,700원 (역대 최고) → 60,000원대",
+  2019:"약 70,000원대",
+  2020:"약 70,000원 ~ 130,500원 (급등)",
+  2021:"약 130,500원 (1월 최고점)",
+  2022:"약 60,000원대 (반도체 한파)",
+  2023:"약 90,000원대 (HBM·AI 수혜)",
+  2024:"약 170,000원 ~ 200,000원 (HBM 최대 수혜)"
+};
+
+// 짜장면: 한국물가정보·통계청 소비자물가지수 실측값
+// 최저임금: 고용노동부 공식고시 (1988년부터 시행)
+// 삼성전자: 2018년 50:1 액면분할 수정주가 기준
+var HISTORY = {
+  1970:{min:null,jja:100,pres:"박정희",event:"경부고속도로 개통",sam:"상장 전"},
+  1975:{min:null,jja:138,pres:"박정희",event:"베트남 종전, 석유파동",sam:"상장 전"},
+  1976:{min:null,jja:151,pres:"박정희",event:"수출 100억 달러 돌파",sam:"상장 전"},
+  1977:{min:null,jja:194,pres:"박정희",event:"부가가치세 도입",sam:"상장 전"},
+  1978:{min:null,jja:203,pres:"박정희",event:"중동 건설 붐",sam:"상장 전"},
+  1979:{min:null,jja:277,pres:"최규하",event:"10.26 사태, 2차 석유파동",sam:"상장 전"},
+  1980:{min:null,jja:348,pres:"전두환",event:"5.18 민주화 운동",sam:"상장 전"},
+  1981:{min:null,jja:470,pres:"전두환",event:"컬러TV 방송 시작",sam:"상장 전"},
+  1982:{min:null,jja:529,pres:"전두환",event:"프로야구 출범 원년",sam:"상장 전"},
+  1983:{min:null,jja:528,pres:"전두환",event:"KAL기 격추 사건",sam:"상장 전"},
+  1984:{min:null,jja:572,pres:"전두환",event:"KBS 이산가족 찾기 방송",sam:"상장 전"},
+  1985:{min:null,jja:616,pres:"전두환",event:"플라자 합의, 엔고 시대",sam:"상장 전"},
+  1986:{min:null,jja:647,pres:"전두환",event:"서울 아시안게임, 신라면 출시",sam:"상장 전"},
+  1987:{min:null,jja:676,pres:"전두환",event:"6월 민주화 항쟁",sam:"상장 전"},
+  1988:{min:462,jja:759,pres:"노태우",event:"서울 올림픽, 최저임금제 시행",sam:"약 600원대"},
+  1989:{min:600,jja:899,pres:"노태우",event:"베를린 장벽 붕괴",sam:"약 900원대"},
+  1990:{min:690,jja:1073,pres:"노태우",event:"소련과 수교, 3당 합당",sam:"약 1500원대"},
+  1991:{min:820,jja:1299,pres:"노태우",event:"소련 붕괴",sam:"약 2500원대"},
+  1992:{min:925,jja:1450,pres:"노태우",event:"중국과 수교",sam:"약 3000원대"},
+  1993:{min:1005,jja:1569,pres:"김영삼",event:"금융실명제 전격 실시",sam:"약 5000원대"},
+  1994:{min:1085,jja:1734,pres:"김영삼",event:"성수대교 붕괴",sam:"약 8000원대"},
+  1995:{min:1170,jja:2176,pres:"김영삼",event:"삼풍백화점 붕괴",sam:"약 12000원대"},
+  1996:{min:1275,jja:2279,pres:"김영삼",event:"OECD 가입",sam:"약 10000원대"},
+  1997:{min:1400,jja:2500,pres:"김영삼",event:"IMF 외환위기 구제금융 신청",sam:"약 5000원대"},
+  1998:{min:1485,jja:2500,pres:"김대중",event:"IMF 구제금융 시대",sam:"약 16000원대"},
+  1999:{min:1525,jja:2533,pres:"김대중",event:"IMF 조기 졸업, 벤처 붐",sam:"약 40000원대"},
+  2000:{min:1865,jja:2533,pres:"김대중",event:"남북 정상회담, 닷컴 버블 붕괴",sam:"약 24000원대"},
+  2001:{min:2100,jja:2583,pres:"김대중",event:"9.11 테러",sam:"약 20000원대"},
+  2002:{min:2275,jja:2917,pres:"김대중",event:"한일 월드컵 4강 신화",sam:"약 38000원대"},
+  2003:{min:2510,jja:3083,pres:"노무현",event:"이라크 전쟁, 카드 대란",sam:"약 46000원대"},
+  2004:{min:2840,jja:3222,pres:"노무현",event:"노무현 탄핵 기각",sam:"약 60000원대"},
+  2005:{min:2840,jja:3222,pres:"노무현",event:"황우석 논문 조작 사태",sam:"약 55000원대"},
+  2006:{min:3100,jja:3264,pres:"노무현",event:"북한 1차 핵실험",sam:"약 62000원대"},
+  2007:{min:3480,jja:3386,pres:"노무현",event:"아이폰 출시(미국)",sam:"약 68000원대"},
+  2008:{min:3770,jja:3829,pres:"이명박",event:"글로벌 금융위기",sam:"약 47000원대"},
+  2009:{min:4000,jja:3896,pres:"이명박",event:"신종플루 유행",sam:"약 78000원대"},
+  2010:{min:4110,jja:3945,pres:"이명박",event:"G20 서울 정상회의",sam:"약 90000원대"},
+  2011:{min:4320,jja:4220,pres:"이명박",event:"동일본 대지진",sam:"약 110000원대"},
+  2012:{min:4580,jja:4270,pres:"이명박",event:"싸이 강남스타일 세계 히트",sam:"약 130000원대"},
+  2013:{min:4860,jja:4345,pres:"박근혜",event:"박근혜 대통령 취임",sam:"약 140000원대"},
+  2014:{min:5210,jja:4400,pres:"박근혜",event:"세월호 참사",sam:"약 130000원대"},
+  2015:{min:5580,jja:4522,pres:"박근혜",event:"메르스 사태",sam:"약 128000원대"},
+  2016:{min:6030,jja:4649,pres:"박근혜",event:"촛불혁명, 박근혜 탄핵 소추",sam:"약 170000원대"},
+  2017:{min:6470,jja:4798,pres:"문재인",event:"박근혜 파면, 문재인 취임",sam:"약 52000원(분할후)"},
+  2018:{min:7530,jja:5011,pres:"문재인",event:"평창 동계올림픽, 남북 회담",sam:"약 50000원대(분할후)"},
+  2019:{min:8350,jja:5201,pres:"문재인",event:"일본 수출규제, 불매운동",sam:"약 55000원대"},
+  2020:{min:8590,jja:5276,pres:"문재인",event:"코로나19 팬데믹 시작",sam:"약 75000원대"},
+  2021:{min:8720,jja:5438,pres:"문재인",event:"백신 접종 시작",sam:"약 80000원대"},
+  2022:{min:9160,jja:6025,pres:"윤석열",event:"이태원 참사, 반도체 한파",sam:"약 61000원대"},
+  2023:{min:9620,jja:6301,pres:"윤석열",event:"고금리 장기화, AI 붐 시작",sam:"약 71000원대"},
+  2024:{min:9860,jja:6500,pres:"윤석열",event:"윤석열 비상계엄, 탄핵",sam:"약 53000원대"}
+};
+
+var SNACKS = [
+  {year:1963,name:"삼양라면",type:"라면",desc:"한국 최초 인스턴트 라면"},
+  {year:1970,name:"부라보콘",type:"아이스크림",desc:"해태제과, 최장수 콘 아이스크림"},
+  {year:1971,name:"새우깡",type:"과자",desc:"한국 최초 스낵 과자, 농심"},
+  {year:1972,name:"죠리퐁",type:"과자",desc:"농심 초기 히트작"},
+  {year:1974,name:"초코파이",type:"과자",desc:"오리온, 누적매출 2조원 1위 과자"},
+  {year:1974,name:"투게더",type:"아이스크림",desc:"빙그레, 국민 패밀리 아이스크림"},
+  {year:1975,name:"맛동산",type:"과자",desc:"해태제과, 50년 장수 과자"},
+  {year:1975,name:"누가바",type:"아이스크림",desc:"해태제과 스테디셀러"},
+  {year:1976,name:"오징어땅콩",type:"과자",desc:"해태제과 스테디셀러"},
+  {year:1976,name:"비비빅",type:"아이스크림",desc:"빙그레, 국민 팥 아이스크림"},
+  {year:1976,name:"바밤바",type:"아이스크림",desc:"해태제과 참외맛 아이스크림"},
+  {year:1976,name:"쌍쌍바",type:"아이스크림",desc:"해태제과, 나눠먹는 우정 아이스크림"},
+  {year:1979,name:"아맛나",type:"아이스크림",desc:"롯데삼강, 2위 최장수 아이스크림"},
+  {year:1981,name:"빠삐코",type:"아이스크림",desc:"롯데삼강, 초코 쭈쭈바의 원조"},
+  {year:1982,name:"육개장사발면",type:"라면",desc:"농심, 용기면 대중화"},
+  {year:1983,name:"빼빼로",type:"과자",desc:"롯데제과, 빼빼로데이의 주인공"},
+  {year:1983,name:"꼬깔콘",type:"과자",desc:"롯데제과 옥수수 과자"},
+  {year:1983,name:"죠스바",type:"아이스크림",desc:"롯데제과, 오렌지·딸기맛 상어 아이스크림"},
+  {year:1983,name:"돼지바",type:"아이스크림",desc:"롯데삼강, 30년 장수 아이스크림"},
+  {year:1984,name:"포카칩",type:"과자",desc:"오리온 감자칩의 원조"},
+  {year:1985,name:"스크류바",type:"아이스크림",desc:"롯데제과, 꽈배기 모양 딸기·사과맛"},
+  {year:1986,name:"신라면",type:"라면",desc:"농심, 한국 매운 라면의 상징 (10월 출시)"},
+  {year:1986,name:"수박바",type:"아이스크림",desc:"롯데제과, 수박 모양 아이스크림"},
+  {year:1988,name:"바나나킥",type:"과자",desc:"농심 바나나맛 과자"},
+  {year:1989,name:"콘칩",type:"과자",desc:"오리온 콘 스낵"},
+  {year:1989,name:"더위사냥",type:"아이스크림",desc:"해태제과, 국민 팥빙수 아이스크림"},
+  {year:1990,name:"안성탕면",type:"라면",desc:"농심, 구수한 국물 라면"},
+  {year:1992,name:"참깨라면",type:"라면",desc:"오뚜기, 참깨 국물 라면"},
+  {year:1993,name:"구구콘",type:"아이스크림",desc:"롯데제과, 초코콘 국민 아이스크림"},
+  {year:2001,name:"오감자",type:"과자",desc:"오리온 감자 스낵"},
+  {year:2012,name:"불닭볶음면",type:"라면",desc:"삼양, 글로벌 불닭 열풍의 시작"},
+  {year:2014,name:"허니버터칩",type:"과자",desc:"해태제과, 2014년 품귀 대란"},
+  {year:2023,name:"먹태깡",type:"과자",desc:"농심, 2023년 최대 히트작"}
+];
+
+// 지역별 방언·특색 데이터
+// 출처: 나무위키 편가르기·방언, 한국민족문화대백과, GQ코리아, 언론보도
+var REGIONS = {
+  "서울": {
+    label: "서울특별시",
+    emoji: "🏙️",
+    dendenci: "데덴찌",
+    words: [
+      {std:"부추", local:"부추 (표준어 지역)"},
+      {std:"편가르기", local:"데덴찌"},
+      {std:"아이", local:"애"},
+      {std:"빨리", local:"빨리 (표준어)"},
+      {std:"모르겠어", local:"모르겠어 (표준어)"}
+    ],
+    food: "설렁탕, 순대, 떡볶이",
+    fact: "조선시대부터 수도. 전국 인구의 약 19%가 서울 거주. 표준어의 기준이 되는 지역."
+  },
+  "경기": {
+    label: "경기도",
+    emoji: "🌾",
+    dendenci: "데덴찌",
+    words: [
+      {std:"부추", local:"부추 (표준어)"},
+      {std:"편가르기", local:"데덴찌"},
+      {std:"아이", local:"애"},
+      {std:"빨리", local:"빨리"},
+      {std:"없어", local:"없어"}
+    ],
+    food: "수원갈비, 이천쌀밥, 안성탕면",
+    fact: "전국 인구의 약 26%가 거주하는 최대 인구 광역단체. 서울 생활권 공유로 표준어와 유사."
+  },
+  "인천": {
+    label: "인천광역시",
+    emoji: "⚓",
+    dendenci: "뗀치에 후레쉬 돌려도 말 못해 엎어라 뒤집어라",
+    words: [
+      {std:"편가르기", local:"뗀치에 후레쉬~"},
+      {std:"부추", local:"부추"},
+      {std:"아이", local:"애"},
+      {std:"빨리", local:"빨리"},
+      {std:"항구", local:"포구"}
+    ],
+    food: "차이나타운 짜장면, 신포시장 닭강정",
+    fact: "우리나라 최초 짜장면 탄생지. 인천 데덴찌 구호가 전국에서 가장 길기로 유명."
+  },
+  "강원": {
+    label: "강원도",
+    emoji: "🏔️",
+    dendenci: "편짜편짜편짜",
+    words: [
+      {std:"부추", local:"부추"},
+      {std:"편가르기", local:"편짜편짜편짜"},
+      {std:"감자", local:"감자 (주식)"},
+      {std:"옥수수", local:"강냉이"},
+      {std:"고구마", local:"고구마"}
+    ],
+    food: "감자떡, 메밀막국수, 황태구이",
+    fact: "강원도 북쪽은 북한 사투리, 남쪽은 경상도 억양, 서쪽은 충청도 억양과 유사한 독특한 방언 혼재 지역."
+  },
+  "충북": {
+    label: "충청북도",
+    emoji: "🌿",
+    dendenci: "앞쳐 뒤쳐",
+    words: [
+      {std:"부추", local:"정구지"},
+      {std:"편가르기", local:"앞쳐 뒤쳐"},
+      {std:"그래", local:"그려"},
+      {std:"어디", local:"어디여"},
+      {std:"뭐야", local:"뭐여"}
+    ],
+    food: "청주 올갱이국, 충주 사과, 보은 대추",
+    fact: "충북은 경상도·경기도 사이에서 방언 특성이 혼재. 부추를 경북처럼 '정구지'라 부르는 독특한 지역."
+  },
+  "충남": {
+    label: "충청남도",
+    emoji: "🌊",
+    dendenci: "엎어라 뒤집어라",
+    words: [
+      {std:"부추", local:"졸 / 줄"},
+      {std:"편가르기", local:"엎어라 뒤집어라"},
+      {std:"그래", local:"그류"},
+      {std:"뭐야", local:"뭐유"},
+      {std:"어디야", local:"어딘교"}
+    ],
+    food: "간장게장, 충남 굴, 천안호두과자",
+    fact: "부추를 '졸' 또는 '줄'이라 부르는 전국 유일 지역. 충청도 특유의 느린 말투와 '~유' 어미로 유명."
+  },
+  "대전": {
+    label: "대전광역시",
+    emoji: "🚄",
+    dendenci: "우에시다리",
+    words: [
+      {std:"편가르기", local:"우에시다리"},
+      {std:"부추", local:"부추"},
+      {std:"그래", local:"그류"},
+      {std:"뭐야", local:"뭐유"},
+      {std:"어디야", local:"어딘교"}
+    ],
+    food: "성심당 빵, 칼국수, 두부두루치기",
+    fact: "데덴찌를 '우에시다리'라 부르는 전국 유일 지역. 대전 성심당은 연 매출 1000억을 넘는 전설의 빵집."
+  },
+  "경북": {
+    label: "경상북도",
+    emoji: "🌾",
+    dendenci: "탄탄보 / 탄탄비",
+    words: [
+      {std:"부추", local:"정구지"},
+      {std:"편가르기", local:"탄탄보"},
+      {std:"뭐야", local:"뭐꼬"},
+      {std:"그래", local:"그래이"},
+      {std:"어디야", local:"어디고"}
+    ],
+    food: "안동찜닭, 포항물회, 경주빵",
+    fact: "부추를 '정구지'라 부르는 대표 지역. 경상도 특유의 성조(높낮이)가 가장 뚜렷하게 남아있는 지역."
+  },
+  "대구": {
+    label: "대구광역시",
+    emoji: "🔥",
+    dendenci: "덴치씨 오렌지씨",
+    words: [
+      {std:"부추", local:"정구지"},
+      {std:"편가르기", local:"덴치씨 오렌지씨"},
+      {std:"뭐야", local:"뭐꼬"},
+      {std:"더워", local:"덥네"},
+      {std:"빨리", local:"팍팍"}
+    ],
+    food: "납작만두, 막창, 동인동 찜갈비",
+    fact: "한국에서 가장 더운 도시. 데덴찌를 '덴치씨 오렌지씨'라 부르는 독특한 방언 보유."
+  },
+  "경남": {
+    label: "경상남도",
+    emoji: "🌊",
+    dendenci: "탄탄보",
+    words: [
+      {std:"부추", local:"정구지 / 소불"},
+      {std:"편가르기", local:"탄탄보"},
+      {std:"뭐야", local:"뭐꼬"},
+      {std:"그래", local:"그래이"},
+      {std:"모르겠어", local:"모르겠다이"}
+    ],
+    food: "진주냉면, 통영꿀빵, 마산아귀찜",
+    fact: "경남 서부 지역은 전라도 방언과 일부 겹치는 어휘 보유. 남해안 특유의 해산물 음식 문화."
+  },
+  "부산": {
+    label: "부산광역시",
+    emoji: "🌊",
+    dendenci: "젠디 / 덴디 / 묵찌",
+    words: [
+      {std:"부추", local:"정구지"},
+      {std:"편가르기", local:"젠디 / 묵찌"},
+      {std:"뭐야", local:"뭐꼬"},
+      {std:"먹어", local:"묵어"},
+      {std:"그래", local:"그래이"}
+    ],
+    food: "돼지국밥, 밀면, 낙지볶음",
+    fact: "전국에서 데덴찌 이름이 가장 다양한 도시. 젠디·덴디·묵찌 등 지역마다 달랐음."
+  },
+  "울산": {
+    label: "울산광역시",
+    emoji: "🏭",
+    dendenci: "탄탄보",
+    words: [
+      {std:"부추", local:"정구지"},
+      {std:"편가르기", local:"탄탄보"},
+      {std:"뭐야", local:"뭐꼬"},
+      {std:"먹어", local:"묵어"},
+      {std:"그래", local:"그래이"}
+    ],
+    food: "고래고기, 언양불고기, 울산 쇠고기국밥",
+    fact: "한국 자동차·조선 산업의 심장. 현대자동차·현대중공업 본사 소재지."
+  },
+  "전북": {
+    label: "전라북도",
+    emoji: "🌾",
+    dendenci: "으라으라 에야 / 엎어라 뒤집어라",
+    words: [
+      {std:"부추", local:"솔 / 솔지"},
+      {std:"편가르기", local:"으라으라 에야"},
+      {std:"그래", local:"그랑께"},
+      {std:"뭐야", local:"뭐당가"},
+      {std:"맞아", local:"맞당께"}
+    ],
+    food: "전주비빔밥, 순창고추장, 남원추어탕",
+    fact: "부추를 '솔' 또는 '솔지'라 부름. 전주 데덴찌 '으라으라 에야'는 리듬감으로 유명."
+  },
+  "전남": {
+    label: "전라남도",
+    emoji: "🌸",
+    dendenci: "엎어라 뒤집어라",
+    words: [
+      {std:"부추", local:"솔 / 솔김치"},
+      {std:"편가르기", local:"엎어라 뒤집어라"},
+      {std:"그래", local:"그랑께"},
+      {std:"아이고", local:"오메"},
+      {std:"정말", local:"허벌나게"}
+    ],
+    food: "광양불고기, 벌교꼬막, 여수돌게장",
+    fact: "전국에서 방언이 가장 풍부한 지역 중 하나. '거시기' 하나로 모든 문장을 완성할 수 있다는 말이 있음."
+  },
+  "광주": {
+    label: "광주광역시",
+    emoji: "🌟",
+    dendenci: "편뽑기 편뽑기",
+    words: [
+      {std:"부추", local:"솔"},
+      {std:"편가르기", local:"편뽑기 편뽑기"},
+      {std:"그래", local:"그랑께"},
+      {std:"아이고", local:"오메"},
+      {std:"정말", local:"허벌나게"}
+    ],
+    food: "광주 오리탕, 송정떡갈비, 상추튀김",
+    fact: "5·18 민주화운동의 도시. 데덴찌를 '편뽑기'라 불러 의미를 그대로 살린 지역."
+  },
+  "제주": {
+    label: "제주특별자치도",
+    emoji: "🌊",
+    dendenci: "하늘과 땅이다",
+    words: [
+      {std:"부추", local:"세우리"},
+      {std:"편가르기", local:"하늘과 땅이다"},
+      {std:"어서오세요", local:"혼저옵서예"},
+      {std:"처녀", local:"비바리"},
+      {std:"골목", local:"올레"}
+    ],
+    food: "흑돼지구이, 옥돔구이, 고기국수",
+    fact: "데덴찌 어원인 일본어 '텐치(天地·하늘과 땅)'를 그대로 번역해 사용한 유일한 지역. 제주어는 유네스코 소멸위기 언어로 지정."
+  }
+};
+
+function getRegionData(regionKey) {
+  return REGIONS[regionKey] || null;
+}
+
+// 시대별 흔한 이름 (대법원 출생신고 통계 + 나무위키 작명/한국 + 언론보도 기반)
+// 출처: 대법원 가족관계등록시스템, 세계일보·한국경제 시대별 이름 분석 (2016)
+var NAMES = {
+  1940: {
+    m: ["영수","영호","영식","영철","철수"],
+    f: ["영자","정자","순자","춘자","명자"]
+  },
+  1950: {
+    m: ["영수","영철","영호","성수","성호"],
+    f: ["영숙","정숙","영희","명숙","경숙"]
+  },
+  1960: {
+    m: ["영수","영철","영호","성호","광수"],
+    f: ["미숙","영숙","경숙","순자","정희"]
+  },
+  1965: {
+    m: ["영수","성호","영호","재호","동수"],
+    f: ["미숙","미경","영숙","경숙","정숙"]
+  },
+  1970: {
+    m: ["정훈","성호","성훈","동수","재훈"],
+    f: ["은주","은정","미경","정미","경미"]
+  },
+  1975: {
+    m: ["정훈","성호","성훈","성진","재훈"],
+    f: ["은주","은정","은경","미경","지영"]
+  },
+  1980: {
+    m: ["지훈","동현","성민","재원","현수"],
+    f: ["지혜","지영","지은","지현","미영"]
+  },
+  1985: {
+    m: ["지훈","동현","성민","현우","재원"],
+    f: ["지혜","지영","지은","민지","지현"]
+  },
+  1990: {
+    m: ["지훈","현우","동현","성민","민준"],
+    f: ["유진","지혜","지영","민지","지은"]
+  },
+  1995: {
+    m: ["지훈","민준","현우","동현","준서"],
+    f: ["유진","민지","지영","서연","수빈"]
+  },
+  2000: {
+    m: ["민준","현우","서준","예준","주원"],
+    f: ["유진","서연","수빈","서현","민서"]
+  },
+  2005: {
+    m: ["민준","서준","도윤","예준","주원"],
+    f: ["서연","서윤","수빈","하윤","지아"]
+  },
+  2010: {
+    m: ["민준","서준","도윤","시우","주원"],
+    f: ["서연","하윤","서윤","지아","하은"]
+  },
+  2015: {
+    m: ["도윤","시우","주원","하준","지호"],
+    f: ["하윤","하은","지아","서아","나은"]
+  },
+  2020: {
+    m: ["도윤","시우","하준","지호","준서"],
+    f: ["하윤","하은","지아","서아","나은"]
+  }
+};
+
+function getNames(birthYear) {
+  var keys = Object.keys(NAMES).map(Number).sort(function(a,b){return a-b;});
+  var best = keys[0];
+  for (var i=0; i<keys.length; i++) { if (keys[i] <= birthYear) best = keys[i]; }
+  return NAMES[best];
+}
+
+var IDOLS = [
+  {year:1992,name:"서태지와 아이들",type:"보이그룹",desc:"한국 대중음악의 판도를 바꾼 전설"},
+  {year:1996,name:"H.O.T.",type:"보이그룹",desc:"SM, 한국 아이돌 문화의 원조 (9월 7일 데뷔)"},
+  {year:1997,name:"젝스키스",type:"보이그룹",desc:"대성기획, H.O.T. 최대 라이벌 (4월 15일)"},
+  {year:1997,name:"NRG",type:"보이그룹",desc:"뮤직팩토리, 10월 데뷔"},
+  {year:1997,name:"베이비복스",type:"걸그룹",desc:"DR뮤직, 7월 데뷔"},
+  {year:1997,name:"S.E.S.",type:"걸그룹",desc:"SM, 1세대 걸그룹의 전설 (11월 28일)"},
+  {year:1998,name:"핑클",type:"걸그룹",desc:"DSP, S.E.S. 최대 라이벌 (5월 12일)"},
+  {year:1998,name:"신화",type:"보이그룹",desc:"SM, 최장수 아이돌 그룹 (3월 24일)"},
+  {year:1998,name:"코요태",type:"혼성그룹",desc:"트라이펙타, 12월 데뷔"},
+  {year:1999,name:"god",type:"보이그룹",desc:"JYP, 1월 데뷔, 국민 오빠"},
+  {year:1999,name:"클릭비",type:"보이그룹",desc:"DSP, 8월 데뷔"},
+  {year:2003,name:"TVXQ(동방신기)",type:"보이그룹",desc:"SM, 2세대 시작점 (12월 26일)"},
+  {year:2005,name:"SS501",type:"보이그룹",desc:"DSP, 6월 데뷔"},
+  {year:2006,name:"빅뱅",type:"보이그룹",desc:"YG, 2세대 대표 보이그룹 (8월 19일)"},
+  {year:2007,name:"소녀시대",type:"걸그룹",desc:"SM, 8월 데뷔, 2세대 걸그룹 전설"},
+  {year:2007,name:"원더걸스",type:"걸그룹",desc:"JYP, Tell Me 열풍"},
+  {year:2012,name:"EXO",type:"보이그룹",desc:"SM, 3세대 시작, 4월 데뷔"},
+  {year:2013,name:"BTS",type:"보이그룹",desc:"빅히트, 6월 데뷔, 글로벌 K팝 신화"},
+  {year:2016,name:"BLACKPINK",type:"걸그룹",desc:"YG, 8월 데뷔, 글로벌 걸그룹 1위"}
+];
+
+// 한국 TV 방영 만화 연도별 목록 (KBS·MBC·SBS·EBS 공중파 기준, 위키백과·나무위키 방영년도)
+// year = 한국 공중파 첫 방영연도 기준
+var ANIME = [
+  {year:1981,name:"은하철도 999",ch:"MBC",desc:"철이와 메텔의 우주 여행, 최고 시청률 경신"},
+  {year:1983,name:"마징가Z",ch:"KBS",desc:"로봇 만화의 원조, 80년대 최고 인기"},
+  {year:1984,name:"독수리 5형제",ch:"KBS",desc:"전대물의 시초, 80년대 국민 만화"},
+  {year:1985,name:"캔디",ch:"KBS",desc:"소녀 만화의 고전, 눈물 제조기"},
+  {year:1987,name:"달려라 하니",ch:"MBC",desc:"국산 창작 만화, 최고 시청률 43%"},
+  {year:1987,name:"머털도사",ch:"KBS",desc:"국산 창작, 코믹 도사 만화"},
+  {year:1987,name:"로봇 태권브이",ch:"KBS",desc:"한국 최초 로봇 만화 시리즈"},
+  {year:1987,name:"떠돌이 까치",ch:"KBS",desc:"국산 TV 애니메이션 부활의 신호탄"},
+  {year:1988,name:"아기공룡 둘리",ch:"MBC",desc:"국민 만화 캐릭터, 최고 시청률 40%"},
+  {year:1989,name:"영심이",ch:"KBS",desc:"국산 순정 만화, 소녀들의 필수 시청"},
+  {year:1990,name:"날아라 슈퍼보드",ch:"KBS",desc:"시청률 42.8%, 2002년까지 5기 방영"},
+  {year:1990,name:"아기공룡 둘리(재방)",ch:"KBS",desc:"재방 때 더 높은 시청률 기록"},
+  {year:1991,name:"천방지축 하니",ch:"MBC",desc:"달려라 하니 후속, 역시 인기"},
+  {year:1991,name:"피구왕 통키",ch:"MBC",desc:"일본 원작, 피구 열풍의 주인공"},
+  {year:1992,name:"드래곤볼",ch:"KBS",desc:"손오공의 모험, 90년대 남자아이 필수"},
+  {year:1992,name:"세일러문",ch:"MBC",desc:"1997년 MBC 방영, 33.6% 시청률"},
+  {year:1993,name:"꼬마자동차 붕붕",ch:"KBS",desc:"국산 유아 만화, 국민 어린이 시청"},
+  {year:1994,name:"슬램덩크",ch:"SBS",desc:"시청률 36%, 박상민 주제가 대히트"},
+  {year:1994,name:"드래곤볼Z",ch:"KBS",desc:"전편 이어 계속된 인기"},
+  {year:1995,name:"검정 고무신",ch:"KBS",desc:"국산 창작, 60~70년대 추억 담은 만화"},
+  {year:1996,name:"꾸러기 수비대",ch:"KBS",desc:"십이지 동물 캐릭터, 주제가로 암기"},
+  {year:1997,name:"달의 요정 세일러문",ch:"MBC",desc:"일본판 1992년, 한국 1997년 방영"},
+  {year:1997,name:"유유백서",ch:"MBC",desc:"90년대 배틀 만화의 정점"},
+  {year:1998,name:"카드캡터 사쿠라",ch:"KBS",desc:"마법소녀 만화, 여아 시청률 압도"},
+  {year:1999,name:"포켓몬스터",ch:"KBS",desc:"'내가 바로 포켓몬 마스터!' 주제가 국민 공감"},
+  {year:1999,name:"디지몬 어드벤처",ch:"MBC",desc:"포켓몬과 쌍벽, 디지몬 vs 포켓몬 논쟁"},
+  {year:1999,name:"원피스",ch:"KBS",desc:"고무고무 열매, 해적왕을 꿈꾸는 루피"},
+  {year:2000,name:"명탐정 코난",ch:"투니버스",desc:"매주 추리 문제 풀며 시청"},
+  {year:2000,name:"짱구는 못말려",ch:"투니버스",desc:"어른도 보는 국민 개그 만화"},
+  {year:2001,name:"나루토",ch:"투니버스",desc:"닌자 소년의 성장기, 오랜 연재"},
+  {year:2002,name:"테니스의 왕자",ch:"KBS",desc:"테니스 열풍 불러온 스포츠 만화"},
+  {year:2003,name:"뽀롱뽀롱 뽀로로",ch:"EBS",desc:"어린이 대통령, 시청률 85% 기록"},
+  {year:2003,name:"강철의 연금술사",ch:"투니버스",desc:"2000년대 하드코어 판타지 만화"},
+  {year:2004,name:"블리치",ch:"투니버스",desc:"나루토·원피스와 함께 3대 소년만화"},
+  {year:2006,name:"은혼",ch:"투니버스",desc:"개그와 진지함의 공존, 마니아 양성"},
+  {year:2007,name:"코드 기어스",ch:"투니버스",desc:"전략 배틀 만화, 반전의 연속"},
+  {year:2009,name:"흑집사",ch:"투니버스",desc:"어두운 판타지, 여고생 팬덤 폭발"},
+  {year:2010,name:"마법소녀 마도카 마기카",ch:"애니맥스",desc:"마법소녀 장르를 뒤흔든 충격작"},
+  {year:2013,name:"진격의 거인",ch:"애니플러스",desc:"2013년 최대 화제작, 충격적 세계관"},
+  {year:2015,name:"원펀맨",ch:"애니플러스",desc:"한 방에 끝나는 주인공의 권태"},
+  {year:2016,name:"나의 히어로 아카데미아",ch:"애니플러스",desc:"히어로 성장기, 10대 폭발적 인기"},
+  {year:2019,name:"귀멸의 칼날",ch:"애니플러스",desc:"2020년대 최대 히트, 극장판 신기록"},
+  {year:2021,name:"주술회전",ch:"애니플러스",desc:"2020년대 소년 만화 계승자"},
+];
+
+function getAnime(birthYear) {
+  // 초등학교 나이: 만 8~14세 → birthYear+8 ~ birthYear+14
+  var elemStart = birthYear + 8;
+  var elemEnd = birthYear + 14;
+  var list = ANIME.filter(function(a){
+    return a.year >= elemStart && a.year <= elemEnd;
+  }).sort(function(a,b){ return a.year - b.year; });
+  return list;
+}
+
+// KOSIS 통계청 연도별 출생아수 (명)
+var BIRTH = {
+  1960:107000,1965:101000,1970:101000,1975:87000,1976:87000,
+  1977:86000,1978:75000,1979:63000,1980:86000,1981:87000,
+  1982:85000,1983:77000,1984:68000,1985:66000,1986:63000,
+  1987:62000,1988:63000,1989:62000,1990:65000,1991:71000,
+  1992:73000,1993:72000,1994:72000,1995:72000,1996:69000,
+  1997:68000,1998:64000,1999:62000,2000:64000,2001:56000,
+  2002:49000,2003:49000,2004:47000,2005:44000,2006:45000,
+  2007:49000,2008:47000,2009:44000,2010:47000,2011:47000,
+  2012:48000,2013:44000,2014:44000,2015:44000,2016:41000,
+  2017:36000,2018:33000,2019:30000,2020:27000,2021:26000,
+  2022:25000,2023:23000,2024:22000
+};
+
+function comma(n){ return Math.round(n).toLocaleString('ko-KR'); }
+
+function getHistory(year) {
+  var keys = Object.keys(HISTORY).map(Number).sort(function(a,b){return a-b;});
+  var best = keys[0];
+  for (var i=0; i<keys.length; i++) { if (keys[i] <= year) best = keys[i]; }
+  var h = HISTORY[best];
+  return {min:h.min, jja:h.jja, pres:h.pres, event:h.event, sam:h.sam, ref:best};
+}
+
+function getSnacks(year) {
+  var same = SNACKS.filter(function(s){ return s.year === year; });
+  var before = SNACKS.filter(function(s){ return s.year < year; })
+    .sort(function(a,b){ return b.year - a.year; }).slice(0,5);
+  return {same:same, before:before};
+}
+
+function getIdols(year) {
+  var same = IDOLS.filter(function(i){ return i.year === year; });
+  var after = IDOLS.filter(function(i){ return i.year > year && i.year <= year+20; })
+    .sort(function(a,b){ return a.year - b.year; }).slice(0,5);
+  return {same:same, after:after};
+}
+
+function getPopStats(birthYear, age) {
+  // 통계청 2023 연령별 인구 구성비 (5세 단위, 누적합으로 계산)
+  // "나보다 나이 많은 사람" = age+1세 이상의 인구 비율
+  // 출처: 통계청 장래인구추계 2023년 기준
+  var ageBrackets = [
+    {min:0,  max:4,  pct:3.8},
+    {min:5,  max:9,  pct:4.1},
+    {min:10, max:14, pct:4.2},
+    {min:15, max:19, pct:4.3},
+    {min:20, max:24, pct:5.8},
+    {min:25, max:29, pct:6.9},
+    {min:30, max:34, pct:7.2},
+    {min:35, max:39, pct:6.8},
+    {min:40, max:44, pct:7.1},
+    {min:45, max:49, pct:7.9},
+    {min:50, max:54, pct:7.8},
+    {min:55, max:59, pct:7.2},
+    {min:60, max:64, pct:6.5},
+    {min:65, max:69, pct:5.6},
+    {min:70, max:74, pct:4.5},
+    {min:75, max:79, pct:3.2},
+    {min:80, max:84, pct:2.1},
+    {min:85, max:89, pct:1.2},
+    {min:90, max:99, pct:0.6},
+  ];
+  // 내 연령대 미만 비율 = 나보다 어린 사람 비율
+  var youngerPct = 0;
+  for (var i = 0; i < ageBrackets.length; i++) {
+    var b = ageBrackets[i];
+    if (age > b.max) {
+      youngerPct += b.pct;
+    } else if (age >= b.min && age <= b.max) {
+      // 내 연령대 내에서 내 나이 이하 비율 (선형 근사)
+      var ratio = (age - b.min) / (b.max - b.min + 1);
+      youngerPct += b.pct * ratio;
+    }
+  }
+  youngerPct = Math.min(Math.max(Math.round(youngerPct), 2), 97);
+  var olderPct = 100 - youngerPct;
+
+  var bkeys = Object.keys(BIRTH).map(Number).sort(function(a,b){return a-b;});
+  var bbest = bkeys[0];
+  for (var i=0; i<bkeys.length; i++) { if (bkeys[i] <= birthYear) bbest = bkeys[i]; }
+  var syp = BIRTH[bbest] || 50000;
+  return { older:olderPct, younger:youngerPct, syp:syp, sbday:Math.round(syp/365) };
+}
+
+function getDelta(age, avg) {
+  var d = Math.round(age - avg);
+  if (d === 0) return {text:"평균과 동일", cls:"neutral", pct:50};
+  if (d > 0) return {text:"평균보다 +" + d + "년", cls:"plus", pct:Math.min(50+d*4,95)};
+  return {text:"평균보다 " + d + "년", cls:"minus", pct:Math.max(50+d*4,5)};
+}
+
+function getComment(age, marriageDelta, lifePct) {
+  if (lifePct < 25) return "아직 인생의 시작점입니다. 평균? 아직 평균 잴 때가 아닙니다.";
+  if (lifePct > 75) return "인생의 " + Math.round(lifePct) + "%를 지났습니다. 지금까지 쌓아온 것이 평균이 됩니다.";
+  var c = [];
+  if (marriageDelta > 3) c.push("결혼은 평균보다 여유있게 가는 편");
+  if (marriageDelta < -3) c.push("결혼은 평균보다 일찍 시작한 편");
+  if (c.length === 0) return "여러 항목에서 대한민국 평균과 비슷한 궤적입니다. 당신이 바로 평균입니다.";
+  return c[0] + "입니다. 자기 속도대로 가는 타입.";
+}
+
+function calculate() {
+  var val = document.getElementById('birthdate').value;
+  if (!val) { alert('생년월일을 입력해주세요.'); return; }
+  var today = new Date();
+  var birth = new Date(val);
+  if (birth > today) { alert('미래 날짜는 입력할 수 없습니다.'); return; }
+  selectedRegion = document.getElementById('region-select').value;
+  document.getElementById('loading').style.display = 'flex';
+  setTimeout(function(){ doCalc(birth, today); }, 800);
+}
+
+function doCalc(birth, today) {
+  var g = selectedGender;
+  var lifeExp = g==='M' ? STATS.lifeExpM : g==='F' ? STATS.lifeExpF : STATS.lifeExpN;
+  var mar1 = g==='M' ? STATS.avgMarriage1M : g==='F' ? STATS.avgMarriage1F : STATS.avgMarriage1N;
+  var mar2 = g==='M' ? STATS.avgMarriage2M : g==='F' ? STATS.avgMarriage2F : STATS.avgMarriage2N;
+
+  var age = today.getFullYear() - birth.getFullYear();
+  var hasBday = (today.getMonth() > birth.getMonth()) ||
+    (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
+  if (!hasBday) age--;
+
+  var diffMs = today - birth;
+  var diffDays = Math.floor(diffMs / 86400000);
+  var diffHours = Math.floor(diffMs / 3600000);
+
+  var nextB = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
+  if (nextB <= today) nextB.setFullYear(today.getFullYear()+1);
+  var daysToNext = Math.ceil((nextB - today) / 86400000);
+
+  var lifeMs = lifeExp * 365.25 * 86400000;
+  var lifePct = Math.min((diffMs / lifeMs) * 100, 99.9);
+  var remainDays = Math.max(0, Math.floor((lifeMs - diffMs) / 86400000));
+  var remainWeekends = Math.floor(remainDays / 7);
+  var remainYears = Math.max(0, Math.round(lifeExp - age));
+
+// 2026년 현재 기준 최신 평균 초혼연령 (2024 통계청 기준)
+var CURRENT_MARRIAGE_M = 33.9;  // 남성
+var CURRENT_MARRIAGE_F = 31.6;  // 여성
+var CURRENT_MARRIAGE_N = 32.8;  // 미선택
+
+// 게임 연도별 목록 (한국 서비스 시작 기준)
+var GAMES = [
+  {year:1996,name:"바람의나라",desc:"국내 최초 그래픽 MMORPG, 넥슨"},
+  {year:1997,name:"포트리스",desc:"국민 포격 게임, PC방 필수 게임"},
+  {year:1998,name:"스타크래프트",desc:"대한민국 e스포츠의 신, PC방 혁명"},
+  {year:1998,name:"리니지",desc:"엔씨소프트, 국내 MMORPG 원조"},
+  {year:1999,name:"디아블로2",desc:"밤새 던전 도는 핵앤슬래시의 전설"},
+  {year:2000,name:"포트리스2",desc:"포트리스 후속작, 대학 입학 가산점 논란"},
+  {year:2001,name:"라그나로크",desc:"그라비티, 귀여운 도트 MMORPG"},
+  {year:2002,name:"겟앰프드",desc:"캐릭터 대전 액션, 학교 앞 PC방 점령"},
+  {year:2002,name:"워크래프트3",desc:"블리자드, DotA 커스텀맵 탄생지"},
+  {year:2003,name:"메이플스토리",desc:"넥슨, 국민 2D 횡스크롤 MMORPG"},
+  {year:2004,name:"카트라이더",desc:"넥슨, 국민 레이싱 게임 1800만 유저"},
+  {year:2004,name:"마비노기",desc:"넥슨, 감성 판타지 MMORPG"},
+  {year:2005,name:"서든어택",desc:"넥슨, 국민 FPS 게임"},
+  {year:2005,name:"던전앤파이터",desc:"넥슨, 벨트스크롤 액션 글로벌 히트"},
+  {year:2007,name:"피파온라인2",desc:"EA·넥슨, 축구 게임의 대중화"},
+  {year:2008,name:"아이온",desc:"엔씨소프트, 날개달린 천족/마족 MMORPG"},
+  {year:2009,name:"리그오브레전드",desc:"라이엇, 2012년 한국 점령·e스포츠 신흥강자"},
+  {year:2011,name:"테라",desc:"블루홀, 논타겟팅 액션 MMORPG"},
+  {year:2012,name:"디아블로3",desc:"블리자드, 경매장 논란과 함께 화제"},
+  {year:2014,name:"배틀그라운드",desc:"크래프톤, 2017년 배틀로얄 장르 창시"},
+  {year:2016,name:"오버워치",desc:"블리자드, 팀기반 FPS 열풍"},
+  {year:2017,name:"배틀그라운드(PUBG)",desc:"크래프톤, 글로벌 배틀로얄 신화"},
+  {year:2018,name:"로스트아크",desc:"스마일게이트, 쿼터뷰 ARPG"},
+  {year:2022,name:"발로란트",desc:"라이엇, 전략 FPS 10대 필수 게임"},
+];
+
+// 한국 휴대폰/통신 연도별 시대
+var PHONES = [
+  {year:1982,name:"삐삐(무선호출기)",desc:"8282=빨리빨리, 숫자 암호로 소통하던 시대"},
+  {year:1988,name:"아날로그 휴대폰",desc:"삼성 SH-100, 벽돌폰 시대 (가격 250만원)"},
+  {year:1994,name:"애니콜 SH-770",desc:"삼성 애니콜 브랜드 탄생, '한국 지형에 강하다'"},
+  {year:1996,name:"CDMA 디지털폰",desc:"011 SK텔레콤 디지털 상용화, 통화품질 혁명"},
+  {year:1997,name:"016·018·019 PCS폰",desc:"KTF·한솔·LG PCS 동시 출시, 본격 대중화"},
+  {year:1999,name:"폴더폰 시대",desc:"삼성·LG 폴더폰, 악세사리 전성기"},
+  {year:2001,name:"카메라폰",desc:"30만 화소 카메라 내장, 셀카의 원조"},
+  {year:2002,name:"컬러폰·mp3폰",desc:"컬러 액정·mp3 재생, 벨소리 다운로드 열풍"},
+  {year:2004,name:"애니콜 가로본능",desc:"삼성 SCH-V500, 가로로 돌아가는 혁신 디자인"},
+  {year:2007,name:"아이폰 출시(미국)",desc:"스티브 잡스, 스마트폰 시대 개막 선언"},
+  {year:2009,name:"아이폰 3GS 국내 출시",desc:"KT 독점 출시, 앱스토어·터치 혁명"},
+  {year:2010,name:"갤럭시S 출시",desc:"삼성 갤럭시S, 안드로이드 대중화 신호탄"},
+  {year:2011,name:"갤럭시S2·아이폰4S",desc:"스마트폰 대세 확정, 피처폰 시대 종료"},
+  {year:2012,name:"LTE 전국망 완성",desc:"4G LTE 확산, 유튜브·SNS 모바일 시대"},
+  {year:2019,name:"5G 상용화",desc:"세계 최초 5G 상용화, 삼성 갤럭시S10"},
+  {year:2023,name:"AI 스마트폰",desc:"갤럭시 AI·구글 Gemini, 온디바이스 AI 폰 시대"},
+];
+
+function getGames(birthYear) {
+  // 초등~중학교(만 8~15세) 기간에 출시된 게임
+  var start = birthYear + 8;
+  var end = birthYear + 15;
+  return GAMES.filter(function(g){ return g.year >= start && g.year <= end; })
+    .sort(function(a,b){ return a.year - b.year; });
+}
+
+function getPhones(birthYear) {
+  // 중학교~고등학교(만 12~18세) 기간에 출시/유행한 기기
+  var start = birthYear + 12;
+  var end = birthYear + 18;
+  return PHONES.filter(function(p){ return p.year >= start && p.year <= end; })
+    .sort(function(a,b){ return a.year - b.year; });
+}
+
+// 2026년 현재 기준 평균 초혼 나이 반환 (통계청 2024년 기준)
+function getCurrentMarriageAvg(gender) {
+  var avg = gender === 'F' ? CURRENT_MARRIAGE_F : gender === 'M' ? CURRENT_MARRIAGE_M : CURRENT_MARRIAGE_N;
+  return { avg: avg };
+}
+
+  var score = Math.round(Math.max(30, Math.min(99, 85 - Math.abs(lifePct - 45) * 0.4)));
+  var rankStr = "상위 " + Math.min(Math.max(100 - score + 5, 5), 90) + "% 평균형 인간";
+
+  var birthYear = birth.getFullYear();
+  var pop = getPopStats(birthYear, age);
+  var hist = getHistory(birthYear);
+  var snacks = getSnacks(birthYear);
+  var idols = getIdols(birthYear);
+  var games = getGames(birthYear);
+  var phones = getPhones(birthYear);
+  var eraMarriage = getCurrentMarriageAvg(g);
+  var marriageDelta = age - mar1;
+
+  // ── RENDER ──
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  window.scrollTo(0, 0);
+
+  var gLabel = g==='M' ? '남성' : '여성';
+  var regionLabel = regionData ? ' · ' + regionData.label : '';
+  document.getElementById('res-name').textContent = birthYear + "년생 " + gLabel + regionLabel + " · 만 " + age + "세 연대기";
+  document.getElementById('res-date').textContent = "기준일: " + today.toLocaleDateString('ko-KR');
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-rank').textContent = rankStr;
+  document.getElementById('ai-comment').textContent = getComment(age, marriageDelta, lifePct);
+
+  document.getElementById('r-age').textContent = "만 " + age + "세";
+  document.getElementById('r-days').textContent = comma(diffDays) + "일";
+  document.getElementById('r-hours').textContent = "약 " + comma(diffHours) + "시간";
+  document.getElementById('r-birthday').textContent = daysToNext === 0 ? "🎉 오늘이 생일!" : daysToNext + "일 후";
+
+  document.getElementById('life-pct').textContent = lifePct.toFixed(1) + "%";
+  document.getElementById('life-exp-label').textContent = "기대수명 " + lifeExp + "세";
+  setTimeout(function(){ document.getElementById('life-bar').style.width = lifePct + '%'; }, 100);
+  document.getElementById('r-remain-days').textContent = "약 " + comma(remainDays) + "일";
+  document.getElementById('r-weekends').textContent = "약 " + comma(remainWeekends) + "번";
+  document.getElementById('r-cherry').textContent = "약 " + remainYears + "번";
+  document.getElementById('r-summer').textContent = "약 " + remainYears + "번";
+
+  var gLabel2 = g==='F' ? '여성' : g==='M' ? '남성' : '전체';
+  var marLabel = "현재 평균 초혼 (" + gLabel2 + ")";
+  var marNote = "2024년 통계청 기준 · 남성 33.9세 / 여성 31.6세";
+  var compares = [
+    {name:marLabel, avg:eraMarriage.avg, delta:getDelta(age, eraMarriage.avg), note:marNote},
+    {name:"평균 창업 나이", avg:STATS.startupAge, delta:getDelta(age,STATS.startupAge)},
+    {name:"평균 은퇴 나이", avg:STATS.retireAge, delta:getDelta(age,STATS.retireAge)},
+    {name:"청년 기준 상한", avg:STATS.youthAge, delta:getDelta(age,STATS.youthAge)},
+    {name:"평균 암 발생 연령대", avg:STATS.cancerAge, delta:getDelta(age,STATS.cancerAge)}
+  ];
+  var cl = document.getElementById('compare-list');
+  cl.innerHTML = '';
+  compares.forEach(function(c) {
+    var noteHtml = c.note ? '<div class="history-sub" style="margin-top:4px">' + c.note + '</div>' : '';
+    cl.innerHTML += '<div class="compare-item"><div class="compare-top"><span class="compare-name">' + c.name + ' (' + c.avg + '세)</span><span class="compare-delta ' + c.delta.cls + '">' + c.delta.text + '</span></div>' + noteHtml + '<div class="compare-bar-wrap" style="margin-top:6px"><div class="compare-bar-fill" style="width:0%" data-pct="' + c.delta.pct + '"></div></div></div>';
+  });
+  setTimeout(function(){
+    document.querySelectorAll('.compare-bar-fill').forEach(function(el){ el.style.width = el.dataset.pct + '%'; });
+  }, 200);
+
+  document.getElementById('older-pct').textContent = "약 " + pop.older + "%";
+  document.getElementById('younger-pct').textContent = "약 " + pop.younger + "%";
+  document.getElementById('same-year').textContent = "약 " + comma(pop.syp) + "명";
+  document.getElementById('same-bday').textContent = "약 " + comma(pop.sbday) + "명";
+
+  var minText = hist.min ? comma(hist.min) + "원/시간" : "최저임금법 시행 전 (1988년부터)";
+  var minSub = hist.min ? "고용노동부 공식 고시 · " + hist.ref + "년 기준" : hist.ref + "년 기준 · 법적 최저임금 없던 시기";
+  var btcText = BTC[birthYear] ? BTC[birthYear] : null;
+  var skhText = SKH[birthYear] ? SKH[birthYear] : null;
+
+  var histHtml =
+    hItem(birthYear, "짜장면 " + comma(hist.jja) + "원", "한국물가정보·통계청 소비자물가지수 · " + hist.ref + "년 기준") +
+    hItem(birthYear, "최저임금 " + minText, minSub) +
+    hItem(birthYear, "대통령: " + hist.pres, "") +
+    hItem(birthYear, "주요 사건: " + hist.event, "") +
+    hItem(birthYear, "삼성전자 주가 " + hist.sam, "2018년 50:1 액면분할 수정주가 기준");
+
+  if (skhText) {
+    histHtml += hItem(birthYear, "SK하이닉스 주가 " + skhText, "현대전자(1983) → 하이닉스(2001) → SK하이닉스(2012)");
+  } else {
+    histHtml += hItem(birthYear, "SK하이닉스 주가", "1983년 현대전자 설립 전 (데이터 없음)");
+  }
+
+  if (btcText) {
+    histHtml += hItemColor(birthYear, "₿ 비트코인 " + btcText, "CoinMarketCap 기준 · 2009년 창시", "#c9a96e");
+  } else {
+    histHtml += hItem(birthYear, "₿ 비트코인", "2009년 이전 출생 · 비트코인 없던 시대");
+  }
+
+  document.getElementById('history-list').innerHTML = histHtml;
+
+  var sl = document.getElementById('snack-list');
+  var sh = '';
+  if (snacks.same.length > 0) {
+    snacks.same.forEach(function(s){
+      var em = s.type==='아이스크림' ? '🍦' : s.type==='라면' ? '🍜' : '🍘';
+      sh += hItemColor(s.year, em + ' <strong>' + s.name + '</strong> 출시! (' + s.type + ')', s.desc, '#c9a96e');
+    });
+  } else {
+    sh += '<div class="history-item"><span style="font-size:12px;color:var(--muted)">태어난 해 출시된 주요 과자·라면·아이스크림 없음</span></div>';
+  }
+  sh += '<div class="card-title" style="margin-top:14px;margin-bottom:10px">태어날 때 이미 있던 것들</div>';
+  snacks.before.forEach(function(s){
+    var em = s.type==='아이스크림' ? '🍦' : s.type==='라면' ? '🍜' : '🍘';
+    sh += hItem(s.year, em + ' ' + s.name + ' (' + s.type + ')', s.desc);
+  });
+  sl.innerHTML = sh;
+
+  // 이름 섹션
+  var nameData = getNames(birthYear);
+  var nd = document.getElementById('names-display');
+  nd.innerHTML =
+    '<div style="margin-bottom:10px">' +
+    '<div style="font-size:11px;color:var(--muted);margin-bottom:8px">👦 남자</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
+    nameData.m.map(function(n){
+      return '<span style="background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);color:var(--accent2);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:500">' + n + '</span>';
+    }).join('') +
+    '</div></div>' +
+    '<div>' +
+    '<div style="font-size:11px;color:var(--muted);margin-bottom:8px">👧 여자</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
+    nameData.f.map(function(n){
+      return '<span style="background:rgba(143,184,173,0.12);border:1px solid rgba(143,184,173,0.3);color:var(--accent3);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:500">' + n + '</span>';
+    }).join('') +
+    '</div></div>';
+
+  // 지역 섹션
+  var regionData = getRegionData(selectedRegion);
+  var rc = document.getElementById('region-card');
+  if (regionData) {
+    rc.style.display = 'block';
+    document.getElementById('region-title').textContent = regionData.emoji + ' ' + regionData.label + ' 특색';
+    var rd = document.getElementById('region-display');
+    var wordRows = regionData.words.map(function(w){
+      return '<div class="stat-row"><span class="stat-key">' + w.std + '</span><span class="stat-val" style="color:var(--accent2)">' + w.local + '</span></div>';
+    }).join('');
+    rd.innerHTML =
+      '<div style="margin-bottom:14px">' +
+      '<div style="font-size:11px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">✊ 편가르기 구호</div>' +
+      '<div style="background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--accent);font-weight:700">"' + regionData.dendenci + '"</div>' +
+      '</div>' +
+      '<div style="margin-bottom:14px">' +
+      '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:1px">🗣️ 우리 지역만의 말</div>' +
+      wordRows +
+      '</div>' +
+      '<div style="margin-bottom:14px">' +
+      '<div style="font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:1px">🍽️ 대표 음식</div>' +
+      '<div style="font-size:13px;color:var(--text)">' + regionData.food + '</div>' +
+      '</div>' +
+      '<div style="background:rgba(143,184,173,0.06);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.7">' + regionData.fact + '</div>' +
+      '<p style="font-size:10px;color:#333;margin-top:12px">* 나무위키·한국민족문화대백과·언론보도 기반</p>';
+  } else {
+    rc.style.display = 'none';
+  }
+
+  var il = document.getElementById('idol-list');
+  var ih = '';
+  if (idols.same.length > 0) {
+    idols.same.forEach(function(i){
+      ih += hItemColor(i.year, '🎤 <strong>' + i.name + '</strong> 데뷔! (' + i.type + ')', i.desc, '#8fb8ad');
+    });
+  } else {
+    ih += '<div class="history-item"><span style="font-size:12px;color:var(--muted)">태어난 해 데뷔한 주요 아이돌 없음</span></div>';
+  }
+  if (idols.after.length > 0) {
+    ih += '<div class="card-title" style="margin-top:14px;margin-bottom:10px">내가 자라면서 데뷔한 아이돌</div>';
+    idols.after.forEach(function(i){
+      ih += hItem(i.year, '🎤 ' + i.name + ' (' + i.type + ')', i.desc);
+    });
+  }
+  il.innerHTML = ih;
+
+  // 만화 섹션
+  var animes = getAnime(birthYear);
+  var elemStart = birthYear + 8;
+  var elemEnd = birthYear + 14;
+  document.getElementById('anime-label').textContent =
+    elemStart + "년 ~ " + elemEnd + "년 방영 만화 (만 8~14세 초등학교 시절)";
+  var al = document.getElementById('anime-list');
+  if (animes.length > 0) {
+    var ah = '';
+    animes.forEach(function(a){
+      ah += hItemColor(a.year, '📺 <strong>' + a.name + '</strong> (' + a.ch + ')', a.desc, '#8fb8ad');
+    });
+    al.innerHTML = ah;
+  } else {
+    al.innerHTML = '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 방영 만화 데이터 준비 중</span></div>';
+  }
+
+  // 게임 섹션
+  var gl = document.getElementById('game-list');
+  var gh = '';
+  if (games.length > 0) {
+    document.getElementById('game-label').textContent =
+      (birthYear+8) + "~" + (birthYear+15) + "년 출시 · 초등~중학교 시절 국민 게임";
+    games.forEach(function(gm){
+      gh += hItemColor(gm.year, '🎮 <strong>' + gm.name + '</strong>', gm.desc, '#c9a96e');
+    });
+  } else {
+    gh = '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
+  }
+  gl.innerHTML = gh;
+
+  // 핸드폰 섹션
+  var pl = document.getElementById('phone-list');
+  var ph = '';
+  if (phones.length > 0) {
+    document.getElementById('phone-label').textContent =
+      (birthYear+12) + "~" + (birthYear+18) + "년 · 중학교~고등학교 시절 핸드폰";
+    phones.forEach(function(pn){
+      ph += hItemColor(pn.year, '📱 <strong>' + pn.name + '</strong>', pn.desc, '#8fb8ad');
+    });
+  } else {
+    ph = '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
+  }
+  pl.innerHTML = ph;
+
+  // 스토리텔링 + 공유 URL 생성
+  var birthVal = birth.getFullYear() + '-' +
+    String(birth.getMonth()+1).padStart(2,'0') + '-' +
+    String(birth.getDate()).padStart(2,'0');
+  _storyText = buildStory(birthYear, g, selectedRegion, hist, snacks, animes);
+  _shareUrl = buildShareUrl(birthVal, g, selectedRegion);
+
+  // 미리보기
+  var sp = document.getElementById('story-preview');
+  if (sp) sp.innerHTML = _storyText.replace(/\n/g,'<br>');
+
+  // URL 업데이트 (뒤로가기 지원)
+  history.replaceState({}, '', _shareUrl);
+}
+
+function hItem(year, content, sub) {
+  return '<div class="history-item"><span class="history-year">' + year + '</span><div><div class="history-content">' + content + '</div>' + (sub ? '<div class="history-sub">' + sub + '</div>' : '') + '</div></div>';
+}
+function hItemColor(year, content, sub, color) {
+  return '<div class="history-item"><span class="history-year" style="color:' + color + '">' + year + '</span><div><div class="history-content">' + content + '</div>' + (sub ? '<div class="history-sub">' + sub + '</div>' : '') + '</div></div>';
+}
+
+// ── 스토리텔링 문장 생성 ──
+var _storyText = '';
+var _shareUrl = '';
+
+function buildStory(birthYear, gender, regionKey, hist, snacks, animes) {
+  var gLabel = gender === 'F' ? '여자' : '남자';
+  var regionData = getRegionData(regionKey);
+
+  // 편가르기 구호
+  var dendenci = regionData ? regionData.dendenci.split('/')[0].trim() : '데덴찌';
+
+  // 짜장면 가격
+  var jja = comma(hist.jja) + '원';
+
+  // 태어난 해 출시 아이스크림 (있으면)
+  var icecream = '';
+  var iceList = snacks.same.filter(function(s){ return s.type === '아이스크림'; });
+  if (iceList.length > 0) {
+    icecream = iceList[0].name;
+  } else {
+    // 그 해 이전 가장 최근 아이스크림
+    var prevIce = SNACKS.filter(function(s){ return s.type === '아이스크림' && s.year < birthYear; })
+      .sort(function(a,b){ return b.year - a.year; });
+    if (prevIce.length > 0) icecream = prevIce[0].name;
+  }
+
+  // 초등학교 때 만화 (첫 번째)
+  var animeTitle = animes.length > 0 ? animes[0].name : '';
+
+  // 지역 라벨
+  var regionLabel = regionData ? regionData.label : '';
+
+  // 문장 조합
+  var parts = [];
+
+  if (regionData) {
+    parts.push('"' + dendenci + '"로 편 가르며 놀고');
+  }
+  parts.push('짜장면 ' + jja + '에 사먹으며');
+  if (icecream) parts.push(icecream + '로 입 달래고');
+  if (animeTitle) parts.push('집에 돌아와 ' + animeTitle + ' 보던');
+
+  var suffix = regionLabel
+    ? birthYear + '년생 ' + regionLabel + ' ' + gLabel + '의 연대기'
+    : birthYear + '년생 ' + gLabel + '의 연대기';
+
+  return parts.join(', ') + '\n\n👉 ' + suffix;
+}
+
+// ── URL 파라미터 처리 ──
+function buildShareUrl(birthVal, gender, region) {
+  var base = window.location.href.split('?')[0];
+  return base + '?b=' + encodeURIComponent(birthVal) + '&g=' + gender + '&r=' + encodeURIComponent(region);
+}
+
+function loadFromUrl() {
+  var params = new URLSearchParams(window.location.search);
+  var b = params.get('b');
+  var g = params.get('g');
+  var r = params.get('r');
+  if (!b) return;
+
+  // 값 세팅
+  document.getElementById('birthdate').value = b;
+  if (g === 'F') {
+    selectedGender = 'F';
+    var btns = document.querySelectorAll('.gender-btn');
+    btns[0].classList.remove('active');
+    btns[1].classList.add('active');
+  } else {
+    selectedGender = 'M';
+  }
+  if (r) {
+    selectedRegion = r;
+    document.getElementById('region-select').value = r;
+  }
+  // 자동 실행
+  var birth = new Date(b);
+  var today = new Date();
+  if (birth <= today) {
+    document.getElementById('loading').style.display = 'flex';
+    setTimeout(function(){ doCalc(birth, today); }, 600);
+  }
+}
+
+function copyStoryLink() {
+  var text = _storyText + '\n\n' + _shareUrl;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){
+      alert('복사됐어요!\n카카오톡에 붙여넣기 해보세요 😊');
+    }).catch(function(){ prompt('복사하세요:', text); });
+  } else {
+    prompt('복사하세요:', text);
+  }
+}
+
+function shareStory() {
+  if (navigator.share) {
+    navigator.share({
+      title: '나의 연대기',
+      text: _storyText,
+      url: _shareUrl
+    });
+  } else {
+    copyStoryLink();
+  }
+}
+
+function goMakeMyOwn() {
+  // URL 파라미터 제거하고 랜딩으로
+  history.pushState({}, '', window.location.pathname);
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+  // 입력값 초기화
+  document.getElementById('birthdate').value = '';
+  document.getElementById('region-select').value = '';
+  selectedGender = 'M';
+  selectedRegion = '';
+  document.querySelectorAll('.gender-btn').forEach(function(b, i){
+    b.classList.toggle('active', i === 0);
+  });
+  window.scrollTo(0, 0);
+}
+
+// 페이지 로드시 URL 파라미터 확인
+window.addEventListener('DOMContentLoaded', function(){ loadFromUrl(); });
+</script>
+</body>
+</html>
