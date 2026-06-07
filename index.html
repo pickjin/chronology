@@ -30,6 +30,7 @@ input[type="date"]:focus{border-color:var(--accent2)}
 .disclaimer-small{font-size:10px;color:#444;text-align:center;margin-top:16px;line-height:1.6}
 #result{display:none;min-height:100vh;padding:0 0 80px}
 .result-header{background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border-bottom:1px solid var(--border);padding:32px 20px 28px;text-align:center}
+.has-banner .result-header{padding-top:80px}
 .result-header h2{font-family:'Nanum Myeongjo',serif;font-size:24px;color:var(--accent);margin-bottom:6px}
 .result-header p{font-size:12px;color:var(--muted)}
 .sections{max-width:520px;margin:0 auto;padding:0 16px}
@@ -91,7 +92,12 @@ input[type="date"]:focus{border-color:var(--accent2)}
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><p>평균 계산 중...</p></div>
+<div id="loading"><div class="spinner"></div><p>연대기 생성 중...</p></div>
+
+<div id="visitor-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#c9a96e,#e8d5a3);padding:12px 20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.4)">
+  <div style="font-size:12px;color:#0d0d0d;margin-bottom:6px;font-weight:500">👆 지금 보고 있는 건 다른 사람의 연대기예요</div>
+  <button onclick="goMakeMyOwn()" style="background:#0d0d0d;color:#e8d5a3;border:none;border-radius:20px;padding:8px 24px;font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px">✏️ 나의 연대기 만들기</button>
+</div>
 
 <section id="landing">
   <div class="badge">나의 연대기</div>
@@ -1337,6 +1343,11 @@ function loadFromUrl() {
     selectedRegion = r;
     document.getElementById('region-select').value = r;
   }
+  // 배너 표시
+  var banner = document.getElementById('visitor-banner');
+  if (banner) banner.style.display = 'block';
+  document.getElementById('result').classList.add('has-banner');
+
   // 자동 실행
   var birth = new Date(b);
   var today = new Date();
@@ -1370,6 +1381,9 @@ function shareStory() {
 }
 
 function goMakeMyOwn() {
+  var banner = document.getElementById('visitor-banner');
+  if (banner) banner.style.display = 'none';
+  document.getElementById('result').classList.remove('has-banner');
   // URL 파라미터 제거하고 랜딩으로
   history.pushState({}, '', window.location.pathname);
   document.getElementById('result').style.display = 'none';
