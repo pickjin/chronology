@@ -261,10 +261,16 @@ function selectGender(g, el) {
 }
 
 var STATS = {
-  lifeExpM:80.6, lifeExpF:86.6, lifeExpN:83.6,
-  avgMarriage1M:34.0, avgMarriage1F:31.5, avgMarriage1N:32.8,
-  avgMarriage2M:50.2, avgMarriage2F:46.8, avgMarriage2N:48.5,
-  retireAge:61.1, youthAge:34, startupAge:42.0, cancerAge:63
+  lifeExpM:80.6, lifeExpF:86.6,
+  // 초혼: CURRENT_MARRIAGE_M/F 사용
+  // 법적 정년: 근로기준법 60세 (남녀 동일)
+  legalRetire:60,
+  // 청년 기준 상한: 청년기본법 34세
+  youthAge:34,
+  // 평균 암 발생 연령대: 국가암정보센터 2022년 기준
+  cancerAgeM:64, cancerAgeF:61,
+  // 창업: 중소벤처기업부 2023 기준 40대 최다 (남성 42세·여성 39세 추정 중위값)
+  startupAgeM:43, startupAgeF:39
 };
 
 // 비트코인 연도별 연말 기준 원화 근사값 (2009년 창시, 이전 연도 없음)
@@ -917,7 +923,7 @@ function calculate() {
 
 function doCalc(birth, today) {
   var g = selectedGender;
-  var lifeExp = g==='M' ? STATS.lifeExpM : g==='F' ? STATS.lifeExpF : STATS.lifeExpN;
+  var lifeExp = g==='F' ? STATS.lifeExpF : STATS.lifeExpM;
   var mar1 = g==='M' ? STATS.avgMarriage1M : g==='F' ? STATS.avgMarriage1F : STATS.avgMarriage1N;
   var mar2 = g==='M' ? STATS.avgMarriage2M : g==='F' ? STATS.avgMarriage2F : STATS.avgMarriage2N;
 
@@ -1011,8 +1017,7 @@ function getPhones(birthYear) {
 
 // 2026년 현재 기준 평균 초혼 나이 반환 (통계청 2024년 기준)
 function getCurrentMarriageAvg(gender) {
-  var avg = gender === 'F' ? CURRENT_MARRIAGE_F : gender === 'M' ? CURRENT_MARRIAGE_M : CURRENT_MARRIAGE_N;
-  return { avg: avg };
+  return { avg: gender === 'F' ? CURRENT_MARRIAGE_F : CURRENT_MARRIAGE_M };
 }
 
   var score = Math.round(Math.max(30, Math.min(99, 85 - Math.abs(lifePct - 45) * 0.4)));
@@ -1056,15 +1061,15 @@ function getCurrentMarriageAvg(gender) {
   document.getElementById('r-cherry').textContent = "약 " + remainYears + "번";
   document.getElementById('r-summer').textContent = "약 " + remainYears + "번";
 
-  var gLabel2 = g==='F' ? '여성' : g==='M' ? '남성' : '전체';
+  var gLabel2 = g==='F' ? '여성' : '남성';
   var marLabel = "현재 평균 초혼 (" + gLabel2 + ")";
-  var marNote = "2024년 통계청 기준 · 남성 33.9세 / 여성 31.6세";
+  var marNote  = "2024년 통계청 기준 · 남성 33.9세 / 여성 31.6세";
   var compares = [
-    {name:marLabel, avg:eraMarriage.avg, delta:getDelta(age, eraMarriage.avg), note:marNote},
-    {name:"평균 창업 나이", avg:STATS.startupAge, delta:getDelta(age,STATS.startupAge)},
-    {name:"평균 은퇴 나이", avg:STATS.retireAge, delta:getDelta(age,STATS.retireAge)},
-    {name:"청년 기준 상한", avg:STATS.youthAge, delta:getDelta(age,STATS.youthAge)},
-    {name:"평균 암 발생 연령대", avg:STATS.cancerAge, delta:getDelta(age,STATS.cancerAge)}
+    {name:marLabel, avg:eraMarriage.avg, delta:getDelta(age,eraMarriage.avg), note:marNote},
+    {name:"법적 정년", avg:STATS.legalRetire,
+     delta:getDelta(age,STATS.legalRetire), note:"근로기준법 제60조 · 남녀 동일"},
+    {name:"청년 기준 상한", avg:STATS.youthAge,
+     delta:getDelta(age,STATS.youthAge), note:"청년기본법 제3조"}
   ];
   var cl = document.getElementById('compare-list');
   cl.innerHTML = '';
