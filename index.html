@@ -85,15 +85,21 @@ select:focus{border-color:var(--accent2)}
 .detail-section.open{display:block}
 .section-divider{font-size:10px;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;margin:20px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.card,.score-hero,.share-section{animation:fadeUp 0.5s ease both}
-#loading{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-.spinner{width:36px;height:36px;border:2px solid #222;border-top-color:var(--accent2);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-#loading p{font-size:13px;color:var(--muted);letter-spacing:1px}
+.share-card-wrap{margin-bottom:16px}
+#share-card{background:linear-gradient(145deg,#1a1410 0%,#0d0d0d 100%);border:1px solid var(--accent2);border-radius:16px;padding:24px 20px;text-align:center;position:relative;overflow:hidden}
+#share-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2))}
+.sc-site{font-size:9px;letter-spacing:3px;color:var(--accent2);text-transform:uppercase;margin-bottom:12px;opacity:0.8}
+.sc-name{font-family:'Nanum Myeongjo',serif;font-size:18px;color:var(--accent);font-weight:800;margin-bottom:4px}
+.sc-score{font-family:'Nanum Myeongjo',serif;font-size:56px;color:var(--accent);font-weight:800;line-height:1;margin:8px 0 4px}
+.sc-rank{display:inline-block;background:rgba(143,184,173,0.15);border:1px solid rgba(143,184,173,0.4);color:var(--accent3);font-size:11px;padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.sc-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px}
+.sc-tag{background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.25);color:var(--accent2);font-size:11px;padding:4px 10px;border-radius:12px}
+.sc-story{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:left}
+.sc-bottom{font-size:9px;color:#555;letter-spacing:1px;margin-top:10px}
 </style>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <div id="loading"><div class="spinner"></div><p>연대기 생성 중...</p></div>
 
@@ -352,8 +358,22 @@ select:focus{border-color:var(--accent2)}
 
     <div class="share-section" style="animation-delay:0.4s">
       <h3>📤 내 연대기 공유하기</h3>
-      <div id="story-preview" style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.8;text-align:left;font-style:italic"></div>
+
+      <!-- 공유 카드 미리보기 -->
+      <div class="share-card-wrap">
+        <div id="share-card">
+          <div class="sc-site">그때 그 시절 · MY CHRONICLE</div>
+          <div class="sc-name" id="sc-name">--</div>
+          <div class="sc-score" id="sc-score">--</div>
+          <div class="sc-rank" id="sc-rank">--</div>
+          <div class="sc-tags" id="sc-tags"></div>
+          <div class="sc-story" id="sc-story"></div>
+          <div class="sc-bottom">pickjin.github.io/chronology</div>
+        </div>
+      </div>
+
       <div class="share-btns">
+        <button class="share-btn" onclick="saveCardImage()" style="background:rgba(201,169,110,0.1);border-color:var(--accent2);color:var(--accent2)">🖼️ 이미지 저장</button>
         <button class="share-btn" onclick="copyStoryLink()">🔗 링크 복사</button>
         <button class="share-btn" onclick="shareStory()">📱 공유</button>
       </div>
@@ -1151,9 +1171,67 @@ function doCalc(birth, today) {
   var sp = document.getElementById('story-preview');
   if (sp) sp.innerHTML = _storyText.replace(/\n/g,'<br>');
   history.replaceState({}, '', _shareUrl);
+
+  // 공유 카드 렌더
+  renderShareCard(birthYear, gLabel, regionData, score, rankStr, parts, animePick, animes, snacktype, firstGame, phoneModel, sns);
 }
 
 // ── 공유 ──
+function renderShareCard(birthYear, gLabel, regionData, score, rankStr, parts, animePick, animes, snacktype, firstGame, phoneModel, sns) {
+  // 카드 내용 채우기
+  var regionLbl = regionData ? regionData.label : '';
+  document.getElementById('sc-name').textContent = birthYear + '년생 ' + (regionLbl ? regionLbl + ' ' : '') + gLabel;
+  document.getElementById('sc-score').textContent = score;
+  document.getElementById('sc-rank').textContent = rankStr;
+
+  // 태그 (핵심 키워드만 뽑기)
+  var tags = [];
+  if (regionData) tags.push(regionData.dendenci.split('/')[0].trim());
+  if (snacktype) tags.push(snacktype);
+  if (animePick) tags.push(animePick);
+  else if (animes.length > 0) tags.push(animes[0].name);
+  if (firstGame) tags.push(firstGame);
+  if (phoneModel) tags.push(phoneModel.split(' ')[0] + ' ' + (phoneModel.split(' ')[1] || ''));
+  if (sns) tags.push(sns);
+
+  var tagsEl = document.getElementById('sc-tags');
+  tagsEl.innerHTML = tags.slice(0, 6).map(function(t) {
+    return '<span class="sc-tag">' + t + '</span>';
+  }).join('');
+
+  // 스토리 (3줄로 요약)
+  var storyEl = document.getElementById('sc-story');
+  storyEl.textContent = parts.slice(0, 4).join(' · ');
+}
+
+function saveCardImage() {
+  var card = document.getElementById('share-card');
+  if (!card) return;
+
+  if (typeof html2canvas === 'undefined') {
+    showCopyToast('이미지 저장 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
+
+  showCopyToast('이미지 생성 중...');
+
+  html2canvas(card, {
+    backgroundColor: '#0d0d0d',
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    logging: false
+  }).then(function(canvas) {
+    var link = document.createElement('a');
+    link.download = '나의_연대기_' + new Date().getFullYear() + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    showCopyToast('이미지가 저장됐어요! 인스타·카카오에 공유해보세요 📸');
+  }).catch(function() {
+    showCopyToast('이미지 저장에 실패했습니다. 스크린샷을 이용해주세요.');
+  });
+}
+
 function copyStoryLink() {
   var text = _storyText + '\n\n' + _shareUrl;
 
