@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나의 연대기 — 생년월일로 보는 나의 시대</title>
-<meta property="og:title" content="나의 연대기 — 생년월일로 보는 나의 시대">
+<title>그때 그 시절 — 생년월일로 보는 나의 추억</title>
+<meta property="og:title" content="그때 그 시절 — 생년월일로 보는 나의 추억">
 <meta property="og:description" content="내가 태어난 날, 내가 자란 시대, 우리 동네만의 사투리까지. 오직 나만을 위한 연대기.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,12 +105,12 @@ select:focus{border-color:var(--accent2)}
 
 <div id="visitor-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#c9a96e,#e8d5a3);padding:12px 20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.4)">
   <div style="font-size:12px;color:#0d0d0d;margin-bottom:6px;font-weight:500">👆 지금 보고 있는 건 다른 사람의 연대기예요</div>
-  <button onclick="goMakeMyOwn()" style="background:#0d0d0d;color:#e8d5a3;border:none;border-radius:20px;padding:8px 24px;font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✏️ 나의 연대기 만들기</button>
+  <button onclick="goMakeMyOwn()" style="background:#0d0d0d;color:#e8d5a3;border:none;border-radius:20px;padding:8px 24px;font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✏️ 내 추억 만들기</button>
 </div>
 
 <section id="landing">
-  <div class="badge">나의 연대기</div>
-  <h1><span>생년월일로 보는</span>나의<br>연대기</h1>
+  <div class="badge">그때 그 시절</div>
+  <h1><span>생년월일로 보는</span>그때<br>그 시절</h1>
   <p class="subtitle">내가 태어난 날, 내가 자란 시대,<br>우리 동네만의 사투리까지.<br><br>오직 나만을 위한 연대기.</p>
   <div class="input-box">
     <label class="field-label">생년월일</label>
@@ -249,8 +249,11 @@ select:focus{border-color:var(--accent2)}
 
     </div>
 
-    <button class="submit-btn" onclick="calculate()" style="margin-top:20px">나의 연대기 확인하기 →</button>
+    <button class="submit-btn" onclick="calculate()" style="margin-top:20px">내 추억 펼쳐보기 →</button>
     <p class="disclaimer-small">개인정보 저장 없음 · 브라우저에서만 계산</p>
+  </div>
+  <div style="width:100%;max-width:400px;margin-top:16px">
+    <div class="ad-slot">AD · 광고 영역</div>
   </div>
 </section>
 
@@ -321,6 +324,14 @@ select:focus{border-color:var(--accent2)}
       <p style="font-size:10px;color:#333;margin-top:12px">* 짜장면: 한국물가정보·통계청 / 최저임금: 고용노동부 / 삼성전자: 수정주가</p>
     </div>
 
+    <div class="card" style="animation-delay:0.31s">
+      <div class="card-title">⚡ 내가 살아온 시대의 큰 사건들</div>
+      <div id="bigevents-list"></div>
+      <p style="font-size:10px;color:#333;margin-top:12px">🇰🇷 한국 / 🌍 세계 · 한국 현대사·세계사 주요 사건 기준</p>
+    </div>
+
+    <div class="ad-slot">AD · 광고 영역</div>
+
     <div class="card" style="animation-delay:0.33s">
       <div class="card-title">🍜🍦🍘 내 생년의 라면·과자·아이스크림</div>
       <div id="snack-list"></div>
@@ -386,7 +397,7 @@ select:focus{border-color:var(--accent2)}
       출처: 통계청, 보건복지부, 고용노동부, 한국물가정보
     </p>
   </div>
-  <button class="restart-btn" onclick="goMakeMyOwn()">✏️ 나의 연대기 만들기</button>
+  <button class="restart-btn" onclick="goMakeMyOwn()">✏️ 내 추억 만들기</button>
 </div>
 
 <script>
@@ -468,6 +479,76 @@ function getSelectVal(selectId, customId) {
 }
 
 // ── 데이터 ──
+// 한국 현대사 충격적 대형 사건 (연도별)
+var BIGEVENTS = {
+  1960:"1960.4 · 4·19 혁명",
+  1961:"1961.5 · 5·16 군사정변",
+  1972:"1972.10 · 10월 유신 선포",
+  1979:"1979.10 · 10·26 박정희 대통령 시해",
+  1980:"1980.5 · 5·18 광주 민주화 운동",
+  1983:"1983.9 · KAL기 격추 사건 (269명 사망)",
+  1987:"1987.6 · 6월 민주항쟁 / 11월 KAL 858 폭파",
+  1988:"1988.9 · 서울 올림픽 개최",
+  1994:"1994.10 · 성수대교 붕괴 (32명 사망)",
+  1995:"1995.6 · 삼풍백화점 붕괴 (502명 사망)",
+  1997:"1997.11 · IMF 외환위기 — 금 모으기 운동",
+  1999:"1999.6 · 씨랜드 화재, 인천 호프집 화재",
+  2002:"2002.6 · 한일 월드컵 4강 신화",
+  2003:"2003.2 · 대구 지하철 참사 (192명 사망)",
+  2007:"2007.12 · 태안 기름유출 사고",
+  2008:"2008.5 · 광우병 촛불집회",
+  2009:"2009.5 · 노무현 전 대통령 서거",
+  2010:"2010.3 천안함 / 11 연평도 포격",
+  2014:"2014.4 · 세월호 참사 (304명 사망)",
+  2016:"2016.10 · 박근혜 탄핵 촛불집회",
+  2017:"2017.3 · 박근혜 대통령 파면",
+  2020:"2020.2 · 코로나19 팬데믹 — 마스크 대란",
+  2022:"2022.10 · 이태원 참사 (159명 사망)",
+  2024:"2024.12 · 비상계엄 선포·해제, 대통령 탄핵",
+  2025:"2025.6 · 윤석열 파면, 이재명 대통령 당선"
+};
+
+function getBigEvent(year) {
+  var keys = Object.keys(BIGEVENTS).map(Number);
+  var closest = null, minDiff = 999;
+  for (var i=0; i<keys.length; i++) {
+    var diff = Math.abs(keys[i] - year);
+    if (diff < minDiff && diff <= 2) { minDiff = diff; closest = keys[i]; }
+  }
+  return closest ? {year:closest, event:BIGEVENTS[closest]} : null;
+}
+
+// 세계사 충격적 대형 사건
+var WORLDEVENTS = {
+  1969:"1969.7 · 아폴로 11호 달 착륙",
+  1979:"1979.2 이란 혁명 / 12 소련 아프간 침공",
+  1986:"1986.4 · 체르노빌 원전 사고",
+  1989:"1989.6 천안문 / 11 베를린 장벽 붕괴",
+  1991:"1991.1 걸프전 / 12 소련 붕괴",
+  1997:"1997.7 아시아 금융위기 / 8 다이애나비 사망",
+  2001:"2001.9 · 9·11 테러 — 세계가 바뀐 날",
+  2003:"2003.3 · 이라크 전쟁",
+  2008:"2008.9 · 리먼 브라더스 파산 — 금융위기",
+  2011:"2011.3 동일본 대지진 / 5 빈 라덴 사살",
+  2016:"2016.6 브렉시트 / 11 트럼프 당선",
+  2019:"2019.6 · 홍콩 시위",
+  2020:"2020.3 · 코로나19 세계 대유행",
+  2022:"2022.2 · 러시아-우크라이나 전쟁 발발",
+  2023:"2023 · 챗GPT·생성형 AI 혁명",
+  2024:"2024 · 전 세계 AI 열풍 가속",
+  2025:"2025.1 · 트럼프 2기 출범, 글로벌 관세 전쟁"
+};
+
+function getWorldEvent(year) {
+  var keys = Object.keys(WORLDEVENTS).map(Number);
+  var closest = null, minDiff = 999;
+  for (var i=0; i<keys.length; i++) {
+    var diff = Math.abs(keys[i] - year);
+    if (diff < minDiff && diff <= 2) { minDiff = diff; closest = keys[i]; }
+  }
+  return closest ? {year:closest, event:WORLDEVENTS[closest]} : null;
+}
+
 var STATS = {
   lifeExpM: 80.6, lifeExpF: 86.6,
   legalRetire: 60, youthAge: 34
@@ -1042,6 +1123,36 @@ function doCalc(birth, today) {
     (btcText ? hItemColor(birthYear,'₿ 비트코인 '+btcText,'CoinMarketCap 기준','#c9a96e') : hItem(birthYear,'₿ 비트코인','2009년 이전 — 비트코인 없던 시대'));
   document.getElementById('history-list').innerHTML = histHtml;
 
+  // 큰 사건 (시점별 한국 + 세계)
+  var phases = [
+    {label:'태어났을 무렵', offset:1},
+    {label:'초등학교 시절', offset:9},
+    {label:'10대 시절', offset:16},
+    {label:'20대 초반', offset:22}
+  ];
+  var bel = document.getElementById('bigevents-list');
+  var beh = '';
+  var seenKr = {}, seenWorld = {};
+  phases.forEach(function(p) {
+    var targetYear = birthYear + p.offset;
+    if (targetYear > new Date().getFullYear()) return;
+    var kr = getBigEvent(targetYear);
+    var wr = getWorldEvent(targetYear);
+    var rows = '';
+    if (kr && !seenKr[kr.year]) {
+      seenKr[kr.year] = true;
+      rows += '<div class="history-content" style="margin-bottom:3px">🇰🇷 <strong>'+kr.event+'</strong></div>';
+    }
+    if (wr && !seenWorld[wr.year]) {
+      seenWorld[wr.year] = true;
+      rows += '<div class="history-content" style="color:var(--accent3)">🌍 '+wr.event+'</div>';
+    }
+    if (rows) {
+      beh += '<div class="history-item"><span class="history-year" style="min-width:auto">'+p.label.replace(' 시절','').replace(' 초반','')+'</span><div>'+rows+'</div></div>';
+    }
+  });
+  bel.innerHTML = beh || '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
+
   // 이름
   var nameData = getByYear(NAMES, birthYear);
   var nd = document.getElementById('names-display');
@@ -1288,7 +1399,7 @@ function showCopyToast(msg) {
 
 function shareStory() {
   if (navigator.share) {
-    navigator.share({title:'나의 연대기', text:_storyText, url:_shareUrl});
+    navigator.share({title:'그때 그 시절', text:_storyText, url:_shareUrl});
   } else { copyStoryLink(); }
 }
 
