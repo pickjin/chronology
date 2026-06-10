@@ -100,6 +100,7 @@ select:focus{border-color:var(--accent2)}
 </head>
 <body>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4855125304394860" crossorigin="anonymous"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <div id="loading"><div class="spinner"></div><p>연대기 생성 중...</p></div>
@@ -386,8 +387,8 @@ select:focus{border-color:var(--accent2)}
 
       <div class="share-btns">
         <button class="share-btn" onclick="saveCardImage()" style="background:rgba(201,169,110,0.1);border-color:var(--accent2);color:var(--accent2)">🖼️ 이미지 저장</button>
+        <button class="share-btn" onclick="shareKakao()" style="background:#fee500;border-color:#fee500;color:#391b1b;font-weight:700">💛 카카오톡</button>
         <button class="share-btn" onclick="copyStoryLink()">🔗 링크 복사</button>
-        <button class="share-btn" onclick="shareStory()">📱 공유</button>
       </div>
     </div>
 
@@ -1501,6 +1502,45 @@ function loadFromUrl() {
     document.getElementById('loading').style.display = 'flex';
     setTimeout(function(){ doCalc(birth, today); }, 600);
   }
+}
+
+// ── 카카오 초기화 ──
+if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+  Kakao.init('6f7da35a1ebdcfc330bf8f9625c5ea87');
+}
+
+function shareKakao() {
+  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+    copyStoryLink();
+    return;
+  }
+  var lines = _storyText.split('\n\n');
+  var desc = lines.slice(1, 3).join(' ');
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: '그때 그 시절 — 내 추억 연대기',
+      description: desc,
+      imageUrl: 'https://pickjin.github.io/og-image.png',
+      link: {
+        mobileWebUrl: _shareUrl,
+        webUrl: _shareUrl
+      }
+    },
+    buttons: [
+      {
+        title: '내 연대기 보기',
+        link: { mobileWebUrl: _shareUrl, webUrl: _shareUrl }
+      },
+      {
+        title: '내 추억 만들기',
+        link: {
+          mobileWebUrl: window.location.href.split('?')[0],
+          webUrl: window.location.href.split('?')[0]
+        }
+      }
+    ]
+  });
 }
 
 // ── 페이지 로드 ──
