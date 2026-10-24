@@ -1,1562 +1,632 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>그때 그 시절 — 생년월일로 보는 나의 추억</title>
-<meta property="og:title" content="그때 그 시절 — 생년월일로 보는 나의 추억">
-<meta property="og:description" content="내가 태어난 날, 내가 자란 시대, 우리 동네만의 사투리까지. 오직 나만을 위한 연대기.">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0d0d0d;--card:#181818;--border:#2a2a2a;--accent:#e8d5a3;--accent2:#c9a96e;--accent3:#8fb8ad;--text:#e8e4dc;--muted:#666;--radius:12px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Gmarket Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-#landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
-.badge{display:inline-block;border:1px solid var(--accent2);color:var(--accent2);font-size:10px;letter-spacing:3px;padding:5px 14px;border-radius:20px;text-transform:uppercase;margin-bottom:28px}
-h1{font-family:'Nanum Myeongjo',serif;font-size:clamp(48px,12vw,96px);font-weight:800;line-height:0.95;text-align:center;color:var(--accent);letter-spacing:-2px;margin-bottom:20px}
-h1 span{display:block;font-size:0.38em;font-weight:400;letter-spacing:6px;color:var(--muted);text-transform:uppercase;font-family:'Gmarket Sans',sans-serif;margin-bottom:8px}
-.subtitle{font-size:14px;color:var(--muted);text-align:center;line-height:1.8;max-width:360px;margin-bottom:48px}
-.input-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px;width:100%;max-width:400px}
-.field-label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:block}
-input[type="date"],input[type="text"]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:16px;padding:13px 16px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;color-scheme:dark}
-input[type="date"]{font-size:18px;margin-bottom:20px}
-input[type="text"]{margin-bottom:20px}
-input[type="date"]:focus,input[type="text"]:focus{border-color:var(--accent2)}
-select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:15px;padding:14px 16px;margin-bottom:4px;outline:none;color-scheme:dark;-webkit-appearance:none;appearance:none;cursor:pointer;transition:border-color 0.2s}
-select:focus{border-color:var(--accent2)}
-.hint{font-size:10px;color:#444;margin-bottom:20px;margin-top:2px}
-.custom-input{display:none;margin-top:6px;margin-bottom:20px}
-.gender-row{display:flex;gap:10px;margin-bottom:20px}
-.gender-btn{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Gmarket Sans',sans-serif;font-size:14px;padding:12px;cursor:pointer;transition:all 0.2s}
-.gender-btn.active{border-color:var(--accent2);color:var(--accent2);background:rgba(201,169,110,0.08)}
-.submit-btn{width:100%;background:var(--accent);border:none;border-radius:8px;color:#0d0d0d;font-family:'Gmarket Sans',sans-serif;font-size:15px;font-weight:700;padding:16px;cursor:pointer;transition:all 0.15s;letter-spacing:1px;margin-top:4px}
-.submit-btn:hover{background:var(--accent2);transform:translateY(-1px)}
-.disclaimer-small{font-size:10px;color:#444;text-align:center;margin-top:16px;line-height:1.6}
-#result{display:none;min-height:100vh;padding:0 0 80px}
-.result-header{background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border-bottom:1px solid var(--border);padding:32px 20px 28px;text-align:center}
-.has-banner .result-header{padding-top:80px}
-.result-header h2{font-family:'Nanum Myeongjo',serif;font-size:24px;color:var(--accent);margin-bottom:6px}
-.result-header p{font-size:12px;color:var(--muted)}
-.sections{max-width:520px;margin:0 auto;padding:0 16px}
-.score-hero{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px 24px;text-align:center;margin:24px 0 16px;position:relative;overflow:hidden}
-.score-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent2),transparent)}
-.score-number{font-family:'Nanum Myeongjo',serif;font-size:80px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:8px}
-.score-label{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
-.score-rank{display:inline-block;background:rgba(143,184,173,0.12);border:1px solid rgba(143,184,173,0.3);color:var(--accent3);font-size:13px;padding:6px 16px;border-radius:20px;margin-bottom:16px}
-.ai-comment{font-size:14px;color:var(--text);line-height:1.7;background:rgba(255,255,255,0.03);border-radius:8px;padding:14px 16px;border-left:2px solid var(--accent2)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;margin-bottom:12px}
-.card-title{font-size:10px;letter-spacing:3px;color:var(--accent2);text-transform:uppercase;margin-bottom:16px}
-.progress-pct{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:6px}
-.progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
-.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
-.stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f1f1f;font-size:13px}
-.stat-row:last-child{border-bottom:none}
-.stat-key{color:var(--muted)}.stat-val{color:var(--text);font-weight:500}
-.stat-val.highlight{color:var(--accent)}.stat-val.teal{color:var(--accent3)}
-.compare-item{padding:12px 0;border-bottom:1px solid #1f1f1f}
-.compare-item:last-child{border-bottom:none}
-.compare-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.compare-name{font-size:13px;color:var(--muted)}
-.compare-delta{font-size:12px;font-weight:700}
-.compare-delta.plus{color:#8fb8ad}.compare-delta.minus{color:#c0a07a}.compare-delta.neutral{color:var(--muted)}
-.compare-bar-wrap{height:4px;background:#1f1f1f;border-radius:2px;overflow:hidden}
-.compare-bar-fill{height:100%;border-radius:2px;background:var(--accent2);transition:width 1.4s ease}
-.history-item{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid #1f1f1f}
-.history-item:last-child{border-bottom:none}
-.history-year{font-size:11px;color:var(--accent2);letter-spacing:1px;white-space:nowrap;padding-top:2px;min-width:36px}
-.history-content{font-size:12px;color:var(--text);line-height:1.6}
-.history-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.pop-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #1f1f1f}
-.pop-row:last-child{border-bottom:none}
-.pop-icon{font-size:20px}.pop-text{flex:1;font-size:13px;color:var(--muted)}.pop-val{font-size:14px;color:var(--text);font-weight:500}
-.share-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;margin-bottom:12px}
-.share-section h3{font-size:15px;color:var(--accent);margin-bottom:6px}
-.share-btns{display:flex;gap:10px;margin-top:16px}
-.share-btn{flex:1;padding:13px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:'Gmarket Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s}
-.share-btn:hover{border-color:var(--accent2);color:var(--accent2)}
-.ad-slot{background:#111;border:1px dashed #222;border-radius:8px;padding:20px;text-align:center;font-size:11px;color:#333;margin-bottom:12px;min-height:80px;display:flex;align-items:center;justify-content:center}
-.disclaimer{font-size:10px;color:#333;line-height:1.7;text-align:center;padding:0 10px;margin-top:20px}
-.detail-toggle{width:100%;background:transparent;border:1px dashed var(--border);border-radius:8px;color:var(--muted);font-family:'Gmarket Sans',sans-serif;font-size:13px;padding:12px;cursor:pointer;transition:all 0.2s;margin-bottom:0;text-align:center}
-.detail-toggle:hover{border-color:var(--accent2);color:var(--accent2)}
-.detail-section{display:none;padding-top:20px}
-.detail-section.open{display:block}
-.section-divider{font-size:10px;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;margin:20px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
-.share-card-wrap{margin-bottom:16px}
-#share-card{background:linear-gradient(145deg,#1a1410 0%,#0d0d0d 100%);border:1px solid var(--accent2);border-radius:16px;padding:24px 20px;text-align:center;position:relative;overflow:hidden}
-#share-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2))}
-.sc-site{font-size:9px;letter-spacing:3px;color:var(--accent2);text-transform:uppercase;margin-bottom:12px;opacity:0.8}
-.sc-name{font-family:'Nanum Myeongjo',serif;font-size:18px;color:var(--accent);font-weight:800;margin-bottom:4px}
-.sc-score{font-family:'Nanum Myeongjo',serif;font-size:56px;color:var(--accent);font-weight:800;line-height:1;margin:8px 0 4px}
-.sc-rank{display:inline-block;background:rgba(143,184,173,0.15);border:1px solid rgba(143,184,173,0.4);color:var(--accent3);font-size:11px;padding:4px 12px;border-radius:20px;margin-bottom:14px}
-.sc-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px}
-.sc-tag{background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.25);color:var(--accent2);font-size:11px;padding:4px 10px;border-radius:12px}
-.sc-story{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:left}
-.sc-bottom{font-size:9px;color:#555;letter-spacing:1px;margin-top:10px}
-</style>
-</head>
-<body>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4855125304394860" crossorigin="anonymous"></script>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-<div id="loading"><div class="spinner"></div><p>연대기 생성 중...</p></div>
-
-<div id="visitor-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#c9a96e,#e8d5a3);padding:12px 20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.4)">
-  <div style="font-size:12px;color:#0d0d0d;margin-bottom:6px;font-weight:500">👆 지금 보고 있는 건 다른 사람의 연대기예요</div>
-  <button onclick="goMakeMyOwn()" style="background:#0d0d0d;color:#e8d5a3;border:none;border-radius:20px;padding:8px 24px;font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✏️ 내 추억 만들기</button>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"ink-muted-secondary":"#333333","on-background":"#1a1c1d","on-secondary":"#ffffff","inverse-surface":"#2f3132","on-tertiary-container":"#ffe3d6","tertiary-fixed-dim":"#ffb692","on-primary-fixed":"#001b3e","on-surface-variant":"#414753","tertiary-fixed":"#ffdbcb","surface-tile-dark-inset":"#252527","surface-container":"#eeeef0","error":"#ba1a1a","action-dark-surface":"#2997ff","on-surface":"#1a1c1d","surface-container-high":"#e8e8ea","background":"#f9f9fb","primary-fixed":"#d7e3ff","on-tertiary":"#ffffff","surface":"#f9f9fb","on-secondary-container":"#636264","on-primary-fixed-variant":"#00458e","surface-tile-dark-raised":"#2a2a2c","surface-container-low":"#f3f3f5","on-tertiary-fixed-variant":"#793000","capsule-ring":"rgba(0, 0, 0, 0.04)","on-secondary-fixed-variant":"#474649","secondary-fixed":"#e4e2e4","tertiary-container":"#af4900","ink-primary":"#1d1d1f","ink-muted-inverse":"#cccccc","surface-tile-dark":"#272729","surface-container-lowest":"#ffffff","ink-tertiary":"#7a7a7a","secondary":"#5f5e60","primary-fixed-dim":"#aac7ff","hairline-subtle":"#e0e0e0","inverse-primary":"#aac7ff","secondary-fixed-dim":"#c8c6c8","canvas-parchment":"#f5f5f7","action-focus":"#0071e3","surface-container-highest":"#e2e2e4","surface-tint":"#005cba","surface-pearl":"#fafafc","on-primary":"#ffffff","inverse-on-surface":"#f0f0f2","surface-void":"#000000","on-secondary-fixed":"#1b1b1d","surface-dim":"#d9dadc","ink-inverse":"#ffffff","hairline-faint":"rgba(0, 0, 0, 0.08)","primary-container":"#0066cc","on-primary-container":"#dfe8ff","canvas-pure":"#ffffff","error-container":"#ffdad6","tertiary":"#883700","on-tertiary-fixed":"#341100","surface-bright":"#f9f9fb","primary":"#004e9f","on-error-container":"#93000a","on-error":"#ffffff","outline-variant":"#c1c6d5","secondary-container":"#e2dfe1","surface-variant":"#e2e2e4","outline":"#727784"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"space-section":"5rem","space-xl":"2rem","gutter-mobile":"1rem","space-lg":"1.5rem","margin":"2rem","space-md":"1.0625rem","space-xxl":"3rem","gutter":"1.5rem","margin-mobile":"1.25rem","space-sm":"0.5rem","space-xs":"0.25rem"},"fontFamily":{"caption-meta":["Inter"],"headline-airy":["Inter"],"headline-lead":["Inter"],"display-lg-mobile":["Inter"],"display-lg":["Inter"],"label-button-hero":["Inter"],"display-hero":["Inter"],"display-hero-mobile":["Inter"],"body-dense":["Inter"],"label-ui-strong":["Inter"],"body-strong":["Inter"],"display-md":["Inter"],"title-tagline":["Inter"],"label-ui":["Inter"],"caption-micro":["Inter"],"body-default":["Inter"]},"fontSize":{"caption-meta":["12px",{"lineHeight":"12px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-airy":["24px",{"lineHeight":"36px","letterSpacing":"0em","fontWeight":"300"}],"headline-lead":["28px",{"lineHeight":"32px","letterSpacing":"0.007em","fontWeight":"400"}],"display-lg-mobile":["28px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["40px",{"lineHeight":"44px","letterSpacing":"0em","fontWeight":"600"}],"label-button-hero":["18px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"display-hero":["56px",{"lineHeight":"60px","letterSpacing":"-0.018em","fontWeight":"600"}],"display-hero-mobile":["34px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-dense":["17px",{"lineHeight":"41px","letterSpacing":"0em","fontWeight":"400"}],"label-ui-strong":["14px",{"lineHeight":"18px","letterSpacing":"-0.016em","fontWeight":"600"}],"body-strong":["17px",{"lineHeight":"21px","letterSpacing":"-0.022em","fontWeight":"600"}],"display-md":["34px",{"lineHeight":"50px","letterSpacing":"-0.011em","fontWeight":"600"}],"title-tagline":["21px",{"lineHeight":"25px","letterSpacing":"0.011em","fontWeight":"600"}],"label-ui":["14px",{"lineHeight":"18px","letterSpacing":"-0.016em","fontWeight":"400"}],"caption-micro":["10px",{"lineHeight":"13px","letterSpacing":"-0.008em","fontWeight":"400"}],"body-default":["17px",{"lineHeight":"25px","letterSpacing":"-0.022em","fontWeight":"400"}]}}};</script></head><body class="bg-canvas-pure font-body-default text-ink-primary antialiased selection:bg-primary-fixed-dim"><header class="fixed top-0 left-0 right-0 z-50 flex flex-col"><div class="h-11 bg-surface-void/90 backdrop-blur-xl flex items-center justify-between px-6 lg:px-12"><div class="flex items-center gap-8"><a class="text-ink-inverse font-headline-lead text-label-ui-strong tracking-wider uppercase" data-path="studio" href="#">CASEFORGE</a><nav class="hidden md:flex items-center gap-6" data-active-classes="text-ink-inverse font-label-ui-strong"><a aria-current="page" class="transition-colors text-ink-inverse font-label-ui-strong" data-path="studio" href="#">Studio</a><a class="text-ink-muted-inverse hover:text-ink-inverse text-label-ui font-label-ui transition-colors" data-path="showcase" href="#">Showcase</a><a class="text-ink-muted-inverse hover:text-ink-inverse text-label-ui font-label-ui transition-colors" data-path="lineup" href="#">Lineup</a><a class="text-ink-muted-inverse hover:text-ink-inverse text-label-ui font-label-ui transition-colors" data-path="offline-vending" href="#">Offline Vending</a></nav></div><div class="flex items-center gap-4"><a class="text-ink-muted-inverse hover:text-ink-inverse flex items-center transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[18px]">shopping_bag</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="h-14 bg-canvas-parchment/80 backdrop-blur-2xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex items-center justify-between px-6 lg:px-12"><div class="flex items-center gap-4"><span class="text-ink-primary font-headline-lead text-label-ui-strong">Case Studio</span><span class="text-ink-tertiary font-label-ui text-label-ui hidden sm:inline-block">iPhone 16 Pro Max · Frosted Matte Shell</span></div><div class="flex items-center gap-3"><button class="px-3 py-1.5 rounded-full text-caption-meta font-caption-meta text-ink-muted-secondary hover:text-ink-primary hover:bg-surface-container transition-all flex items-center gap-1" type="button"><span class="material-symbols-outlined text-[14px]">restart_alt</span>Reset</button><button class="px-3 py-1.5 rounded-full text-caption-meta font-caption-meta text-ink-muted-secondary hover:text-ink-primary hover:bg-surface-container transition-all flex items-center gap-1" type="button"><span class="material-symbols-outlined text-[14px]">bookmark_border</span>Save</button><a class="bg-primary-container text-on-primary hover:bg-primary px-4 py-1.5 rounded-full text-caption-meta font-label-ui-strong transition-all flex items-center shadow-[0_1px_4px_rgba(0,0,0,0.1)]" data-path="checkout" href="#">Purchase · $49</a></div></div></header><main class="w-full pt-[100px] bg-canvas-pure"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12 py-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
+<!-- LEFT STAGE: Dynamic Interactive Canvas (7 cols on lg) -->
+<section class="lg:col-span-7 flex flex-col items-center lg:sticky lg:top-[120px] pb-6">
+<!-- Studio Floating Canvas Wrapper -->
+<div class="w-full bg-canvas-parchment rounded-lg p-6 sm:p-10 flex flex-col items-center justify-between relative overflow-hidden min-h-[580px] sm:min-h-[640px]">
+<!-- Canvas Overhead Meta Glass Badge -->
+<div class="w-full flex items-center justify-between z-10">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-canvas-pure shadow-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-caption-meta text-caption-meta text-ink-primary font-medium tracking-tight">1200 DPI UV 하드웨어 렌더</span>
+<span class="font-caption-micro text-caption-micro text-ink-tertiary">| KIOSK SYNC READY</span>
 </div>
-
-<section id="landing">
-  <div class="badge">그때 그 시절</div>
-  <h1><span>생년월일로 보는</span>그때<br>그 시절</h1>
-  <p class="subtitle">내가 태어난 날, 내가 자란 시대,<br>우리 동네만의 사투리까지.<br><br>오직 나만을 위한 연대기.</p>
-  <div class="input-box">
-    <label class="field-label">생년월일</label>
-    <input type="date" id="birthdate" min="1940-01-01">
-
-    <label class="field-label">성별</label>
-    <div class="gender-row">
-      <button class="gender-btn active" onclick="selectGender('M',this)">남성</button>
-      <button class="gender-btn" onclick="selectGender('F',this)">여성</button>
-    </div>
-
-    <label class="field-label">어릴 때 살던 지역</label>
-    <select id="region-select" style="margin-bottom:20px">
-      <option value="">지역 선택 (선택사항)</option>
-      <option value="서울">서울특별시</option><option value="경기">경기도</option>
-      <option value="인천">인천광역시</option><option value="강원">강원도</option>
-      <option value="충북">충청북도</option><option value="충남">충청남도</option>
-      <option value="대전">대전광역시</option><option value="경북">경상북도</option>
-      <option value="대구">대구광역시</option><option value="경남">경상남도</option>
-      <option value="부산">부산광역시</option><option value="울산">울산광역시</option>
-      <option value="전북">전라북도</option><option value="전남">전라남도</option>
-      <option value="광주">광주광역시</option><option value="제주">제주특별자치도</option>
-    </select>
-
-    <button class="detail-toggle" onclick="toggleDetail(this)" type="button">
-      ✨ 첫 경험의 기억 추가하기 ▼
-    </button>
-
-    <div class="detail-section" id="detail-section">
-
-      <div class="section-divider">🍗 입맛 기억</div>
-
-      <label class="field-label">최애 패스트푸드</label>
-      <select id="fastfood-pick" onchange="handleCustom(this,'fastfood-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-        <option value="롯데리아">🍔 롯데리아</option>
-        <option value="맥도날드">🍟 맥도날드</option>
-        <option value="버거킹">👑 버거킹</option>
-        <option value="KFC">🍗 KFC</option>
-        <option value="파파이스">🦜 파파이스</option>
-        <option value="웬디스">🍔 웬디스</option>
-        <option value="피자헛">🍕 피자헛</option>
-        <option value="도미노피자">🍕 도미노피자</option>
-        <option value="__custom__">✏️ 직접 입력</option>
-      </select>
-      <input type="text" id="fastfood-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">최애 치킨 브랜드</label>
-      <select id="chicken-pick" onchange="handleCustom(this,'chicken-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-        <option value="BBQ">BBQ</option>
-        <option value="교촌치킨">교촌치킨</option>
-        <option value="bhc">bhc</option>
-        <option value="페리카나">페리카나</option>
-        <option value="처갓집양념치킨">처갓집양념치킨</option>
-        <option value="네네치킨">네네치킨</option>
-        <option value="굽네치킨">굽네치킨</option>
-        <option value="호식이두마리치킨">호식이두마리치킨</option>
-        <option value="멕시카나">멕시카나</option>
-        <option value="__custom__">✏️ 직접 입력</option>
-      </select>
-      <input type="text" id="chicken-custom" class="custom-input" placeholder="직접 입력...">
-
-      <div class="section-divider">📱 디지털 첫 경험</div>
-
-      <label class="field-label">첫 핸드폰 모델</label>
-      <select id="phone-model-pick" onchange="handleCustom(this,'phone-model-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-      </select>
-      <div class="hint">생년월일 입력 후 그 시절 핸드폰 목록이 채워져요</div>
-      <input type="text" id="phone-model-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">첫 온라인 게임</label>
-      <select id="first-game-pick" onchange="handleCustom(this,'first-game-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-      </select>
-      <div class="hint">생년월일 입력 후 그 시절 게임 목록이 채워져요</div>
-      <input type="text" id="first-game-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">첫 SNS</label>
-      <select id="sns-pick" onchange="handleCustom(this,'sns-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-        <option value="싸이월드">🌐 싸이월드</option>
-        <option value="네이버 블로그">📝 네이버 블로그</option>
-        <option value="페이스북">👤 페이스북</option>
-        <option value="트위터">🐦 트위터</option>
-        <option value="인스타그램">📸 인스타그램</option>
-        <option value="카카오스토리">💛 카카오스토리</option>
-        <option value="틱톡">🎵 틱톡</option>
-        <option value="__custom__">✏️ 직접 입력</option>
-      </select>
-      <input type="text" id="sns-custom" class="custom-input" placeholder="직접 입력...">
-
-      <div class="section-divider">🌏 추억의 선택들</div>
-
-      <label class="field-label">처음 간 해외여행 나라</label>
-      <select id="travel-pick" onchange="handleCustom(this,'travel-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-        <option value="일본">🇯🇵 일본</option>
-        <option value="중국">🇨🇳 중국</option>
-        <option value="미국">🇺🇸 미국</option>
-        <option value="태국">🇹🇭 태국</option>
-        <option value="필리핀">🇵🇭 필리핀</option>
-        <option value="베트남">🇻🇳 베트남</option>
-        <option value="유럽">🇪🇺 유럽</option>
-        <option value="호주">🇦🇺 호주</option>
-        <option value="캐나다">🇨🇦 캐나다</option>
-        <option value="싱가포르">🇸🇬 싱가포르</option>
-        <option value="아직 없음">✈️ 아직 해외여행 없음</option>
-        <option value="__custom__">✏️ 직접 입력</option>
-      </select>
-      <input type="text" id="travel-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">어릴 때 별명</label>
-      <input type="text" id="nickname-input" placeholder="예: 뚱이, 홍당무, 번개..." style="margin-bottom:20px">
-
-      <label class="field-label">초등학교 최애 불량식품</label>
-      <select id="snacktype-select" onchange="handleCustom(this,'snacktype-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-      </select>
-      <div class="hint">생년월일 입력 후 채워져요</div>
-      <input type="text" id="snacktype-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">초등학교 최애 만화</label>
-      <select id="anime-pick" onchange="handleCustom(this,'anime-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-      </select>
-      <div class="hint">생년월일 입력 후 채워져요</div>
-      <input type="text" id="anime-custom" class="custom-input" placeholder="직접 입력...">
-
-      <label class="field-label">어린시절 꿈</label>
-      <select id="dream-pick" onchange="handleCustom(this,'dream-custom')" style="margin-bottom:4px">
-        <option value="">선택 (선택사항)</option>
-      </select>
-      <input type="text" id="dream-custom" class="custom-input" placeholder="직접 입력...">
-
-    </div>
-
-    <button class="submit-btn" onclick="calculate()" style="margin-top:20px">내 추억 펼쳐보기 →</button>
-    <p class="disclaimer-small">개인정보 저장 없음 · 브라우저에서만 계산</p>
-  </div>
-  <div style="width:100%;max-width:400px;margin-top:16px">
-    <div class="ad-slot">AD · 광고 영역</div>
-  </div>
+<!-- Quick View Segmented Control -->
+<div class="flex items-center p-1 rounded-full bg-canvas-pure shadow-sm">
+<button class="px-3 py-1 rounded-full bg-primary text-on-primary font-caption-meta text-caption-meta transition-all font-medium" id="viewBackBtn" type="button">후면 (Print)</button>
+<button class="px-3 py-1 rounded-full text-ink-muted-secondary hover:text-ink-primary font-caption-meta text-caption-meta transition-all" id="viewFrontBtn" type="button">측면 베벨</button>
+</div>
+</div>
+<!-- Product Visualizer & Hardware Stage -->
+<div class="relative my-auto flex items-center justify-center w-full py-6 select-none group">
+<!-- Ambient Stage Halo Glow -->
+<div class="absolute w-72 h-96 rounded-full bg-primary-fixed-dim/30 blur-3xl pointer-events-none transition-all duration-700" id="ambientHalo"></div>
+<!-- Phone Hardware Shell Container -->
+<div class="relative w-[280px] sm:w-[310px] h-[570px] sm:h-[620px] rounded-[52px] p-[10px] bg-neutral-900 transition-all duration-500 flex flex-col items-center justify-center" id="phoneRenderContainer" style="box-shadow: 3px 5px 30px 0px rgba(0, 0, 0, 0.22);">
+<!-- Phone Exterior Bezel Finish -->
+<div class="w-full h-full rounded-[44px] relative overflow-hidden flex flex-col items-center justify-between p-3" id="caseSkinBase" style="background-color: #f7f7f9;">
+<!-- Camera Island Island Mockup (iPhone Pro Quad Cutout) -->
+<div class="absolute top-5 left-5 w-[114px] h-[118px] rounded-[30px] bg-neutral-200/90 backdrop-blur-md p-2 shadow-sm z-30 flex flex-wrap gap-1.5 items-center justify-center" id="cameraIsland">
+<div class="w-11 h-11 rounded-full bg-neutral-800 p-1 flex items-center justify-center shadow-inner">
+<div class="w-7 h-7 rounded-full bg-neutral-950 flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-sky-950/60 ring-1 ring-neutral-700"></div>
+</div>
+</div>
+<div class="w-11 h-11 rounded-full bg-neutral-800 p-1 flex items-center justify-center shadow-inner">
+<div class="w-7 h-7 rounded-full bg-neutral-950 flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-sky-950/60 ring-1 ring-neutral-700"></div>
+</div>
+</div>
+<div class="w-11 h-11 rounded-full bg-neutral-800 p-1 flex items-center justify-center shadow-inner">
+<div class="w-7 h-7 rounded-full bg-neutral-950 flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-sky-950/60 ring-1 ring-neutral-700"></div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full bg-neutral-400 flex items-center justify-center shadow-sm">
+<div class="w-2 h-2 rounded-full bg-neutral-200"></div>
+</div>
+</div>
+<!-- Custom Artwork Print Layer -->
+<div class="absolute inset-0 z-10 overflow-hidden flex items-center justify-center pointer-events-none" id="artworkLayer">
+<!-- Active Design Preview -->
+<div class="relative w-full h-full flex flex-col items-center justify-center transition-all duration-300" id="designGraphic">
+<img class="w-full h-full object-cover scale-100 transition-transform duration-300" data-alt="High precision modern Swiss graphic poster featuring minimalist geometric constructivism, typography numerals 2025, Bauhaus aesthetics, titanium and ultramarine blue accents on pure gallery ivory background." id="caseArtworkImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwWzxjSMHJ53CEaafW5IITmJDs4sBE8q2Xhk5rWjRK6KJcJZiVBeN6nC0sdHqurf6rrmY6bXt0SACnYEoxIb1t6stzwJMDNDAgZIqArNrHh2rjT1DVKnGefnIGdN8EjEV6O-R6S7nOqN4hb2Yp7iLT8JzwoosVxi5AjfaNdCCO1SOkE7rIX-9typn0L4JSvyuZYqUmg-4rLQ-bdWmdk5zbManSFjw0shP7VeAqvLZ8"/>
+<!-- Overlay Custom Typography (Initials / Phrase) -->
+<div class="absolute bottom-16 text-center px-4 w-full pointer-events-none drop-shadow-md" id="customTextOverlay">
+<span class="font-headline-lead text-headline-lead text-ink-primary uppercase tracking-widest font-semibold" id="renderedText">STUDIO-01</span>
+</div>
+</div>
+</div>
+<!-- MagSafe Magnetic Ring Overlay (Interactive Toggle) -->
+<div class="absolute top-[46%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-44 h-44 rounded-full border-2 border-neutral-400/40 pointer-events-none z-20 flex flex-col items-center justify-start pt-1" id="magsafeRing">
+<div class="w-1.5 h-3 bg-neutral-400/50 rounded-full mt-[-8px]"></div>
+<div class="w-1 h-7 bg-neutral-400/40 rounded-full absolute bottom-[-18px]"></div>
+</div>
+<!-- Safe Print Bleed Alignment Grid (Toggleable Guide) -->
+<div class="absolute inset-3 rounded-[36px] border border-dashed border-primary/50 pointer-events-none z-20 opacity-0 transition-opacity flex items-end justify-center pb-4" id="safeAreaGrid">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-caption-micro text-caption-micro font-medium">1200 DPI UV 인쇄 안전 마진 (1.5mm)</span>
+</div>
+<!-- Material Glare Reflection Layer -->
+<div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent pointer-events-none z-25 opacity-40 mix-blend-overlay" id="finishGlare"></div>
+<!-- Subtle Logo Watermark Base -->
+<div class="mt-auto pb-4 z-20">
+<span class="font-caption-micro text-caption-micro text-neutral-400 tracking-[0.25em] uppercase font-semibold">CASEFORGE PRECISION</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Studio Stage Floating Controls Pill -->
+<div class="z-20 w-full max-w-md flex items-center justify-between px-3 py-1.5 rounded-full bg-canvas-pure shadow-sm">
+<!-- Safe Area Toggle -->
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full hover:bg-surface-container transition-colors text-ink-muted-secondary" id="toggleSafeAreaBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">crop_free</span>
+<span class="font-caption-meta text-caption-meta font-medium">안전선 가이드</span>
+</button>
+<div class="h-4 w-[1px] bg-hairline-subtle"></div>
+<!-- MagSafe Toggle -->
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-ink-primary transition-colors" id="toggleMagsafeBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">trip_origin</span>
+<span class="font-caption-meta text-caption-meta font-medium">MagSafe 링</span>
+</button>
+<div class="h-4 w-[1px] bg-hairline-subtle"></div>
+<!-- Zoom / Reset -->
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-surface-container text-ink-muted-secondary" id="scaleMinusBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-caption-micro text-caption-micro font-medium w-8 text-center text-ink-primary" id="zoomLevelIndicator">100%</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-surface-container text-ink-muted-secondary" id="scalePlusBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Real-Time UV Print Machine Specification Strip -->
+<div class="w-full mt-4 p-4 rounded-lg bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-canvas-pure flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div>
+<div class="font-caption-meta text-caption-meta font-semibold text-ink-primary">오프라인 자판기 직결 정밀 1200dpi UV 경화 인쇄</div>
+<div class="font-caption-micro text-caption-micro text-ink-tertiary">일본 무독성 친환경 UV 잉크 · 9H 스크래치 방지 코팅 적용</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 self-end sm:self-center px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-caption-micro text-caption-micro font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+            출력 준비 완료 (Print Ready)
+          </div>
+</div>
 </section>
-
-<div id="result">
-  <div class="result-header">
-    <h2 id="res-name">연대기</h2>
-    <p id="res-date"></p>
-  </div>
-  <div class="sections">
-
-    <div class="score-hero" style="animation-delay:0.05s">
-      <div class="score-label">평균 인간 점수 (재미용)</div>
-      <div class="score-number" id="score-num">--</div>
-      <div class="score-rank" id="score-rank">계산 중</div>
-      <div class="ai-comment" id="ai-comment"></div>
-    </div>
-
-    <div class="card" style="animation-delay:0.08s">
-      <div class="card-title">👶 내 또래 흔한 이름</div>
-      <div id="names-display"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 대법원 출생신고 통계·언론보도 분석 기반</p>
-    </div>
-
-    <div class="card" id="region-card" style="animation-delay:0.09s;display:none">
-      <div class="card-title" id="region-title">📍 우리 지역 특색</div>
-      <div id="region-display"></div>
-    </div>
-
-    <div class="card" style="animation-delay:0.1s">
-      <div class="card-title">📅 나이 정보</div>
-      <div class="stat-row"><span class="stat-key">만 나이</span><span class="stat-val highlight" id="r-age">-</span></div>
-      <div class="stat-row"><span class="stat-key">태어난 지</span><span class="stat-val" id="r-days">-</span></div>
-      <div class="stat-row"><span class="stat-key">살아온 시간</span><span class="stat-val" id="r-hours">-</span></div>
-      <div class="stat-row"><span class="stat-key">다음 생일까지</span><span class="stat-val teal" id="r-birthday">-</span></div>
-    </div>
-
-    <div class="card" style="animation-delay:0.15s">
-      <div class="card-title">⏳ 인생 진행률</div>
-      <div class="progress-pct" id="life-pct">0%</div>
-      <div class="progress-info"><span>출생</span><span id="life-exp-label">기대수명</span></div>
-      <div class="progress-bar"><div class="progress-fill" id="life-bar" style="width:0%"></div></div>
-      <div style="margin-top:14px">
-        <div class="stat-row"><span class="stat-key">남은 날</span><span class="stat-val highlight" id="r-remain-days">-</span></div>
-        <div class="stat-row"><span class="stat-key">남은 주말</span><span class="stat-val" id="r-weekends">-</span></div>
-        <div class="stat-row"><span class="stat-key">남은 벚꽃 시즌</span><span class="stat-val" id="r-cherry">-</span></div>
-        <div class="stat-row"><span class="stat-key">남은 여름</span><span class="stat-val" id="r-summer">-</span></div>
-      </div>
-    </div>
-
-    <div class="ad-slot">AD · 광고 영역</div>
-
-    <div class="card" style="animation-delay:0.2s">
-      <div class="card-title">📊 대한민국 평균 비교</div>
-      <div id="compare-list"></div>
-    </div>
-
-    <div class="card" style="animation-delay:0.25s">
-      <div class="card-title">🇰🇷 대한민국에서 나의 위치</div>
-      <div class="pop-row"><span class="pop-icon">⬆️</span><span class="pop-text">나보다 나이 많은 사람</span><span class="pop-val" id="older-pct">-</span></div>
-      <div class="pop-row"><span class="pop-icon">⬇️</span><span class="pop-text">나보다 어린 사람</span><span class="pop-val" id="younger-pct">-</span></div>
-      <div class="pop-row"><span class="pop-icon">🎂</span><span class="pop-text">같은 연도 출생자 (통계청)</span><span class="pop-val" id="same-year">-</span></div>
-      <div class="pop-row"><span class="pop-icon">🎉</span><span class="pop-text">같은 생일 추정 인원</span><span class="pop-val" id="same-bday">-</span></div>
-    </div>
-
-    <div class="card" style="animation-delay:0.3s">
-      <div class="card-title">🕰️ 내가 태어났을 때</div>
-      <div id="history-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 짜장면: 한국물가정보·통계청 / 최저임금: 고용노동부 / 삼성전자: 수정주가</p>
-    </div>
-
-    <div class="card" style="animation-delay:0.31s">
-      <div class="card-title">⚡ 내가 살아온 시대의 큰 사건들</div>
-      <div id="bigevents-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">🇰🇷 한국 / 🌍 세계 · 한국 현대사·세계사 주요 사건 기준</p>
-    </div>
-
-    <div class="ad-slot">AD · 광고 영역</div>
-
-    <div class="card" style="animation-delay:0.33s">
-      <div class="card-title">🍜🍦🍘 내 생년의 라면·과자·아이스크림</div>
-      <div id="snack-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 위키백과·제조사 공식자료 기반</p>
-    </div>
-
-    <div class="card" style="animation-delay:0.36s">
-      <div class="card-title">🎤 K-POP 아이돌 데뷔 연도</div>
-      <div id="idol-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 나무위키·위키백과 공식 데뷔일 기준</p>
-    </div>
-
-    <div class="card" style="animation-delay:0.39s">
-      <div class="card-title">📺 내가 초등학교 때 본 만화</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="anime-label"></div>
-      <div id="anime-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 공중파·케이블 첫 방영연도 기준</p>
-    </div>
-
-    <div class="card" style="animation-delay:0.42s">
-      <div class="card-title">🎮 내가 초등~중학교 때 유행한 게임</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="game-label"></div>
-      <div id="game-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 서비스 시작 기준</p>
-    </div>
-
-    <div class="card" style="animation-delay:0.45s">
-      <div class="card-title">📱 내가 중고등학교 때 핸드폰</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="phone-label"></div>
-      <div id="phone-list"></div>
-      <p style="font-size:10px;color:#333;margin-top:12px">* 한국 출시·상용화 기준</p>
-    </div>
-
-    <div class="ad-slot">AD · 광고 영역</div>
-
-    <div class="share-section" style="animation-delay:0.4s">
-      <h3>📤 내 연대기 공유하기</h3>
-
-      <!-- 공유 카드 미리보기 -->
-      <div class="share-card-wrap">
-        <div id="share-card">
-          <div class="sc-site">그때 그 시절 · MY CHRONICLE</div>
-          <div class="sc-name" id="sc-name">--</div>
-          <div class="sc-score" id="sc-score">--</div>
-          <div class="sc-rank" id="sc-rank">--</div>
-          <div class="sc-tags" id="sc-tags"></div>
-          <div class="sc-story" id="sc-story"></div>
-          <div class="sc-bottom">pickjin.github.io/chronology</div>
-        </div>
-      </div>
-
-      <div class="share-btns">
-        <button class="share-btn" onclick="saveCardImage()" style="background:rgba(201,169,110,0.1);border-color:var(--accent2);color:var(--accent2)">🖼️ 이미지 저장</button>
-        <button class="share-btn" onclick="shareKakao()" style="background:#fee500;border-color:#fee500;color:#391b1b;font-weight:700">💛 카카오톡</button>
-        <button class="share-btn" onclick="copyStoryLink()">🔗 링크 복사</button>
-      </div>
-    </div>
-
-    <p class="disclaimer">
-      본 결과는 개인 예측이 아니라 공공통계 기반 참고 정보입니다.<br>
-      건강·수명·질병 관련 내용은 의학적 진단이 아닙니다.<br>
-      재미용 점수는 실제 통계 점수와 무관합니다.<br>
-      출처: 통계청, 보건복지부, 고용노동부, 한국물가정보
-    </p>
-  </div>
-  <button class="restart-btn" onclick="goMakeMyOwn()">✏️ 내 추억 만들기</button>
+<!-- RIGHT CONFIGURATOR: Multi-step Options Stream (5 cols on lg) -->
+<section class="lg:col-span-5 flex flex-col gap-8 pb-32">
+<!-- Header Info -->
+<div class="flex flex-col gap-1.5">
+<span class="font-caption-meta text-caption-meta text-primary font-semibold uppercase tracking-wider">Bespoke Production</span>
+<h1 class="font-display-lg text-display-lg text-ink-primary font-bold tracking-tight">커스텀 케이스 스튜디오</h1>
+<p class="font-body-default text-body-default text-ink-muted-secondary">단 3분 만에 완성되는 인더스트리얼 등급의 나만의 하드웨어 케이스.</p>
 </div>
-
+<!-- STEP 1: Phone Model Selection -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-neutral-900 text-on-primary font-caption-micro text-caption-micro flex items-center justify-center font-bold">1</span>
+<h2 class="font-label-ui-strong text-label-ui-strong text-ink-primary">기기 모델 선택</h2>
+</div>
+<span class="font-caption-meta text-caption-meta text-primary font-medium" id="selectedModelLabel">iPhone 16 Pro</span>
+</div>
+<!-- Brand Switcher Tabs -->
+<div class="grid grid-cols-2 p-1 rounded-full bg-canvas-parchment">
+<button class="py-1.5 text-center rounded-full bg-canvas-pure font-label-ui-strong text-label-ui-strong text-ink-primary shadow-sm transition-all" id="tabBrandApple" type="button">Apple iPhone</button>
+<button class="py-1.5 text-center rounded-full font-label-ui text-label-ui text-ink-tertiary hover:text-ink-primary transition-all" id="tabBrandSamsung" type="button">Samsung Galaxy</button>
+</div>
+<!-- Model Chips Grid -->
+<div class="grid grid-cols-2 gap-2" id="modelChipsContainer">
+<button class="model-chip px-4 py-3 rounded-full text-left bg-canvas-pure hover:bg-canvas-parchment text-ink-primary font-caption-meta text-caption-meta transition-all flex items-center justify-between" data-model="iPhone 16 Pro Max" type="button">
+<span>iPhone 16 Pro Max</span>
+<span class="text-ink-tertiary font-caption-micro">6.9"</span>
+</button>
+<button class="model-chip px-4 py-3 rounded-full text-left bg-primary text-on-primary font-caption-meta text-caption-meta transition-all flex items-center justify-between shadow-sm" data-model="iPhone 16 Pro" type="button">
+<span class="font-semibold">iPhone 16 Pro</span>
+<span class="text-on-primary-container font-caption-micro">6.3"</span>
+</button>
+<button class="model-chip px-4 py-3 rounded-full text-left bg-canvas-pure hover:bg-canvas-parchment text-ink-primary font-caption-meta text-caption-meta transition-all flex items-center justify-between" data-model="iPhone 16" type="button">
+<span>iPhone 16</span>
+<span class="text-ink-tertiary font-caption-micro">6.1"</span>
+</button>
+<button class="model-chip px-4 py-3 rounded-full text-left bg-canvas-pure hover:bg-canvas-parchment text-ink-primary font-caption-meta text-caption-meta transition-all flex items-center justify-between" data-model="iPhone 15 Pro" type="button">
+<span>iPhone 15 Pro</span>
+<span class="text-ink-tertiary font-caption-micro">6.1"</span>
+</button>
+</div>
+</div>
+<!-- STEP 2: Case Material & Finish -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-neutral-900 text-on-primary font-caption-micro text-caption-micro flex items-center justify-center font-bold">2</span>
+<h2 class="font-label-ui-strong text-label-ui-strong text-ink-primary">케이스 아키텍처 및 마감</h2>
+</div>
+<span class="font-caption-meta text-caption-meta text-ink-tertiary">TPU + 폴리카보네이트</span>
+</div>
+<!-- Case Type Selector Cards -->
+<div class="grid grid-cols-1 gap-2.5">
+<!-- Option 1: MagSafe Impact Bumper -->
+<div class="case-type-card p-3.5 rounded-lg bg-surface-container-low hover:bg-canvas-parchment cursor-pointer transition-all flex items-center justify-between" data-case-type="bumper" data-price="28900">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-canvas-pure flex items-center justify-center text-ink-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div>
+<div class="font-label-ui-strong text-label-ui-strong text-ink-primary">맥세이프 임팩트 범퍼 (Impact Bumper)</div>
+<div class="font-caption-meta text-caption-meta text-ink-muted-secondary">3m 밀리터리 드롭테스트 인증 · 에어쿠션 코너</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-caption-meta text-caption-meta font-semibold text-primary">+₩4,000</span>
+</div>
+</div>
+<!-- Option 2: Ultra Slim Matte (Default) -->
+<div class="case-type-card p-3.5 rounded-lg bg-primary-fixed/40 cursor-pointer transition-all flex items-center justify-between" data-case-type="slim" data-price="24900">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]">smartphone</span>
+</div>
+<div>
+<div class="font-label-ui-strong text-label-ui-strong text-ink-primary">울트라 슬림 매트 (Ultra Slim Matte)</div>
+<div class="font-caption-meta text-caption-meta text-ink-muted-secondary">1.1mm 극한의 가벼움 · 지문 방지 코팅</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">기본 포함</span>
+</div>
+</div>
+<!-- Option 3: Crystal Clear -->
+<div class="case-type-card p-3.5 rounded-lg bg-surface-container-low hover:bg-canvas-parchment cursor-pointer transition-all flex items-center justify-between" data-case-type="clear" data-price="24900">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-canvas-pure flex items-center justify-center text-ink-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">water_drop</span>
+</div>
+<div>
+<div class="font-label-ui-strong text-label-ui-strong text-ink-primary">크리스탈 투명 하드 (Crystal Clear)</div>
+<div class="font-caption-meta text-caption-meta text-ink-muted-secondary">황변 저항 레진 · 기기 본연의 컬러 투과</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">기본 포함</span>
+</div>
+</div>
+</div>
+<!-- Surface Texture Toggle -->
+<div class="mt-2 flex flex-col gap-2">
+<span class="font-caption-meta text-caption-meta text-ink-muted-secondary font-medium">표면 질감 마감</span>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2.5 px-4 rounded-full bg-canvas-pure text-ink-primary font-caption-meta text-caption-meta transition-all shadow-sm flex items-center justify-center gap-2" id="finishMatteBtn" type="button">
+<span class="w-2.5 h-2.5 rounded-full bg-neutral-400"></span>
+<span class="font-semibold">무광 사틴 벨벳 (Satin Matte)</span>
+</button>
+<button class="py-2.5 px-4 rounded-full bg-canvas-parchment text-ink-muted-secondary font-caption-meta text-caption-meta transition-all flex items-center justify-center gap-2 hover:bg-canvas-pure" id="finishGlossBtn" type="button">
+<span class="w-2.5 h-2.5 rounded-full bg-neutral-200"></span>
+<span>고광택 글래스 (High Gloss)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- STEP 3: Artwork & Customization -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-neutral-900 text-on-primary font-caption-micro text-caption-micro flex items-center justify-center font-bold">3</span>
+<h2 class="font-label-ui-strong text-label-ui-strong text-ink-primary">커스텀 아트워크 &amp; 텍스트</h2>
+</div>
+<div class="flex items-center gap-1 text-emerald-600 font-caption-micro text-caption-micro">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+              출력 해상도: 완벽함 (300+ DPI)
+            </div>
+</div>
+<!-- Artwork Source Switcher Tabs -->
+<div class="flex items-center gap-1 p-1 rounded-full bg-canvas-parchment">
+<button class="flex-1 py-1.5 text-center rounded-full bg-canvas-pure font-label-ui text-label-ui text-ink-primary shadow-sm font-semibold transition-all" id="artTabUpload" type="button">직접 사진 업로드</button>
+<button class="flex-1 py-1.5 text-center rounded-full font-label-ui text-label-ui text-ink-tertiary hover:text-ink-primary transition-all" id="artTabText" type="button">텍스트 &amp; 이니셜</button>
+<button class="flex-1 py-1.5 text-center rounded-full font-label-ui text-label-ui text-ink-tertiary hover:text-ink-primary transition-all" id="artTabPreset" type="button">자판기 베스트셀러</button>
+</div>
+<!-- Tab Content 1: Upload Zone (Apple Style Minimalist) -->
+<div class="flex flex-col gap-3" id="uploadContentPanel">
+<div class="w-full p-6 rounded-lg bg-surface-container-low flex flex-col items-center justify-center gap-2.5 text-center cursor-pointer hover:bg-surface-container transition-colors relative overflow-hidden group">
+<input accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" id="fileUploadInput" type="file"/>
+<div class="w-10 h-10 rounded-full bg-canvas-pure flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">사진 파일을 드래그하거나 클릭하여 업로드</span>
+<span class="font-caption-micro text-caption-micro text-ink-tertiary">PNG, JPG, HEIC 지원 (최대 45MB 초고해상도 지원)</span>
+</div>
+</div>
+<!-- Image Scale & Fit Sliders -->
+<div class="p-4 rounded-lg bg-canvas-parchment flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-caption-meta text-caption-meta text-ink-muted-secondary">이미지 크기 및 배율 조절</span>
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary" id="scaleSliderValue">100%</span>
+</div>
+<input class="w-full accent-primary cursor-pointer" id="imageScaleRange" max="200" min="80" type="range" value="100"/>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption-micro text-caption-micro text-ink-tertiary">위치 빠른 정렬</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-canvas-pure text-ink-primary text-caption-micro font-caption-micro hover:bg-surface-container" id="alignTopBtn" type="button">상단</button>
+<button class="px-2 py-1 rounded bg-canvas-pure text-ink-primary text-caption-micro font-caption-micro hover:bg-surface-container" id="alignCenterBtn" type="button">중앙</button>
+<button class="px-2 py-1 rounded bg-canvas-pure text-ink-primary text-caption-micro font-caption-micro hover:bg-surface-container" id="alignBottomBtn" type="button">하단</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Tab Content 2: Text / Initials (Hidden by default) -->
+<div class="hidden flex-col gap-3" id="textContentPanel">
+<div class="flex flex-col gap-1.5">
+<label class="font-caption-meta text-caption-meta text-ink-muted-secondary" for="textCustomInput">각인 텍스트 입력 (최대 16자)</label>
+<input class="w-full px-4 py-2.5 rounded-full bg-canvas-pure text-ink-primary font-caption-meta text-caption-meta outline-none shadow-sm focus:ring-2 focus:ring-action-focus" id="textCustomInput" maxlength="16" placeholder="영문, 숫자, 기호 입력" type="text" value="STUDIO-01"/>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-caption-meta text-caption-meta text-ink-muted-secondary">서체 스타일:</span>
+<button class="font-selector px-3 py-1 rounded-full bg-primary text-on-primary font-caption-meta text-caption-meta font-medium" data-font="sans" type="button">Grotesque</button>
+<button class="font-selector px-3 py-1 rounded-full bg-canvas-parchment text-ink-muted-secondary font-caption-meta text-caption-meta" data-font="serif" type="button">Serif Elegance</button>
+<button class="font-selector px-3 py-1 rounded-full bg-canvas-parchment text-ink-muted-secondary font-caption-meta text-caption-meta" data-font="mono" type="button">Mono Precision</button>
+</div>
+</div>
+<!-- Tab Content 3: Presets Gallery (Hidden by default) -->
+<div class="hidden grid-cols-3 gap-2" id="presetContentPanel">
+<div class="preset-card p-2 rounded-lg bg-canvas-parchment hover:bg-surface-container cursor-pointer flex flex-col items-center gap-1.5" data-preset-img="bauhaus">
+<div class="w-full aspect-square rounded-md overflow-hidden bg-neutral-200">
+<img class="w-full h-full object-cover" data-alt="Bauhaus Swiss architecture graphic poster minimalist typography and ultramarine circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCk5tl01Gq1X4AeHpW6BHTHgYv0Ciw8PkAuhTnN_ev3cj_KtNV3t1nEea9pPg4j0HXqmQeDfqQyd0VTf_beeHBXZtn5pBdOUjYYGxgcTEIYlRmbzJ8JZC9CElVvhrsQbl4m8lKVPVvncCXB7KGM_KOE4KqGR2K9Gu903fPt0MA1bx7Dxvamn5k9lCCJRctXm9oyCd9x32WiGmU5JNa50hwVyHyr_RU7ne-mh56iqFz"/>
+</div>
+<span class="font-caption-micro text-caption-micro text-ink-primary font-medium">바우하우스 01</span>
+</div>
+<div class="preset-card p-2 rounded-lg bg-canvas-parchment hover:bg-surface-container cursor-pointer flex flex-col items-center gap-1.5" data-preset-img="mono">
+<div class="w-full aspect-square rounded-md overflow-hidden bg-neutral-200">
+<img class="w-full h-full object-cover" data-alt="Monochrome dark cyber topography contour line minimalist black map illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtiIz_WRwLKPZZ67NCOQulmyM3O10EqNQK1zEVHlyMtpBjXVEojvLfoJBRSPDqcrm3bypxLl93z7-CFOSOvCRU1ZvFKab0QT50KVybPmC73DxbENOQr0iK3yka5vTLhK4oCZUv20wnQk3eLqjjlTd4x3Y4g_4VxZrA6Vq-ap-XoA5OW5xhZvUzsl5Zyuzc9iwLKDXb51R5dp7HJBLQx8dhNL7j13nnOKQ4LwLzfqcf"/>
+</div>
+<span class="font-caption-micro text-caption-micro text-ink-primary font-medium">다크 지형도</span>
+</div>
+<div class="preset-card p-2 rounded-lg bg-canvas-parchment hover:bg-surface-container cursor-pointer flex flex-col items-center gap-1.5" data-preset-img="retro">
+<div class="w-full aspect-square rounded-md overflow-hidden bg-neutral-200">
+<img class="w-full h-full object-cover" data-alt="Pastel gradient aura aesthetic warm sunset glow minimal modern fluid abstract art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF-cGSRgmp8Fdjnfu6aYY-WNBLuSba-WhYcFMPhsI9n3tO-tAupi2YOwG-_F-ZqBiMlOoGKHgRkTEfzhb-fRIswFfaf7gvM930HoPvSIn6pLnkFk1_2uqr8EZOtsawFc5khRbxsl4y7rM9roDwEKEY-WXxRTsdERVPXDnNXYhrr-UgVE8CicuNv22x8nDvstWWeg1aWSgHtgCNI_3trZXtQwCwigLAyeVmybe7L7cV"/>
+</div>
+<span class="font-caption-micro text-caption-micro text-ink-primary font-medium">오로라 그라디언트</span>
+</div>
+</div>
+</div>
+<!-- STEP 4: Offline Vending Machine Integration & Production Specs -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-neutral-900 text-on-primary font-caption-micro text-caption-micro flex items-center justify-center font-bold">4</span>
+<h2 class="font-label-ui-strong text-label-ui-strong text-ink-primary">수령 및 오프라인 키오스크 연동</h2>
+</div>
+<!-- Highlight Banner for Vending Kiosk Sync -->
+<div class="p-4 rounded-lg bg-primary-fixed/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[22px] mt-0.5">local_convenience_store</span>
+<div class="flex flex-col gap-1">
+<span class="font-caption-meta text-caption-meta font-bold text-ink-primary">전국 85개 지하철역 &amp; 플래그십 자판기 즉시 픽업 가능</span>
+<p class="font-caption-meta text-caption-meta text-ink-muted-secondary">웹에서 디자인 완료 후 발급되는 6자리 인쇄 코드 또는 QR을 자판기에 스캔하면 즉석에서 3분 만에 초고화질 실물 케이스가 제작됩니다.</p>
+</div>
+</div>
+<!-- Delivery Mode Radio Chips -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="delivery-card p-3 rounded-lg bg-primary-fixed/40 cursor-pointer flex items-center gap-3" id="deliveryKioskOption">
+<div class="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">자판기 즉시 픽업 (QR)</span>
+<span class="font-caption-micro text-caption-micro text-emerald-700 font-medium">제작 대기 없음 · 3분 완성</span>
+</div>
+</div>
+<div class="delivery-card p-3 rounded-lg bg-surface-container-low hover:bg-canvas-parchment cursor-pointer flex items-center gap-3" id="deliveryShipOption">
+<div class="w-4 h-4 rounded-full bg-neutral-300 flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">택배 수령 (무료 배송)</span>
+<span class="font-caption-micro text-caption-micro text-ink-tertiary">오늘 16:00 전 주문 시 당일 발송</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- FLOATING STICKY ACTION BAR (Parchment Frosted Glass) -->
+<aside class="fixed bottom-4 left-0 right-0 z-40 px-4 pointer-events-none flex justify-center">
+<div class="pointer-events-auto w-full max-w-4xl p-3 sm:px-6 sm:py-3.5 rounded-full bg-canvas-parchment/90 backdrop-blur-2xl shadow-xl flex items-center justify-between gap-4">
+<!-- Price & Spec Metadata -->
+<div class="flex items-center gap-3 sm:gap-6">
+<div class="flex flex-col">
+<span class="font-caption-micro text-caption-micro text-ink-tertiary uppercase tracking-wider">합계 금액 (부가세 포함)</span>
+<div class="flex items-baseline gap-1">
+<span class="font-title-tagline text-title-tagline font-bold text-ink-primary" id="totalPriceDisplay">₩24,900</span>
+<span class="font-caption-micro text-caption-micro text-emerald-600 font-medium">무료 인쇄 혜택</span>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 pl-4 border-l border-neutral-300">
+<span class="material-symbols-outlined text-ink-tertiary text-[18px]">timer</span>
+<div class="flex flex-col">
+<span class="font-caption-micro text-caption-micro text-ink-tertiary">인쇄 소요 시간</span>
+<span class="font-caption-meta text-caption-meta font-semibold text-ink-primary">약 3분 10초</span>
+</div>
+</div>
+</div>
+<!-- Main Action Pill CTA Button -->
+<div class="flex items-center gap-2">
+<button class="hidden md:flex px-4 py-2.5 rounded-full bg-canvas-pure hover:bg-surface-container text-ink-primary font-caption-meta text-caption-meta font-medium transition-colors shadow-sm items-center gap-1.5" id="previewKioskCodeBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">qr_code</span>
+          키오스크 테스트
+        </button>
+<button class="px-6 sm:px-8 py-3 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-ui-strong text-label-ui-strong transition-all transform active:scale-95 shadow-md flex items-center gap-2" id="primarySubmitBtn" type="button">
+<span>인쇄 파일 생성 및 주문</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- KIOSK QR POPUP MODAL (HIDDEN BY DEFAULT) -->
+<dialog class="p-0 rounded-2xl backdrop:bg-surface-void/50 shadow-2xl bg-canvas-pure max-w-sm w-full mx-auto" id="kioskModal">
+<div class="p-6 flex flex-col items-center text-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]">qr_code_scanner</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-lead text-headline-lead font-bold text-ink-primary">자판기 출력 준비 완료</h3>
+<p class="font-caption-meta text-caption-meta text-ink-muted-secondary">전국 CaseForge 자동 인쇄 자판기 카메라에 아래 QR 코드를 스캔하세요.</p>
+</div>
+<!-- Rendered High Precision QR Code Mockup -->
+<div class="p-4 rounded-xl bg-canvas-parchment flex flex-col items-center gap-2 shadow-inner">
+<div class="w-40 h-40 bg-white p-2 rounded-lg flex items-center justify-center shadow-sm">
+<svg class="w-full h-full text-neutral-900" fill="currentColor" viewbox="0 0 100 100">
+<rect fill="none" height="25" stroke="currentColor" stroke-width="4" width="25" x="5" y="5"></rect>
+<rect height="13" width="13" x="11" y="11"></rect>
+<rect fill="none" height="25" stroke="currentColor" stroke-width="4" width="25" x="70" y="5"></rect>
+<rect height="13" width="13" x="76" y="11"></rect>
+<rect fill="none" height="25" stroke="currentColor" stroke-width="4" width="25" x="5" y="70"></rect>
+<rect height="13" width="13" x="11" y="76"></rect>
+<circle cx="50" cy="50" r="5"></circle>
+<rect height="8" width="8" x="40" y="20"></rect>
+<rect height="15" width="6" x="55" y="25"></rect>
+<rect height="6" width="12" x="25" y="45"></rect>
+<rect height="8" width="15" x="65" y="50"></rect>
+<rect height="12" width="10" x="45" y="70"></rect>
+<rect height="12" width="12" x="70" y="75"></rect>
+</svg>
+</div>
+<div class="font-headline-lead text-headline-lead font-mono tracking-widest text-ink-primary font-bold">CF-8924-KR</div>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-ink-primary font-label-ui-strong text-label-ui-strong transition-colors" id="closeModalBtn" type="button">
+        닫기
+      </button>
+</div>
+</dialog>
+</div>
 <script>
-// ── 전역 변수 ──
-var selectedGender = 'M';
-var selectedRegion = '';
-var _storyText = '';
-var _shareUrl = '';
+  // Interactive Studio Configurator Logic
+  (function initStudio() {
+    let currentScale = 1.0;
+    let isSafeAreaVisible = false;
+    let isMagsafeVisible = true;
+    let activePrice = 24900;
 
-function selectGender(g, el) {
-  selectedGender = g;
-  document.querySelectorAll('.gender-btn').forEach(function(b) { b.classList.remove('active'); });
-  el.classList.add('active');
-}
+    // Elements
+    const artworkImg = document.getElementById('caseArtworkImage');
+    const renderedText = document.getElementById('renderedText');
+    const textInput = document.getElementById('textCustomInput');
+    const safeAreaGrid = document.getElementById('safeAreaGrid');
+    const magsafeRing = document.getElementById('magsafeRing');
+    const scaleSlider = document.getElementById('imageScaleRange');
+    const scaleSliderValue = document.getElementById('scaleSliderValue');
+    const zoomLevelIndicator = document.getElementById('zoomLevelIndicator');
+    const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+    const selectedModelLabel = document.getElementById('selectedModelLabel');
+    const fileUpload = document.getElementById('fileUploadInput');
+    const finishGlare = document.getElementById('finishGlare');
 
-function toggleDetail(btn) {
-  var sec = document.getElementById('detail-section');
-  sec.classList.toggle('open');
-  btn.textContent = sec.classList.contains('open')
-    ? '✨ 첫 경험의 기억 접기 ▲'
-    : '✨ 첫 경험의 기억 추가하기 ▼';
-}
-
-// 연대별 첫 핸드폰 모델 (중학교 시절 만 13~15세 기준)
-var PHONE_MODELS = {
-  1982:["삼성 SH-100 (벽돌폰)","금성 LG-F100","대우 DH-100"],
-  1985:["삼성 SCH-100","LG 화통 LDP-200","현대 HDW-100"],
-  1988:["삼성 애니콜 SH-770","LG 프리웨이","현대 큐리텔"],
-  1992:["삼성 애니콜 SCH-100","LG 싸이언 LP-2000","SK 스카이 IM-100"],
-  1995:["삼성 애니콜 SGH-200","LG 싸이언 LP-3000","팬택 PH-S1000","SK 스카이 IM-2300"],
-  1998:["삼성 애니콜 SCH-A100","LG 싸이언 KP-1000","팬택 PH-S3000","SK 스카이 IM-5000","모토로라 스타택"],
-  2001:["삼성 애니콜 SCH-X430","LG 싸이언 KP-8200","팬택 PH-K1000","SK 스카이 IM-7000","모토로라 V70"],
-  2003:["삼성 애니콜 SPH-E2300","LG 싸이언 KP-8400","팬택 IM-U100","SK 스카이 IM-8500","삼성 SGH-E700"],
-  2005:["삼성 SGH-Z130","LG 싸이언 KE800","팬택 IM-R100","SK 스카이 IM-S120","모토로라 레이저 V3"],
-  2007:["삼성 SPH-W3100","LG 뷰티 KU1000","팬택 IM-S460","SK 스카이 IM-U460","삼성 햅틱 SCH-W420"],
-  2009:["아이폰 3GS","삼성 옴니아2 SPH-M4650","LG 아레나 KM900","팬택 IM-A630","HTC 디자이어"],
-  2011:["갤럭시S2 SHW-M250S","아이폰4","LG 옵티머스 2X","팬택 베가 IM-A650","갤럭시 넥서스"],
-  2013:["갤럭시S4","아이폰5S","LG G2","팬택 베가 아이언","갤럭시 노트3"],
-  2015:["갤럭시S6","아이폰6S","LG G4","갤럭시 노트5","넥서스 6P"]
-};
-
-// 연대별 첫 온라인 게임 (초등~중학 만 10~14세 기준)
-var FIRST_GAMES = {
-  1982:["너구리","갤러그","팩맨","동키콩"],
-  1985:["슈퍼마리오","테트리스","너구리","갤러그"],
-  1988:["슈퍼마리오","테트리스","스트리트파이터2","소닉"],
-  1992:["스타크래프트","바람의나라","포트리스","디아블로"],
-  1995:["스타크래프트","바람의나라","리니지","포트리스","디아블로2"],
-  1997:["스타크래프트","리니지","포트리스","라그나로크","메이플스토리"],
-  1999:["스타크래프트","메이플스토리","카트라이더","리니지","라그나로크"],
-  2001:["메이플스토리","카트라이더","서든어택","스타크래프트","던전앤파이터"],
-  2003:["메이플스토리","카트라이더","서든어택","던전앤파이터","리그오브레전드"],
-  2005:["리그오브레전드","서든어택","메이플스토리","카트라이더","피파온라인"],
-  2007:["리그오브레전드","오버워치","배틀그라운드","피파온라인","서든어택"],
-  2010:["배틀그라운드","오버워치","리그오브레전드","마인크래프트","피파온라인"],
-  2012:["배틀그라운드","발로란트","로스트아크","오버워치2","피파온라인4"]
-};
-
-function handleCustom(selectEl, customId) {
-  var customInput = document.getElementById(customId);
-  if (!customInput) return;
-  if (selectEl.value === '__custom__') {
-    customInput.style.display = 'block';
-    customInput.focus();
-  } else {
-    customInput.style.display = 'none';
-    customInput.value = '';
-  }
-}
-
-function getSelectVal(selectId, customId) {
-  var sel = document.getElementById(selectId);
-  if (!sel) return '';
-  if (sel.value === '__custom__') {
-    var c = document.getElementById(customId);
-    return c ? c.value.trim() : '';
-  }
-  return sel.value;
-}
-
-// ── 데이터 ──
-// 한국 현대사 충격적 대형 사건 (연도별)
-var BIGEVENTS = {
-  1960:"1960.4 · 4·19 혁명",
-  1961:"1961.5 · 5·16 군사정변",
-  1972:"1972.10 · 10월 유신 선포",
-  1979:"1979.10 · 10·26 박정희 대통령 시해",
-  1980:"1980.5 · 5·18 광주 민주화 운동",
-  1983:"1983.9 · KAL기 격추 사건 (269명 사망)",
-  1987:"1987.6 · 6월 민주항쟁 / 11월 KAL 858 폭파",
-  1988:"1988.9 · 서울 올림픽 개최",
-  1994:"1994.10 · 성수대교 붕괴 (32명 사망)",
-  1995:"1995.6 · 삼풍백화점 붕괴 (502명 사망)",
-  1997:"1997.11 · IMF 외환위기 — 금 모으기 운동",
-  1999:"1999.6 · 씨랜드 화재, 인천 호프집 화재",
-  2002:"2002.6 · 한일 월드컵 4강 신화",
-  2003:"2003.2 · 대구 지하철 참사 (192명 사망)",
-  2007:"2007.12 · 태안 기름유출 사고",
-  2008:"2008.5 · 광우병 촛불집회",
-  2009:"2009.5 · 노무현 전 대통령 서거",
-  2010:"2010.3 천안함 / 11 연평도 포격",
-  2014:"2014.4 · 세월호 참사 (304명 사망)",
-  2016:"2016.10 · 박근혜 탄핵 촛불집회",
-  2017:"2017.3 · 박근혜 대통령 파면",
-  2020:"2020.2 · 코로나19 팬데믹 — 마스크 대란",
-  2022:"2022.10 · 이태원 참사 (159명 사망)",
-  2024:"2024.12 · 비상계엄 선포·해제, 대통령 탄핵",
-  2025:"2025.6 · 윤석열 파면, 이재명 대통령 당선"
-};
-
-function getBigEvent(year) {
-  var keys = Object.keys(BIGEVENTS).map(Number);
-  var closest = null, minDiff = 999;
-  for (var i=0; i<keys.length; i++) {
-    var diff = Math.abs(keys[i] - year);
-    if (diff < minDiff && diff <= 2) { minDiff = diff; closest = keys[i]; }
-  }
-  return closest ? {year:closest, event:BIGEVENTS[closest]} : null;
-}
-
-// 세계사 충격적 대형 사건
-var WORLDEVENTS = {
-  1969:"1969.7 · 아폴로 11호 달 착륙",
-  1979:"1979.2 이란 혁명 / 12 소련 아프간 침공",
-  1986:"1986.4 · 체르노빌 원전 사고",
-  1989:"1989.6 천안문 / 11 베를린 장벽 붕괴",
-  1991:"1991.1 걸프전 / 12 소련 붕괴",
-  1997:"1997.7 아시아 금융위기 / 8 다이애나비 사망",
-  2001:"2001.9 · 9·11 테러 — 세계가 바뀐 날",
-  2003:"2003.3 · 이라크 전쟁",
-  2008:"2008.9 · 리먼 브라더스 파산 — 금융위기",
-  2011:"2011.3 동일본 대지진 / 5 빈 라덴 사살",
-  2016:"2016.6 브렉시트 / 11 트럼프 당선",
-  2019:"2019.6 · 홍콩 시위",
-  2020:"2020.3 · 코로나19 세계 대유행",
-  2022:"2022.2 · 러시아-우크라이나 전쟁 발발",
-  2023:"2023 · 챗GPT·생성형 AI 혁명",
-  2024:"2024 · 전 세계 AI 열풍 가속",
-  2025:"2025.1 · 트럼프 2기 출범, 글로벌 관세 전쟁"
-};
-
-function getWorldEvent(year) {
-  var keys = Object.keys(WORLDEVENTS).map(Number);
-  var closest = null, minDiff = 999;
-  for (var i=0; i<keys.length; i++) {
-    var diff = Math.abs(keys[i] - year);
-    if (diff < minDiff && diff <= 2) { minDiff = diff; closest = keys[i]; }
-  }
-  return closest ? {year:closest, event:WORLDEVENTS[closest]} : null;
-}
-
-var STATS = {
-  lifeExpM: 80.6, lifeExpF: 86.6,
-  legalRetire: 60, youthAge: 34
-};
-
-var CURRENT_MARRIAGE_M = 33.9;
-var CURRENT_MARRIAGE_F = 31.6;
-
-var HISTORY = {
-  1970:{min:null,jja:100,pres:"박정희",event:"경부고속도로 개통",sam:"상장 전"},
-  1975:{min:null,jja:138,pres:"박정희",event:"베트남 종전, 석유파동",sam:"상장 전"},
-  1976:{min:null,jja:151,pres:"박정희",event:"수출 100억 달러 돌파",sam:"상장 전"},
-  1977:{min:null,jja:194,pres:"박정희",event:"부가가치세 도입",sam:"상장 전"},
-  1978:{min:null,jja:203,pres:"박정희",event:"중동 건설 붐",sam:"상장 전"},
-  1979:{min:null,jja:277,pres:"최규하",event:"10.26 사태",sam:"상장 전"},
-  1980:{min:null,jja:348,pres:"전두환",event:"5.18 민주화 운동",sam:"상장 전"},
-  1981:{min:null,jja:470,pres:"전두환",event:"컬러TV 방송 시작",sam:"상장 전"},
-  1982:{min:null,jja:529,pres:"전두환",event:"프로야구 출범 원년",sam:"상장 전"},
-  1983:{min:null,jja:528,pres:"전두환",event:"KAL기 격추 사건",sam:"상장 전"},
-  1984:{min:null,jja:572,pres:"전두환",event:"KBS 이산가족 찾기 방송",sam:"상장 전"},
-  1985:{min:null,jja:616,pres:"전두환",event:"플라자 합의",sam:"상장 전"},
-  1986:{min:null,jja:647,pres:"전두환",event:"서울 아시안게임, 신라면 출시",sam:"상장 전"},
-  1987:{min:null,jja:676,pres:"전두환",event:"6월 민주화 항쟁",sam:"상장 전"},
-  1988:{min:462,jja:759,pres:"노태우",event:"서울 올림픽, 최저임금제 시행",sam:"약 600원대"},
-  1989:{min:600,jja:899,pres:"노태우",event:"베를린 장벽 붕괴",sam:"약 900원대"},
-  1990:{min:690,jja:1073,pres:"노태우",event:"소련과 수교",sam:"약 1500원대"},
-  1991:{min:820,jja:1299,pres:"노태우",event:"소련 붕괴",sam:"약 2500원대"},
-  1992:{min:925,jja:1450,pres:"노태우",event:"중국과 수교",sam:"약 3000원대"},
-  1993:{min:1005,jja:1569,pres:"김영삼",event:"금융실명제 전격 실시",sam:"약 5000원대"},
-  1994:{min:1085,jja:1734,pres:"김영삼",event:"성수대교 붕괴",sam:"약 8000원대"},
-  1995:{min:1170,jja:2176,pres:"김영삼",event:"삼풍백화점 붕괴",sam:"약 12000원대"},
-  1996:{min:1275,jja:2279,pres:"김영삼",event:"OECD 가입",sam:"약 10000원대"},
-  1997:{min:1400,jja:2500,pres:"김영삼",event:"IMF 외환위기",sam:"약 5000원대"},
-  1998:{min:1485,jja:2500,pres:"김대중",event:"IMF 구제금융 시대",sam:"약 16000원대"},
-  1999:{min:1525,jja:2533,pres:"김대중",event:"IMF 조기 졸업, 벤처 붐",sam:"약 40000원대"},
-  2000:{min:1865,jja:2533,pres:"김대중",event:"남북 정상회담",sam:"약 24000원대"},
-  2001:{min:2100,jja:2583,pres:"김대중",event:"9.11 테러",sam:"약 20000원대"},
-  2002:{min:2275,jja:2917,pres:"김대중",event:"한일 월드컵 4강",sam:"약 38000원대"},
-  2003:{min:2510,jja:3083,pres:"노무현",event:"이라크 전쟁, 카드 대란",sam:"약 46000원대"},
-  2004:{min:2840,jja:3222,pres:"노무현",event:"노무현 탄핵 기각",sam:"약 60000원대"},
-  2005:{min:2840,jja:3222,pres:"노무현",event:"황우석 논문 조작",sam:"약 55000원대"},
-  2006:{min:3100,jja:3264,pres:"노무현",event:"북한 1차 핵실험",sam:"약 62000원대"},
-  2007:{min:3480,jja:3386,pres:"노무현",event:"아이폰 출시(미국)",sam:"약 68000원대"},
-  2008:{min:3770,jja:3829,pres:"이명박",event:"글로벌 금융위기",sam:"약 47000원대"},
-  2009:{min:4000,jja:3896,pres:"이명박",event:"신종플루 유행",sam:"약 78000원대"},
-  2010:{min:4110,jja:3945,pres:"이명박",event:"G20 서울 정상회의",sam:"약 90000원대"},
-  2011:{min:4320,jja:4220,pres:"이명박",event:"동일본 대지진",sam:"약 110000원대"},
-  2012:{min:4580,jja:4270,pres:"이명박",event:"싸이 강남스타일",sam:"약 130000원대"},
-  2013:{min:4860,jja:4345,pres:"박근혜",event:"박근혜 대통령 취임",sam:"약 140000원대"},
-  2014:{min:5210,jja:4400,pres:"박근혜",event:"세월호 참사",sam:"약 130000원대"},
-  2015:{min:5580,jja:4522,pres:"박근혜",event:"메르스 사태",sam:"약 128000원대"},
-  2016:{min:6030,jja:4649,pres:"박근혜",event:"촛불혁명, 탄핵 소추",sam:"약 170000원대"},
-  2017:{min:6470,jja:4798,pres:"문재인",event:"박근혜 파면",sam:"약 52000원(분할후)"},
-  2018:{min:7530,jja:5011,pres:"문재인",event:"평창 동계올림픽",sam:"약 50000원대"},
-  2019:{min:8350,jja:5201,pres:"문재인",event:"일본 수출규제",sam:"약 55000원대"},
-  2020:{min:8590,jja:5276,pres:"문재인",event:"코로나19 팬데믹",sam:"약 75000원대"},
-  2021:{min:8720,jja:5438,pres:"문재인",event:"백신 접종 시작",sam:"약 80000원대"},
-  2022:{min:9160,jja:6025,pres:"윤석열",event:"이태원 참사",sam:"약 61000원대"},
-  2023:{min:9620,jja:6301,pres:"윤석열",event:"고금리 장기화, AI 붐",sam:"약 71000원대"},
-  2024:{min:9860,jja:6500,pres:"윤석열",event:"윤석열 비상계엄, 탄핵",sam:"약 53000원대"}
-};
-
-var BTC = {
-  2009:"거래소 없음 (채굴로만 획득)",
-  2010:"약 100원 (0.08달러·피자 2판=1만BTC)",
-  2011:"약 1300원~39000원",
-  2012:"약 13000원~15700원",
-  2013:"약 17000원~163만원",
-  2014:"약 36만원~125만원",
-  2015:"약 21만원~50만원",
-  2016:"약 45만원~120만원",
-  2017:"약 120만원~2400만원 (버블 고점)",
-  2018:"약 700만원~2300만원",
-  2019:"약 400만원~1500만원",
-  2020:"약 900만원~3200만원",
-  2021:"약 3000만원~8200만원 (역대 최고)",
-  2022:"약 2000만원~6000만원",
-  2023:"약 2200만원~5700만원",
-  2024:"약 5500만원~15000만원"
-};
-
-var SKH = {
-  1996:"약 20000원대 (현대전자)",
-  1997:"약 5000원대 (IMF 폭락)",
-  1998:"약 2000원대",
-  1999:"약 15000원대",
-  2000:"약 8000원대",
-  2001:"약 1000원대 (하이닉스반도체)",
-  2002:"약 280원 (감자 직후)",
-  2003:"약 5600원",
-  2004:"약 11650원",
-  2005:"약 20000원대",
-  2006:"약 36000원대",
-  2007:"약 30000원대",
-  2008:"약 6700원",
-  2009:"약 15000원대",
-  2010:"약 25000원대",
-  2011:"약 22000원대",
-  2012:"약 25000원대 (SK 인수)",
-  2013:"약 35000원대",
-  2014:"약 46000원~50700원",
-  2015:"약 30000원대",
-  2016:"약 25000원~45000원",
-  2017:"약 80000원 돌파",
-  2018:"약 97700원 (역대 최고)",
-  2019:"약 70000원대",
-  2020:"약 70000원~130500원",
-  2021:"약 130500원 (1월 최고)",
-  2022:"약 60000원대",
-  2023:"약 90000원대 (HBM)",
-  2024:"약 170000원~200000원"
-};
-
-var SNACKS = [
-  {year:1963,name:"삼양라면",type:"라면",desc:"한국 최초 인스턴트 라면"},
-  {year:1970,name:"부라보콘",type:"아이스크림",desc:"해태제과, 최장수 콘 아이스크림"},
-  {year:1971,name:"새우깡",type:"과자",desc:"한국 최초 스낵 과자, 농심"},
-  {year:1974,name:"초코파이",type:"과자",desc:"오리온, 누적매출 2조원 1위"},
-  {year:1974,name:"투게더",type:"아이스크림",desc:"빙그레, 국민 패밀리 아이스크림"},
-  {year:1975,name:"맛동산",type:"과자",desc:"해태제과, 50년 장수 과자"},
-  {year:1975,name:"누가바",type:"아이스크림",desc:"해태제과 스테디셀러"},
-  {year:1976,name:"오징어땅콩",type:"과자",desc:"해태제과 스테디셀러"},
-  {year:1976,name:"비비빅",type:"아이스크림",desc:"빙그레, 국민 팥 아이스크림"},
-  {year:1976,name:"바밤바",type:"아이스크림",desc:"해태제과 참외맛"},
-  {year:1976,name:"쌍쌍바",type:"아이스크림",desc:"해태제과, 나눠먹는 아이스크림"},
-  {year:1979,name:"아맛나",type:"아이스크림",desc:"롯데삼강"},
-  {year:1981,name:"빠삐코",type:"아이스크림",desc:"롯데삼강, 초코 쭈쭈바 원조"},
-  {year:1982,name:"육개장사발면",type:"라면",desc:"농심, 용기면 대중화"},
-  {year:1983,name:"빼빼로",type:"과자",desc:"롯데제과"},
-  {year:1983,name:"꼬깔콘",type:"과자",desc:"롯데제과 옥수수 과자"},
-  {year:1983,name:"죠스바",type:"아이스크림",desc:"롯데제과"},
-  {year:1983,name:"돼지바",type:"아이스크림",desc:"롯데삼강, 30년 장수"},
-  {year:1984,name:"포카칩",type:"과자",desc:"오리온 감자칩 원조"},
-  {year:1985,name:"스크류바",type:"아이스크림",desc:"롯데제과"},
-  {year:1986,name:"신라면",type:"라면",desc:"농심, 매운 라면의 상징 (10월)"},
-  {year:1986,name:"수박바",type:"아이스크림",desc:"롯데제과, 수박 모양"},
-  {year:1988,name:"바나나킥",type:"과자",desc:"농심 바나나맛"},
-  {year:1989,name:"콘칩",type:"과자",desc:"오리온 콘 스낵"},
-  {year:1989,name:"더위사냥",type:"아이스크림",desc:"해태제과, 국민 팥빙수"},
-  {year:1990,name:"안성탕면",type:"라면",desc:"농심, 구수한 국물"},
-  {year:1993,name:"구구콘",type:"아이스크림",desc:"롯데제과"},
-  {year:2012,name:"불닭볶음면",type:"라면",desc:"삼양, 글로벌 불닭 열풍"},
-  {year:2014,name:"허니버터칩",type:"과자",desc:"해태제과, 2014년 품귀 대란"},
-  {year:2023,name:"먹태깡",type:"과자",desc:"농심, 2023년 최대 히트작"}
-];
-
-var IDOLS = [
-  {year:1992,name:"서태지와 아이들",type:"보이그룹",desc:"한국 대중음악의 판도를 바꾼 전설"},
-  {year:1996,name:"H.O.T.",type:"보이그룹",desc:"SM, 한국 아이돌 문화의 원조"},
-  {year:1997,name:"젝스키스",type:"보이그룹",desc:"대성기획, H.O.T. 최대 라이벌"},
-  {year:1997,name:"S.E.S.",type:"걸그룹",desc:"SM, 1세대 걸그룹의 전설"},
-  {year:1997,name:"베이비복스",type:"걸그룹",desc:"DR뮤직"},
-  {year:1998,name:"핑클",type:"걸그룹",desc:"DSP, S.E.S. 최대 라이벌"},
-  {year:1998,name:"신화",type:"보이그룹",desc:"SM, 최장수 아이돌"},
-  {year:1998,name:"코요태",type:"혼성그룹",desc:"12월 데뷔"},
-  {year:1999,name:"god",type:"보이그룹",desc:"JYP, 국민 오빠"},
-  {year:2003,name:"TVXQ(동방신기)",type:"보이그룹",desc:"SM, 2세대 시작"},
-  {year:2006,name:"빅뱅",type:"보이그룹",desc:"YG, 2세대 대표"},
-  {year:2007,name:"소녀시대",type:"걸그룹",desc:"SM, 2세대 걸그룹 전설"},
-  {year:2007,name:"원더걸스",type:"걸그룹",desc:"JYP, Tell Me 열풍"},
-  {year:2012,name:"EXO",type:"보이그룹",desc:"SM, 3세대 시작"},
-  {year:2013,name:"BTS",type:"보이그룹",desc:"빅히트, 글로벌 K팝 신화"},
-  {year:2016,name:"BLACKPINK",type:"걸그룹",desc:"YG, 글로벌 걸그룹 1위"}
-];
-
-var ANIME = [
-  {year:1981,name:"은하철도 999",ch:"MBC",desc:"철이와 메텔의 우주 여행"},
-  {year:1983,name:"마징가Z",ch:"KBS",desc:"로봇 만화의 원조"},
-  {year:1985,name:"캔디",ch:"KBS",desc:"소녀 만화의 고전"},
-  {year:1987,name:"달려라 하니",ch:"MBC",desc:"최고 시청률 43%"},
-  {year:1987,name:"머털도사",ch:"KBS",desc:"국산 코믹 도사 만화"},
-  {year:1988,name:"아기공룡 둘리",ch:"MBC",desc:"국민 만화, 시청률 40%"},
-  {year:1989,name:"영심이",ch:"KBS",desc:"국산 순정 만화"},
-  {year:1990,name:"날아라 슈퍼보드",ch:"KBS",desc:"시청률 42.8%, 2002년까지 5기"},
-  {year:1991,name:"피구왕 통키",ch:"MBC",desc:"피구 열풍의 주인공"},
-  {year:1992,name:"드래곤볼",ch:"KBS",desc:"90년대 남자아이 필수"},
-  {year:1994,name:"슬램덩크",ch:"SBS",desc:"시청률 36%, 박상민 주제가"},
-  {year:1995,name:"검정 고무신",ch:"KBS",desc:"국산 창작, 60~70년대 추억"},
-  {year:1996,name:"꾸러기 수비대",ch:"KBS",desc:"십이지 동물 캐릭터"},
-  {year:1997,name:"달의 요정 세일러문",ch:"MBC",desc:"마법소녀, 여아 필수"},
-  {year:1997,name:"유유백서",ch:"MBC",desc:"90년대 배틀 만화"},
-  {year:1999,name:"포켓몬스터",ch:"KBS",desc:"내가 바로 포켓몬 마스터!"},
-  {year:1999,name:"디지몬 어드벤처",ch:"MBC",desc:"포켓몬과 쌍벽"},
-  {year:1999,name:"원피스",ch:"KBS",desc:"해적왕을 꿈꾸는 루피"},
-  {year:2000,name:"명탐정 코난",ch:"투니버스",desc:"매주 추리 문제"},
-  {year:2000,name:"짱구는 못말려",ch:"투니버스",desc:"어른도 보는 국민 개그 만화"},
-  {year:2001,name:"나루토",ch:"투니버스",desc:"닌자 소년의 성장기"},
-  {year:2003,name:"뽀롱뽀롱 뽀로로",ch:"EBS",desc:"어린이 대통령"},
-  {year:2003,name:"강철의 연금술사",ch:"투니버스",desc:"하드코어 판타지"},
-  {year:2004,name:"강철의 연금술사 (재방)",ch:"투니버스",desc:"2004년 재방영, 2003~06년생 필수"},
-  {year:2004,name:"포켓몬스터 AG",ch:"KBS",desc:"포켓몬 2세대, 후이바 등장"},
-  {year:2004,name:"원피스 (재방)",ch:"KBS",desc:"재방영으로 더 많은 시청자 확보"},
-  {year:2005,name:"블리치",ch:"투니버스",desc:"나루토·원피스와 함께 3대 소년만화"},
-  {year:2005,name:"나루토 (재방)",ch:"투니버스",desc:"재방영으로 꾸준한 인기"},
-  {year:2005,name:"마다가스카의 펭귄",ch:"투니버스",desc:"귀여운 펭귄 4마리의 활약"},
-  {year:2006,name:"결계사",ch:"투니버스",desc:"요괴 배틀 만화"},
-  {year:2006,name:"짱구는 못말려 (재방)",ch:"KBS2",desc:"KBS 재방영, 다시 국민 만화로"},
-  {year:2007,name:"코드 기어스",ch:"투니버스",desc:"전략 배틀, 반전의 연속"},
-  {year:2007,name:"은혼",ch:"투니버스",desc:"개그와 진지함의 공존"},
-  {year:2007,name:"포켓몬스터 다이아몬드펄",ch:"KBS",desc:"포켓몬 4세대"},
-  {year:2008,name:"소울이터",ch:"투니버스",desc:"낫 든 소년의 배틀 만화"},
-  {year:2008,name:"슬램덩크 (재방)",ch:"SBS",desc:"재방영 때도 높은 시청률"},
-  {year:2009,name:"페어리 테일",ch:"투니버스",desc:"마법사 길드 배틀 판타지"},
-  {year:2009,name:"흑집사",ch:"투니버스",desc:"어두운 판타지, 여고생 팬덤"},
-  {year:2010,name:"나루토 질풍전",ch:"투니버스",desc:"나루토 성장 후속편"},
-  {year:2010,name:"포켓몬스터 BW",ch:"KBS",desc:"포켓몬 5세대"},
-  {year:2011,name:"마법소녀 마도카 마기카",ch:"애니맥스",desc:"마법소녀 장르를 뒤흔든 충격작"},
-  {year:2012,name:"원피스 (투니버스판)",ch:"투니버스",desc:"투니버스 재방영, 새 더빙"},
-  {year:2013,name:"진격의 거인",ch:"애니플러스",desc:"2013년 최대 화제작"},
-  {year:2016,name:"나의 히어로 아카데미아",ch:"애니플러스",desc:"히어로 성장기"},
-  {year:2019,name:"귀멸의 칼날",ch:"애니플러스",desc:"2020년대 최대 히트"},
-  {year:2021,name:"주술회전",ch:"애니플러스",desc:"2020년대 소년 만화"}
-];
-
-var GAMES = [
-  {year:1996,name:"바람의나라",desc:"국내 최초 그래픽 MMORPG"},
-  {year:1997,name:"포트리스",desc:"국민 포격 게임"},
-  {year:1998,name:"스타크래프트",desc:"대한민국 e스포츠의 신"},
-  {year:1998,name:"리니지",desc:"국내 MMORPG 원조"},
-  {year:1999,name:"디아블로2",desc:"밤새 던전 도는 전설"},
-  {year:2001,name:"라그나로크",desc:"귀여운 도트 MMORPG"},
-  {year:2003,name:"메이플스토리",desc:"국민 2D 횡스크롤 MMORPG"},
-  {year:2004,name:"카트라이더",desc:"국민 레이싱 게임"},
-  {year:2005,name:"서든어택",desc:"국민 FPS"},
-  {year:2005,name:"던전앤파이터",desc:"벨트스크롤 액션"},
-  {year:2009,name:"리그오브레전드",desc:"2012년 한국 점령"},
-  {year:2014,name:"배틀그라운드",desc:"배틀로얄 장르 창시"},
-  {year:2016,name:"오버워치",desc:"팀기반 FPS 열풍"},
-  {year:2022,name:"발로란트",desc:"전략 FPS 10대 필수"}
-];
-
-var PHONES = [
-  {year:1982,name:"삐삐(무선호출기)",desc:"8282=빨리빨리, 숫자 암호 시대"},
-  {year:1988,name:"아날로그 휴대폰",desc:"삼성 SH-100, 벽돌폰 (250만원)"},
-  {year:1994,name:"애니콜 SH-770",desc:"한국 지형에 강하다"},
-  {year:1996,name:"CDMA 디지털폰",desc:"011 SK텔레콤 디지털 상용화"},
-  {year:1997,name:"016·018·019 PCS폰",desc:"본격 대중화, 악세사리 전성기"},
-  {year:2001,name:"카메라폰",desc:"30만 화소, 셀카의 원조"},
-  {year:2004,name:"애니콜 가로본능",desc:"가로로 돌아가는 혁신 디자인"},
-  {year:2009,name:"아이폰 3GS 국내 출시",desc:"KT 독점, 앱스토어 혁명"},
-  {year:2010,name:"갤럭시S",desc:"안드로이드 대중화 신호탄"},
-  {year:2012,name:"LTE 전국망",desc:"4G 확산, 유튜브·SNS 모바일 시대"},
-  {year:2019,name:"5G 상용화",desc:"세계 최초 5G, 갤럭시S10"},
-  {year:2023,name:"AI 스마트폰",desc:"갤럭시 AI·온디바이스 AI 폰"}
-];
-
-var BIRTH = {
-  1960:107000,1965:101000,1970:101000,1975:87000,1976:87000,
-  1977:86000,1978:75000,1979:63000,1980:86000,1981:87000,
-  1982:85000,1983:77000,1984:68000,1985:66000,1986:63000,
-  1987:62000,1988:63000,1989:62000,1990:65000,1991:71000,
-  1992:73000,1993:72000,1994:72000,1995:72000,1996:69000,
-  1997:68000,1998:64000,1999:62000,2000:64000,2001:56000,
-  2002:49000,2003:49000,2004:47000,2005:44000,2006:45000,
-  2007:49000,2008:47000,2009:44000,2010:47000
-};
-
-var NAMES = {
-  1940:{m:["영수","영호","영식","철수","영철"],f:["영자","정자","순자","춘자","명자"]},
-  1950:{m:["영수","영철","영호","성수","성호"],f:["영숙","정숙","영희","명숙","경숙"]},
-  1960:{m:["영수","영철","영호","성호","광수"],f:["미숙","영숙","경숙","순자","정희"]},
-  1970:{m:["정훈","성호","성훈","동수","재훈"],f:["은주","은정","미경","정미","경미"]},
-  1975:{m:["정훈","성호","성훈","성진","재훈"],f:["은주","은정","은경","미경","지영"]},
-  1980:{m:["지훈","동현","성민","재원","현수"],f:["지혜","지영","지은","지현","미영"]},
-  1985:{m:["지훈","동현","성민","현우","재원"],f:["지혜","지영","지은","민지","지현"]},
-  1990:{m:["지훈","현우","동현","성민","민준"],f:["유진","지혜","지영","민지","지은"]},
-  1995:{m:["지훈","민준","현우","동현","준서"],f:["유진","민지","지영","서연","수빈"]},
-  2000:{m:["민준","현우","서준","예준","주원"],f:["유진","서연","수빈","서현","민서"]},
-  2005:{m:["민준","서준","도윤","시우","주원"],f:["서연","서윤","수빈","하윤","지아"]},
-  2010:{m:["도윤","시우","하준","지호","준서"],f:["하윤","하은","지아","서아","나은"]}
-};
-
-var SNACKTYPES = {
-  1960:["달고나(뽑기)","쫀드기","호박엿","눈깔사탕","뽀빠이","논두렁","꾀돌이","꿀떡","솜사탕","번데기"],
-  1970:["달고나(뽑기)","쫀드기","아폴로","뽀빠이","밭두렁","눈깔사탕","호박엿","꾀돌이","쌀대롱","번데기"],
-  1975:["아폴로","쫀드기","달고나(뽑기)","밭두렁","뽀빠이","왕꿈틀이","눈깔사탕","논두렁","꾀돌이","솜사탕"],
-  1980:["아폴로","밭두렁","쫀드기","왕꿈틀이","달고나(뽑기)","핵폭탄 사탕","뽀빠이","눈깔사탕","꾀돌이","논두렁"],
-  1985:["아폴로","왕꿈틀이","밭두렁","핵폭탄 사탕","쫀드기","찹쌀떡 과자","달고나(뽑기)","먹는 테이프","뽀빠이","눈깔사탕"],
-  1990:["아폴로","왕꿈틀이","핵폭탄 사탕","찹쌀떡 과자","먹는 테이프","쫀드기","밭두렁","피져","눈깔사탕","달고나(뽑기)"],
-  1995:["아폴로","찹쌀떡 과자","핵폭탄 사탕","먹는 테이프","피져","왕꿈틀이","쫀드기","달고나(뽑기)","눈깔사탕","밭두렁"],
-  2000:["아폴로","피져","찹쌀떡 과자","먹는 테이프","핵폭탄 사탕","왕꿈틀이","쫀드기","달고나(뽑기)","눈깔사탕","밭두렁"],
-  2005:["아폴로","피져","먹는 테이프","찹쌀떡 과자","핵폭탄 사탕","왕꿈틀이","달고나(뽑기)","쫀드기","눈깔사탕","뽀빠이"]
-};
-
-// 장래희망: 세계일보·교육부·목회데이터연구소·한국직업능력연구원 조사 기반
-var DREAMS = {
-  1940:["대통령","판사/검사","장군","의사","선생님","농부","사업가","경찰","군인","목사/신부"],
-  1950:["대통령","판사/검사","장군","의사","선생님","경찰","사업가","공무원","군인","농부"],
-  1960:["대통령","과학자","판사/검사","의사","선생님","경찰","군인","사업가","공무원","운동선수"],
-  1965:["과학자","대통령","의사","선생님","판사/검사","경찰","운동선수","군인","사업가","공무원"],
-  1970:["과학자","의사","선생님","대통령","운동선수","판사/검사","경찰","공무원","사업가","간호사"],
-  1975:["과학자","의사","선생님","운동선수","연예인","판사/검사","경찰","공무원","사업가","간호사"],
-  1980:["과학자","의사","선생님","운동선수","연예인","판사/검사","경찰","공무원","간호사","사업가"],
-  1985:["과학자","의사","선생님","운동선수","연예인","경찰","공무원","판사/검사","간호사","디자이너"],
-  1990:["의사","선생님","공무원","연예인","운동선수","과학자","경찰","간호사","판사/검사","디자이너"],
-  1995:["의사","선생님","연예인","운동선수","공무원","경찰","간호사","요리사/셰프","디자이너","파일럿"],
-  2000:["선생님","의사","운동선수","연예인","프로게이머","공무원","경찰","요리사/셰프","파일럿","간호사"],
-  2002:["선생님","의사","운동선수","연예인","프로게이머","공무원","경찰","요리사/셰프","디자이너","파일럿"],
-  2005:["운동선수","의사","선생님","크리에이터/유튜버","연예인","경찰/소방관","요리사/셰프","게임개발자","패션디자이너","파일럿"],
-  2008:["운동선수","크리에이터/유튜버","의사","선생님","경찰/소방관","연예인","요리사/셰프","게임개발자","웹툰작가","패션디자이너"],
-  2012:["운동선수","크리에이터/유튜버","의사","교사","경찰/소방관","연예인","AI개발자","웹툰작가","요리사/셰프","간호사"]
-};
-
-var REGIONS = {
-  "서울":{label:"서울특별시",emoji:"🏙️",dendenci:"데덴찌",words:[{std:"편가르기",local:"데덴찌"},{std:"부추",local:"부추(표준어)"},{std:"아이",local:"애"}],fact:"조선시대부터 수도. 표준어의 기준이 되는 지역."},
-  "경기":{label:"경기도",emoji:"🌾",dendenci:"데덴찌",words:[{std:"편가르기",local:"데덴찌"},{std:"부추",local:"부추"},{std:"없어",local:"없어"}],fact:"전국 인구의 약 26% 거주. 서울 생활권 공유로 표준어와 유사."},
-  "인천":{label:"인천광역시",emoji:"⚓",dendenci:"뗀치에 후레쉬 돌려도 말 못해 엎어라 뒤집어라",words:[{std:"편가르기",local:"뗀치에 후레쉬~"},{std:"부추",local:"부추"}],fact:"우리나라 최초 짜장면 탄생지. 데덴찌 구호가 전국에서 가장 길기로 유명."},
-  "강원":{label:"강원도",emoji:"🏔️",dendenci:"편짜편짜편짜",words:[{std:"편가르기",local:"편짜편짜편짜"},{std:"옥수수",local:"강냉이"},{std:"감자",local:"감자(주식)"}],fact:"북쪽은 북한, 남쪽은 경상도, 서쪽은 충청도 억양이 혼재하는 독특한 방언 지역."},
-  "충북":{label:"충청북도",emoji:"🌿",dendenci:"앞쳐 뒤쳐",words:[{std:"편가르기",local:"앞쳐 뒤쳐"},{std:"부추",local:"정구지"},{std:"그래",local:"그려"}],fact:"경상도·경기도 사이 방언 혼재. 부추를 경북처럼 정구지라 부르는 독특한 지역."},
-  "충남":{label:"충청남도",emoji:"🌊",dendenci:"엎어라 뒤집어라",words:[{std:"편가르기",local:"엎어라 뒤집어라"},{std:"부추",local:"졸/줄"},{std:"뭐야",local:"뭐유"}],fact:"부추를 졸 또는 줄이라 부르는 전국 유일 지역. 충청도 특유의 느린 말투 유명."},
-  "대전":{label:"대전광역시",emoji:"🚄",dendenci:"우에시다리",words:[{std:"편가르기",local:"우에시다리"},{std:"그래",local:"그류"},{std:"뭐야",local:"뭐유"}],fact:"데덴찌를 우에시다리라 부르는 전국 유일 지역. 성심당은 연 매출 1000억 전설의 빵집."},
-  "경북":{label:"경상북도",emoji:"🌾",dendenci:"탄탄보",words:[{std:"편가르기",local:"탄탄보"},{std:"부추",local:"정구지"},{std:"뭐야",local:"뭐꼬"}],fact:"부추를 정구지라 부르는 대표 지역. 경상도 특유의 성조(높낮이)가 가장 뚜렷."},
-  "대구":{label:"대구광역시",emoji:"🔥",dendenci:"덴치씨 오렌지씨",words:[{std:"편가르기",local:"덴치씨 오렌지씨"},{std:"부추",local:"정구지"},{std:"빨리",local:"팍팍"}],fact:"한국에서 가장 더운 도시. 데덴찌를 덴치씨 오렌지씨라 부르는 독특한 방언."},
-  "경남":{label:"경상남도",emoji:"🌊",dendenci:"탄탄보",words:[{std:"편가르기",local:"탄탄보"},{std:"부추",local:"정구지/소불"},{std:"뭐야",local:"뭐꼬"}],fact:"경남 서부 지역은 전라도 방언과 일부 겹치는 어휘 보유."},
-  "부산":{label:"부산광역시",emoji:"🌊",dendenci:"젠디 / 덴디 / 묵찌",words:[{std:"편가르기",local:"젠디/묵찌"},{std:"부추",local:"정구지"},{std:"먹어",local:"묵어"}],fact:"전국에서 데덴찌 이름이 가장 다양한 도시. 젠디·덴디·묵찌 등."},
-  "울산":{label:"울산광역시",emoji:"🏭",dendenci:"탄탄보",words:[{std:"편가르기",local:"탄탄보"},{std:"부추",local:"정구지"},{std:"먹어",local:"묵어"}],fact:"한국 자동차·조선 산업의 심장. 현대자동차·현대중공업 본사 소재지."},
-  "전북":{label:"전라북도",emoji:"🌾",dendenci:"으라으라 에야",words:[{std:"편가르기",local:"으라으라 에야"},{std:"부추",local:"솔/솔지"},{std:"그래",local:"그랑께"}],fact:"부추를 솔 또는 솔지라 부름. 전주 데덴찌 으라으라 에야는 리듬감으로 유명."},
-  "전남":{label:"전라남도",emoji:"🌸",dendenci:"엎어라 뒤집어라",words:[{std:"편가르기",local:"엎어라 뒤집어라"},{std:"부추",local:"솔"},{std:"정말",local:"허벌나게"}],fact:"전국에서 방언이 가장 풍부한 지역. 거시기 하나로 모든 문장 완성 가능."},
-  "광주":{label:"광주광역시",emoji:"🌟",dendenci:"편뽑기 편뽑기",words:[{std:"편가르기",local:"편뽑기 편뽑기"},{std:"부추",local:"솔"},{std:"아이고",local:"오메"}],fact:"5·18 민주화운동의 도시. 데덴찌를 편뽑기라 불러 의미를 그대로 살린 지역."},
-  "제주":{label:"제주특별자치도",emoji:"🌊",dendenci:"하늘과 땅이다",words:[{std:"편가르기",local:"하늘과 땅이다"},{std:"부추",local:"세우리"},{std:"어서오세요",local:"혼저옵서예"}],fact:"데덴찌 어원인 일본어 텐치(天地)를 번역해 사용한 유일한 지역. 제주어는 유네스코 소멸위기 언어."}
-};
-
-// ── 유틸 함수 ──
-function comma(n) { return Math.round(n).toLocaleString('ko-KR'); }
-
-function getByYear(obj, year) {
-  var keys = Object.keys(obj).map(Number).sort(function(a,b){return a-b;});
-  var best = keys[0];
-  for (var i=0; i<keys.length; i++) { if (keys[i] <= year) best = keys[i]; }
-  return obj[best];
-}
-
-function getHistory(year) {
-  var keys = Object.keys(HISTORY).map(Number).sort(function(a,b){return a-b;});
-  var best = keys[0];
-  for (var i=0; i<keys.length; i++) { if (keys[i] <= year) best = keys[i]; }
-  var h = HISTORY[best];
-  return {min:h.min,jja:h.jja,pres:h.pres,event:h.event,sam:h.sam,ref:best};
-}
-
-function getDelta(age, avg) {
-  var d = Math.round(age - avg);
-  if (d === 0) return {text:"평균과 동일",cls:"neutral",pct:50};
-  if (d > 0) return {text:"평균보다 +"+d+"년",cls:"plus",pct:Math.min(50+d*4,95)};
-  return {text:"평균보다 "+d+"년",cls:"minus",pct:Math.max(50+d*4,5)};
-}
-
-function getComment(age, marriageDelta, lifePct) {
-  if (lifePct < 25) return "아직 인생의 시작점입니다. 평균? 아직 평균 잴 때가 아닙니다.";
-  if (lifePct > 75) return "인생의 "+Math.round(lifePct)+"%를 지났습니다. 지금까지 쌓아온 것이 평균이 됩니다.";
-  if (marriageDelta > 3) return "결혼은 평균보다 여유있게 가는 편입니다. 자기 속도대로 가는 타입.";
-  if (marriageDelta < -3) return "결혼은 평균보다 일찍 시작한 편입니다.";
-  return "여러 항목에서 대한민국 평균과 비슷한 궤적입니다. 당신이 바로 평균입니다.";
-}
-
-function hItem(year, content, sub) {
-  return '<div class="history-item"><span class="history-year">'+year+'</span><div><div class="history-content">'+content+'</div>'+(sub?'<div class="history-sub">'+sub+'</div>':'')+'</div></div>';
-}
-function hItemColor(year, content, sub, color) {
-  return '<div class="history-item"><span class="history-year" style="color:'+color+'">'+year+'</span><div><div class="history-content">'+content+'</div>'+(sub?'<div class="history-sub">'+sub+'</div>':'')+'</div></div>';
-}
-
-function getPopStats(birthYear, age) {
-  var brackets = [
-    {min:0,max:4,pct:3.8},{min:5,max:9,pct:4.1},{min:10,max:14,pct:4.2},
-    {min:15,max:19,pct:4.3},{min:20,max:24,pct:5.8},{min:25,max:29,pct:6.9},
-    {min:30,max:34,pct:7.2},{min:35,max:39,pct:6.8},{min:40,max:44,pct:7.1},
-    {min:45,max:49,pct:7.9},{min:50,max:54,pct:7.8},{min:55,max:59,pct:7.2},
-    {min:60,max:64,pct:6.5},{min:65,max:69,pct:5.6},{min:70,max:74,pct:4.5},
-    {min:75,max:79,pct:3.2},{min:80,max:84,pct:2.1},{min:85,max:89,pct:1.2},{min:90,max:99,pct:0.6}
-  ];
-  var younger = 0;
-  for (var i=0; i<brackets.length; i++) {
-    var b = brackets[i];
-    if (age > b.max) { younger += b.pct; }
-    else if (age >= b.min && age <= b.max) { younger += b.pct * (age - b.min) / (b.max - b.min + 1); }
-  }
-  younger = Math.min(Math.max(Math.round(younger), 2), 97);
-  var keys = Object.keys(BIRTH).map(Number).sort(function(a,b){return a-b;});
-  var best = keys[0];
-  for (var i=0; i<keys.length; i++) { if (keys[i] <= birthYear) best = keys[i]; }
-  var syp = BIRTH[best] || 50000;
-  return {older:100-younger, younger:younger, syp:syp, sbday:Math.round(syp/365)};
-}
-
-// ── 입력 폼 자동 채우기 ──
-function fillSelects(birthYear) {
-  // 핸드폰 모델 (중학교 만 13~15세 기준)
-  var phoneModelYear = birthYear + 14;
-  var phoneModels = getByYear(PHONE_MODELS, phoneModelYear);
-  var pm = document.getElementById('phone-model-pick');
-  if (pm) {
-    pm.innerHTML = '<option value="">선택 (선택사항)</option>';
-    phoneModels.forEach(function(m) {
-      pm.innerHTML += '<option value="'+m+'">📱 '+m+'</option>';
+    // Safe Area Toggle
+    document.getElementById('toggleSafeAreaBtn').addEventListener('click', () => {
+      isSafeAreaVisible = !isSafeAreaVisible;
+      safeAreaGrid.style.opacity = isSafeAreaVisible ? '1' : '0';
     });
-    pm.innerHTML += '<option value="__custom__">✏️ 직접 입력</option>';
-    var pc = document.getElementById('phone-model-custom');
-    if (pc) { pc.style.display='none'; pc.value=''; }
-  }
 
-  // 첫 온라인 게임 (초등~중학 만 10~14세 기준)
-  var gameYear = birthYear + 12;
-  var firstGames = getByYear(FIRST_GAMES, gameYear);
-  var fg = document.getElementById('first-game-pick');
-  if (fg) {
-    fg.innerHTML = '<option value="">선택 (선택사항)</option>';
-    firstGames.forEach(function(g) {
-      fg.innerHTML += '<option value="'+g+'">🎮 '+g+'</option>';
+    // MagSafe Toggle
+    document.getElementById('toggleMagsafeBtn').addEventListener('click', (e) => {
+      isMagsafeVisible = !isMagsafeVisible;
+      magsafeRing.style.opacity = isMagsafeVisible ? '1' : '0';
+      e.currentTarget.classList.toggle('bg-surface-container', isMagsafeVisible);
+      e.currentTarget.classList.toggle('bg-transparent', !isMagsafeVisible);
     });
-    fg.innerHTML += '<option value="__custom__">✏️ 직접 입력</option>';
-    var fc = document.getElementById('first-game-custom');
-    if (fc) { fc.style.display='none'; fc.value=''; }
-  }
-  var targetYear = birthYear + 10;
-  var types = getByYear(SNACKTYPES, targetYear);
-  var ss = document.getElementById('snacktype-select');
-  if (ss) {
-    ss.innerHTML = '<option value="">불량식품 선택 (선택사항)</option>';
-    for (var i=0; i<types.length; i++) {
-      ss.innerHTML += '<option value="'+types[i]+'">🍬 '+types[i]+'</option>';
-    }
-    ss.innerHTML += '<option value="__custom__">✏️ 직접 입력</option>';
-    var sc = document.getElementById('snacktype-custom');
-    if (sc) { sc.style.display='none'; sc.value=''; }
-  }
-  // 만화 (초등 만 8~14세)
-  var ap = document.getElementById('anime-pick');
-  if (ap) {
-    var s = birthYear+8, e = birthYear+14;
-    var myAnimes = ANIME.filter(function(a){ return a.year>=s && a.year<=e; })
-      .sort(function(a,b){ return a.year-b.year; });
-    ap.innerHTML = '<option value="">만화 선택 (선택사항)</option>';
-    for (var i=0; i<myAnimes.length; i++) {
-      ap.innerHTML += '<option value="'+myAnimes[i].name+'">'+myAnimes[i].name+' ('+myAnimes[i].year+')</option>';
-    }
-    ap.innerHTML += '<option value="__custom__">✏️ 직접 입력</option>';
-    var ac = document.getElementById('anime-custom');
-    if (ac) { ac.style.display='none'; ac.value=''; }
-  }
-  // 꿈
-  var dp = document.getElementById('dream-pick');
-  if (dp) {
-    var dreams = getByYear(DREAMS, birthYear);
-    dp.innerHTML = '<option value="">꿈 선택 (선택사항)</option>';
-    for (var i=0; i<dreams.length; i++) {
-      dp.innerHTML += '<option value="'+dreams[i]+'">'+dreams[i]+'</option>';
-    }
-    dp.innerHTML += '<option value="__custom__">✏️ 직접 입력</option>';
-    var dc = document.getElementById('dream-custom');
-    if (dc) { dc.style.display='none'; dc.value=''; }
-  }
-}
 
-// ── 계산 & 렌더 ──
-function calculate() {
-  var val = document.getElementById('birthdate').value;
-  if (!val) { alert('생년월일을 입력해주세요.'); return; }
-  var today = new Date();
-  var birth = new Date(val);
-  if (birth > today) { alert('미래 날짜는 입력할 수 없습니다.'); return; }
-  document.getElementById('loading').style.display = 'flex';
-  setTimeout(function(){ doCalc(birth, today); }, 800);
-}
-
-function doCalc(birth, today) {
-  var g = selectedGender;
-  var lifeExp = g==='F' ? STATS.lifeExpF : STATS.lifeExpM;
-  var marAvg = g==='F' ? CURRENT_MARRIAGE_F : CURRENT_MARRIAGE_M;
-
-  var age = today.getFullYear() - birth.getFullYear();
-  var hasBday = (today.getMonth() > birth.getMonth()) ||
-    (today.getMonth()===birth.getMonth() && today.getDate()>=birth.getDate());
-  if (!hasBday) age--;
-
-  var diffMs = today - birth;
-  var diffDays = Math.floor(diffMs/86400000);
-  var diffHours = Math.floor(diffMs/3600000);
-  var nextB = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
-  if (nextB <= today) nextB.setFullYear(today.getFullYear()+1);
-  var daysToNext = Math.ceil((nextB-today)/86400000);
-
-  var lifeMs = lifeExp*365.25*86400000;
-  var lifePct = Math.min((diffMs/lifeMs)*100, 99.9);
-  var remainDays = Math.max(0, Math.floor((lifeMs-diffMs)/86400000));
-  var remainWeekends = Math.floor(remainDays/7);
-  var remainYears = Math.max(0, Math.round(lifeExp-age));
-
-  var score = Math.round(Math.max(30, Math.min(99, 85-Math.abs(lifePct-45)*0.4)));
-  var rankStr = "상위 "+Math.min(Math.max(100-score+5,5),90)+"% 평균형 인간";
-
-  var birthYear = birth.getFullYear();
-  selectedRegion = document.getElementById('region-select').value;
-  var nickname = document.getElementById('nickname-input').value.trim();
-  var snacktype = getSelectVal('snacktype-select','snacktype-custom');
-  var animePick = getSelectVal('anime-pick','anime-custom');
-  var dreamPick = getSelectVal('dream-pick','dream-custom');
-  var fastfood  = getSelectVal('fastfood-pick','fastfood-custom');
-  var chicken   = getSelectVal('chicken-pick','chicken-custom');
-  var phoneModel= getSelectVal('phone-model-pick','phone-model-custom');
-  var firstGame = getSelectVal('first-game-pick','first-game-custom');
-  var sns       = getSelectVal('sns-pick','sns-custom');
-  var travel    = getSelectVal('travel-pick','travel-custom');
-
-  var pop = getPopStats(birthYear, age);
-  var hist = getHistory(birthYear);
-  var regionData = REGIONS[selectedRegion] || null;
-
-  // 렌더
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('result').style.display = 'block';
-  window.scrollTo(0,0);
-
-  var gLabel = g==='F' ? '여성' : '남성';
-  var regionLabel = regionData ? ' · '+regionData.label : '';
-  document.getElementById('res-name').textContent = birthYear+'년생 '+gLabel+regionLabel+' · 만 '+age+'세 연대기';
-  document.getElementById('res-date').textContent = '기준일: '+today.toLocaleDateString('ko-KR');
-
-  document.getElementById('score-num').textContent = score;
-  document.getElementById('score-rank').textContent = rankStr;
-  document.getElementById('ai-comment').textContent = getComment(age, age-marAvg, lifePct);
-
-  document.getElementById('r-age').textContent = '만 '+age+'세';
-  document.getElementById('r-days').textContent = comma(diffDays)+'일';
-  document.getElementById('r-hours').textContent = '약 '+comma(diffHours)+'시간';
-  document.getElementById('r-birthday').textContent = daysToNext===0 ? '🎉 오늘이 생일!' : daysToNext+'일 후';
-
-  document.getElementById('life-pct').textContent = lifePct.toFixed(1)+'%';
-  document.getElementById('life-exp-label').textContent = '기대수명 '+lifeExp+'세';
-  setTimeout(function(){ document.getElementById('life-bar').style.width = lifePct+'%'; }, 100);
-  document.getElementById('r-remain-days').textContent = '약 '+comma(remainDays)+'일';
-  document.getElementById('r-weekends').textContent = '약 '+comma(remainWeekends)+'번';
-  document.getElementById('r-cherry').textContent = '약 '+remainYears+'번';
-  document.getElementById('r-summer').textContent = '약 '+remainYears+'번';
-
-  // 평균 비교
-  var gLabel2 = g==='F' ? '여성' : '남성';
-  var compares = [
-    {name:"현재 평균 초혼 ("+gLabel2+")", avg:marAvg, delta:getDelta(age,marAvg), note:"2024년 통계청 · 남성 33.9세 / 여성 31.6세"},
-    {name:"법적 정년", avg:STATS.legalRetire, delta:getDelta(age,STATS.legalRetire), note:"근로기준법 제60조"},
-    {name:"청년 기준 상한", avg:STATS.youthAge, delta:getDelta(age,STATS.youthAge), note:"청년기본법 제3조"}
-  ];
-  var cl = document.getElementById('compare-list');
-  cl.innerHTML = '';
-  compares.forEach(function(c) {
-    var noteHtml = c.note ? '<div class="history-sub" style="margin-top:4px">'+c.note+'</div>' : '';
-    cl.innerHTML += '<div class="compare-item"><div class="compare-top"><span class="compare-name">'+c.name+' ('+c.avg+'세)</span><span class="compare-delta '+c.delta.cls+'">'+c.delta.text+'</span></div>'+noteHtml+'<div class="compare-bar-wrap" style="margin-top:6px"><div class="compare-bar-fill" style="width:0%" data-pct="'+c.delta.pct+'"></div></div></div>';
-  });
-  setTimeout(function(){
-    document.querySelectorAll('.compare-bar-fill').forEach(function(el){ el.style.width=el.dataset.pct+'%'; });
-  }, 200);
-
-  // 인구
-  document.getElementById('older-pct').textContent = '약 '+pop.older+'%';
-  document.getElementById('younger-pct').textContent = '약 '+pop.younger+'%';
-  document.getElementById('same-year').textContent = '약 '+comma(pop.syp)+'명';
-  document.getElementById('same-bday').textContent = '약 '+comma(pop.sbday)+'명';
-
-  // 태어났을 때
-  var minText = hist.min ? comma(hist.min)+'원/시간' : '최저임금법 시행 전 (1988년부터)';
-  var minSub = hist.min ? '고용노동부 공식 고시 · '+hist.ref+'년 기준' : hist.ref+'년 기준 · 법적 최저임금 없던 시기';
-  var btcText = BTC[birthYear] || null;
-  var skhText = SKH[birthYear] || null;
-  var histHtml =
-    hItem(birthYear, '짜장면 '+comma(hist.jja)+'원', '한국물가정보·통계청 · '+hist.ref+'년 기준') +
-    hItem(birthYear, '최저임금 '+minText, minSub) +
-    hItem(birthYear, '대통령: '+hist.pres, '') +
-    hItem(birthYear, '주요 사건: '+hist.event, '') +
-    hItem(birthYear, '삼성전자 주가 '+hist.sam, '2018년 50:1 액면분할 수정주가') +
-    (skhText ? hItem(birthYear,'SK하이닉스 주가 '+skhText,'현대전자→하이닉스→SK하이닉스') : hItem(birthYear,'SK하이닉스','1983년 현대전자 설립 전')) +
-    (btcText ? hItemColor(birthYear,'₿ 비트코인 '+btcText,'CoinMarketCap 기준','#c9a96e') : hItem(birthYear,'₿ 비트코인','2009년 이전 — 비트코인 없던 시대'));
-  document.getElementById('history-list').innerHTML = histHtml;
-
-  // 큰 사건 (시점별 한국 + 세계)
-  var phases = [
-    {label:'태어났을 무렵', offset:1},
-    {label:'초등학교 시절', offset:9},
-    {label:'10대 시절', offset:16},
-    {label:'20대 초반', offset:22}
-  ];
-  var bel = document.getElementById('bigevents-list');
-  var beh = '';
-  var seenKr = {}, seenWorld = {};
-  phases.forEach(function(p) {
-    var targetYear = birthYear + p.offset;
-    if (targetYear > new Date().getFullYear()) return;
-    var kr = getBigEvent(targetYear);
-    var wr = getWorldEvent(targetYear);
-    var rows = '';
-    if (kr && !seenKr[kr.year]) {
-      seenKr[kr.year] = true;
-      rows += '<div class="history-content" style="margin-bottom:3px">🇰🇷 <strong>'+kr.event+'</strong></div>';
-    }
-    if (wr && !seenWorld[wr.year]) {
-      seenWorld[wr.year] = true;
-      rows += '<div class="history-content" style="color:var(--accent3)">🌍 '+wr.event+'</div>';
-    }
-    if (rows) {
-      beh += '<div class="history-item"><span class="history-year" style="min-width:auto">'+p.label.replace(' 시절','').replace(' 초반','')+'</span><div>'+rows+'</div></div>';
-    }
-  });
-  bel.innerHTML = beh || '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
-
-  // 이름
-  var nameData = getByYear(NAMES, birthYear);
-  var nd = document.getElementById('names-display');
-  nd.innerHTML =
-    '<div style="margin-bottom:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:8px">👦 남자</div><div style="display:flex;flex-wrap:wrap;gap:8px">'+
-    nameData.m.map(function(n){ return '<span style="background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);color:var(--accent2);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:500">'+n+'</span>'; }).join('')+
-    '</div></div><div><div style="font-size:11px;color:var(--muted);margin-bottom:8px">👧 여자</div><div style="display:flex;flex-wrap:wrap;gap:8px">'+
-    nameData.f.map(function(n){ return '<span style="background:rgba(143,184,173,0.12);border:1px solid rgba(143,184,173,0.3);color:var(--accent3);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:500">'+n+'</span>'; }).join('')+
-    '</div></div>';
-
-  // 지역
-  var rc = document.getElementById('region-card');
-  if (regionData) {
-    rc.style.display = 'block';
-    document.getElementById('region-title').textContent = regionData.emoji+' '+regionData.label+' 특색';
-    var wordRows = regionData.words.map(function(w){
-      return '<div class="stat-row"><span class="stat-key">'+w.std+'</span><span class="stat-val" style="color:var(--accent2)">'+w.local+'</span></div>';
-    }).join('');
-    document.getElementById('region-display').innerHTML =
-      '<div style="margin-bottom:14px"><div style="font-size:11px;color:var(--muted);margin-bottom:10px">✊ 편가르기 구호</div><div style="background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--accent);font-weight:700">"'+regionData.dendenci+'"</div></div>'+
-      '<div style="margin-bottom:14px"><div style="font-size:11px;color:var(--muted);margin-bottom:8px">🗣️ 우리 지역만의 말</div>'+wordRows+'</div>'+
-      '<div style="background:rgba(143,184,173,0.06);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.7">'+regionData.fact+'</div>'+
-      '<p style="font-size:10px;color:#333;margin-top:12px">* 나무위키·한국민족문화대백과·언론보도 기반</p>';
-  } else {
-    rc.style.display = 'none';
-  }
-
-  // 과자/라면/아이스크림
-  var same = SNACKS.filter(function(s){ return s.year===birthYear; });
-  var before = SNACKS.filter(function(s){ return s.year<birthYear; }).sort(function(a,b){ return b.year-a.year; }).slice(0,5);
-  var sl = document.getElementById('snack-list');
-  var sh = '';
-  if (same.length>0) {
-    same.forEach(function(s){
-      var em = s.type==='아이스크림'?'🍦':s.type==='라면'?'🍜':'🍘';
-      sh += hItemColor(s.year, em+' <strong>'+s.name+'</strong> 출시! ('+s.type+')', s.desc, '#c9a96e');
+    // Zoom Controls
+    document.getElementById('scalePlusBtn').addEventListener('click', () => {
+      currentScale = Math.min(1.4, currentScale + 0.1);
+      applyScale();
     });
-  } else {
-    sh += '<div class="history-item"><span style="font-size:12px;color:var(--muted)">태어난 해 주요 과자·라면·아이스크림 없음</span></div>';
-  }
-  sh += '<div class="card-title" style="margin-top:14px;margin-bottom:10px">태어날 때 이미 있던 것들</div>';
-  before.forEach(function(s){
-    var em = s.type==='아이스크림'?'🍦':s.type==='라면'?'🍜':'🍘';
-    sh += hItem(s.year, em+' '+s.name+' ('+s.type+')', s.desc);
-  });
-  sl.innerHTML = sh;
-
-  // 아이돌
-  var idolSame = IDOLS.filter(function(i){ return i.year===birthYear; });
-  var idolAfter = IDOLS.filter(function(i){ return i.year>birthYear && i.year<=birthYear+20; }).sort(function(a,b){ return a.year-b.year; }).slice(0,5);
-  var il = document.getElementById('idol-list');
-  var ih = '';
-  if (idolSame.length>0) {
-    idolSame.forEach(function(i){ ih += hItemColor(i.year,'🎤 <strong>'+i.name+'</strong> 데뷔! ('+i.type+')',i.desc,'#8fb8ad'); });
-  } else {
-    ih += '<div class="history-item"><span style="font-size:12px;color:var(--muted)">태어난 해 주요 아이돌 데뷔 없음</span></div>';
-  }
-  if (idolAfter.length>0) {
-    ih += '<div class="card-title" style="margin-top:14px;margin-bottom:10px">내가 자라면서 데뷔한 아이돌</div>';
-    idolAfter.forEach(function(i){ ih += hItem(i.year,'🎤 '+i.name+' ('+i.type+')',i.desc); });
-  }
-  il.innerHTML = ih;
-
-  // 만화
-  var elemStart = birthYear+8, elemEnd = birthYear+14;
-  var animes = ANIME.filter(function(a){ return a.year>=elemStart && a.year<=elemEnd; }).sort(function(a,b){ return a.year-b.year; });
-  document.getElementById('anime-label').textContent = elemStart+'~'+elemEnd+'년 방영 · 만 8~14세 초등학교 시절';
-  var al = document.getElementById('anime-list');
-  al.innerHTML = animes.length>0
-    ? animes.map(function(a){ return hItemColor(a.year,'📺 <strong>'+a.name+'</strong> ('+a.ch+')',a.desc,'#8fb8ad'); }).join('')
-    : '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
-
-  // 게임
-  var gameStart = birthYear+8, gameEnd = birthYear+15;
-  var games = GAMES.filter(function(g){ return g.year>=gameStart && g.year<=gameEnd; }).sort(function(a,b){ return a.year-b.year; });
-  document.getElementById('game-label').textContent = gameStart+'~'+gameEnd+'년 · 초등~중학교 시절 국민 게임';
-  var gl = document.getElementById('game-list');
-  gl.innerHTML = games.length>0
-    ? games.map(function(g){ return hItemColor(g.year,'🎮 <strong>'+g.name+'</strong>',g.desc,'#c9a96e'); }).join('')
-    : '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
-
-  // 핸드폰
-  var phoneStart = birthYear+12, phoneEnd = birthYear+18;
-  var phones = PHONES.filter(function(p){ return p.year>=phoneStart && p.year<=phoneEnd; }).sort(function(a,b){ return a.year-b.year; });
-  document.getElementById('phone-label').textContent = phoneStart+'~'+phoneEnd+'년 · 중학교~고등학교 시절';
-  var pl = document.getElementById('phone-list');
-  pl.innerHTML = phones.length>0
-    ? phones.map(function(p){ return hItemColor(p.year,'📱 <strong>'+p.name+'</strong>',p.desc,'#8fb8ad'); }).join('')
-    : '<div class="history-item"><span style="font-size:12px;color:var(--muted)">해당 시기 데이터 준비 중</span></div>';
-
-  // 스토리텔링 & 공유
-  var birthVal = birthYear+'-'+String(birth.getMonth()+1).padStart(2,'0')+'-'+String(birth.getDate()).padStart(2,'0');
-  var elemHist = getHistory(birthYear+10);
-  var parts = [];
-  if (regionData) parts.push('"'+regionData.dendenci.split('/')[0].trim()+'"로 편 가르며 놀고');
-  parts.push('짜장면 한 그릇이 '+comma(elemHist.jja)+'원이던 시절');
-  if (snacktype) parts.push(snacktype+' 사먹으며 자랐고');
-  if (fastfood)  parts.push(fastfood+' 햄버거에 설레던');
-  if (chicken)   parts.push(chicken+' 치킨 시키던 날이 최고였던');
-  if (animePick) parts.push(animePick+' 보며 자랐고');
-  else if (animes.length>0) parts.push(animes[0].name+' 보며 자랐고');
-  if (firstGame) parts.push(firstGame+' 하느라 밤 새우던');
-  if (phoneModel) parts.push('첫 폰은 '+phoneModel+'이었던');
-  if (sns)       parts.push(sns+' 하던 시절');
-  if (travel && travel !== '아직 없음') parts.push('첫 해외여행은 '+travel+'이었던');
-  if (nickname && nickname!=='없었음') parts.push('"'+nickname+'" 소리 들으며 자라던');
-  if (dreamPick) parts.push(dreamPick+'가 꿈이었던');
-  var regionLbl = regionData ? regionData.label+' ' : '';
-  var gLbl2 = g==='F' ? '여자' : '남자';
-  var storyBody = parts.join(', ')+'\n\n'+birthYear+'년생 '+regionLbl+gLbl2+'의 연대기';
-  _storyText = '나 '+score+'점 나왔어 👀\n\n'+storyBody+'\n\n너는 몇 점? 👇';
-
-  var base = window.location.href.split('?')[0];
-  _shareUrl = base+'?b='+encodeURIComponent(birthVal)+'&g='+g;
-  if (selectedRegion) _shareUrl += '&r='+encodeURIComponent(selectedRegion);
-  if (nickname)    _shareUrl += '&n='+encodeURIComponent(nickname);
-  if (snacktype)   _shareUrl += '&st='+encodeURIComponent(snacktype);
-  if (animePick)   _shareUrl += '&ap='+encodeURIComponent(animePick);
-  if (dreamPick)   _shareUrl += '&dr='+encodeURIComponent(dreamPick);
-  if (fastfood)    _shareUrl += '&ff='+encodeURIComponent(fastfood);
-  if (chicken)     _shareUrl += '&ck='+encodeURIComponent(chicken);
-  if (phoneModel)  _shareUrl += '&pm='+encodeURIComponent(phoneModel);
-  if (firstGame)   _shareUrl += '&fg='+encodeURIComponent(firstGame);
-  if (sns)         _shareUrl += '&sn='+encodeURIComponent(sns);
-  if (travel)      _shareUrl += '&tr='+encodeURIComponent(travel);
-
-  var sp = document.getElementById('story-preview');
-  if (sp) sp.innerHTML = _storyText.replace(/\n/g,'<br>');
-  history.replaceState({}, '', _shareUrl);
-
-  // 공유 카드 렌더
-  renderShareCard(birthYear, gLabel, regionData, score, rankStr, parts, animePick, animes, snacktype, firstGame, phoneModel, sns);
-}
-
-// ── 공유 ──
-function renderShareCard(birthYear, gLabel, regionData, score, rankStr, parts, animePick, animes, snacktype, firstGame, phoneModel, sns) {
-  // 카드 내용 채우기
-  var regionLbl = regionData ? regionData.label : '';
-  document.getElementById('sc-name').textContent = birthYear + '년생 ' + (regionLbl ? regionLbl + ' ' : '') + gLabel;
-  document.getElementById('sc-score').textContent = score;
-  document.getElementById('sc-rank').textContent = rankStr;
-
-  // 태그 (핵심 키워드만 뽑기)
-  var tags = [];
-  if (regionData) tags.push(regionData.dendenci.split('/')[0].trim());
-  if (snacktype) tags.push(snacktype);
-  if (animePick) tags.push(animePick);
-  else if (animes.length > 0) tags.push(animes[0].name);
-  if (firstGame) tags.push(firstGame);
-  if (phoneModel) tags.push(phoneModel.split(' ')[0] + ' ' + (phoneModel.split(' ')[1] || ''));
-  if (sns) tags.push(sns);
-
-  var tagsEl = document.getElementById('sc-tags');
-  tagsEl.innerHTML = tags.slice(0, 6).map(function(t) {
-    return '<span class="sc-tag">' + t + '</span>';
-  }).join('');
-
-  // 스토리 (3줄로 요약)
-  var storyEl = document.getElementById('sc-story');
-  storyEl.textContent = parts.slice(0, 4).join(' · ');
-}
-
-function saveCardImage() {
-  var card = document.getElementById('share-card');
-  if (!card) return;
-
-  if (typeof html2canvas === 'undefined') {
-    showCopyToast('이미지 저장 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
-    return;
-  }
-
-  showCopyToast('이미지 생성 중...');
-
-  html2canvas(card, {
-    backgroundColor: '#0d0d0d',
-    scale: 2,
-    useCORS: true,
-    allowTaint: true,
-    logging: false
-  }).then(function(canvas) {
-    var link = document.createElement('a');
-    link.download = '나의_연대기_' + new Date().getFullYear() + '.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    showCopyToast('이미지가 저장됐어요! 인스타·카카오에 공유해보세요 📸');
-  }).catch(function() {
-    showCopyToast('이미지 저장에 실패했습니다. 스크린샷을 이용해주세요.');
-  });
-}
-
-function copyStoryLink() {
-  var text = _storyText + '\n\n' + _shareUrl;
-
-  // 방법 1: Clipboard API (HTTPS + 최신 브라우저)
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(function() {
-      showCopyToast('복사됐어요! 카카오톡에 붙여넣기 해보세요 😊');
-    }).catch(function() {
-      fallbackCopy(text);
+    document.getElementById('scaleMinusBtn').addEventListener('click', () => {
+      currentScale = Math.max(0.7, currentScale - 0.1);
+      applyScale();
     });
-  } else {
-    fallbackCopy(text);
-  }
-}
 
-function fallbackCopy(text) {
-  // 방법 2: textarea + execCommand (구형 브라우저·인앱 브라우저)
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    var ok = document.execCommand('copy');
-    document.body.removeChild(ta);
-    if (ok) {
-      showCopyToast('복사됐어요! 카카오톡에 붙여넣기 해보세요 😊');
-    } else {
-      showCopyToast('아래 내용을 직접 복사해주세요');
+    function applyScale() {
+      zoomLevelIndicator.textContent = Math.round(currentScale * 100) + '%';
+      artworkImg.style.transform = `scale(${currentScale})`;
     }
-  } catch(e) {
-    document.body.removeChild(ta);
-    showCopyToast('아래 내용을 직접 복사해주세요');
-  }
-}
 
-function showCopyToast(msg) {
-  var toast = document.getElementById('copy-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'copy-toast';
-    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 24px;border-radius:24px;font-size:13px;z-index:9999;text-align:center;max-width:80vw;line-height:1.5;box-shadow:0 4px 16px rgba(0,0,0,0.4)';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.display = 'block';
-  toast.style.opacity = '1';
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(function() {
-    toast.style.display = 'none';
-  }, 3000);
-}
+    // Image Scale Slider
+    scaleSlider.addEventListener('input', (e) => {
+      const val = e.target.value;
+      currentScale = val / 100;
+      scaleSliderValue.textContent = val + '%';
+      applyScale();
+    });
 
-function shareStory() {
-  if (navigator.share) {
-    navigator.share({title:'그때 그 시절', text:_storyText, url:_shareUrl});
-  } else { copyStoryLink(); }
-}
+    // Alignment Shortcuts
+    document.getElementById('alignTopBtn').addEventListener('click', () => {
+      artworkImg.style.objectPosition = 'top';
+    });
+    document.getElementById('alignCenterBtn').addEventListener('click', () => {
+      artworkImg.style.objectPosition = 'center';
+    });
+    document.getElementById('alignBottomBtn').addEventListener('click', () => {
+      artworkImg.style.objectPosition = 'bottom';
+    });
 
-// ── 페이지 초기화 ──
-function goMakeMyOwn() {
-  var banner = document.getElementById('visitor-banner');
-  if (banner) banner.style.display = 'none';
-  document.getElementById('result').classList.remove('has-banner');
-  try { history.pushState({}, '', window.location.pathname); } catch(e) {}
-  document.getElementById('result').style.display = 'none';
-  document.getElementById('landing').style.display = 'flex';
-  document.getElementById('birthdate').value = '';
-  document.getElementById('region-select').value = '';
-  document.getElementById('nickname-input').value = '';
-  selectedGender = 'M';
-  selectedRegion = '';
-  document.querySelectorAll('.gender-btn').forEach(function(b,i){ b.classList.toggle('active',i===0); });
-  ['snacktype-select','anime-pick','dream-pick','fastfood-pick','chicken-pick','phone-model-pick','first-game-pick','sns-pick','travel-pick'].forEach(function(id){
-    var el = document.getElementById(id); if (el) el.value = '';
-  });
-  ['snacktype-custom','anime-custom','dream-custom','fastfood-custom','chicken-custom','phone-model-custom','first-game-custom','sns-custom','travel-custom'].forEach(function(id){
-    var el = document.getElementById(id); if (el) { el.style.display='none'; el.value=''; }
-  });
-  var ds = document.getElementById('detail-section');
-  if (ds) ds.classList.remove('open');
-  var dt = document.querySelector('.detail-toggle');
-  if (dt) dt.textContent = '✨ 첫 경험의 기억 추가하기 ▼';
-  window.scrollTo(0,0);
-  // 기본값 다시 세팅
-  var today = new Date();
-  var bd = document.getElementById('birthdate');
-  bd.value = (today.getFullYear()-30)+'-01-01';
-  fillSelects(today.getFullYear()-30);
-}
+    // Model Selection Chips
+    const modelChips = document.querySelectorAll('.model-chip');
+    modelChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        modelChips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+          c.classList.add('bg-canvas-pure', 'text-ink-primary');
+          const span = c.querySelector('span:first-child');
+          if (span) span.classList.remove('font-semibold');
+        });
+        chip.classList.remove('bg-canvas-pure', 'text-ink-primary');
+        chip.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        const activeSpan = chip.querySelector('span:first-child');
+        if (activeSpan) activeSpan.classList.add('font-semibold');
+        
+        const modelName = chip.getAttribute('data-model');
+        selectedModelLabel.textContent = modelName;
+      });
+    });
 
-function loadFromUrl() {
-  var params;
-  try { params = new URLSearchParams(window.location.search); } catch(e) { return; }
-  var b = params.get('b');
-  if (!b) return;
-  var g = params.get('g') || 'M';
-  var r = params.get('r') || '';
-  var n = params.get('n') || '';
-  var st = params.get('st') || '';
-  var ap = params.get('ap') || '';
-  var dr = params.get('dr') || '';
-
-  var bd = document.getElementById('birthdate');
-  if (bd) bd.value = b;
-
-  selectedGender = g;
-  document.querySelectorAll('.gender-btn').forEach(function(btn, i){
-    btn.classList.toggle('active', (i===0 && g==='M') || (i===1 && g==='F'));
-  });
-
-  if (r) { selectedRegion = r; var rs = document.getElementById('region-select'); if(rs) rs.value=r; }
-  if (n) { var ni = document.getElementById('nickname-input'); if(ni) ni.value=n; }
-
-  // 생년으로 select 채우기
-  var birthYear = new Date(b).getFullYear();
-  fillSelects(birthYear);
-
-  // st, ap, dr 복원
-  if (st) {
-    var ss = document.getElementById('snacktype-select');
-    if (ss) {
-      // 옵션 있으면 선택, 없으면 직접입력
-      var found = false;
-      for (var i=0; i<ss.options.length; i++) { if (ss.options[i].value===st) { ss.value=st; found=true; break; } }
-      if (!found) { ss.value='__custom__'; var sc=document.getElementById('snacktype-custom'); if(sc){sc.style.display='block';sc.value=st;} }
-    }
-  }
-  if (ap) {
-    var aps = document.getElementById('anime-pick');
-    if (aps) {
-      var found = false;
-      for (var i=0; i<aps.options.length; i++) { if (aps.options[i].value===ap) { aps.value=ap; found=true; break; } }
-      if (!found) { aps.value='__custom__'; var ac=document.getElementById('anime-custom'); if(ac){ac.style.display='block';ac.value=ap;} }
-    }
-  }
-  if (dr) {
-    var dps = document.getElementById('dream-pick');
-    if (dps) {
-      var found = false;
-      for (var i=0; i<dps.options.length; i++) { if (dps.options[i].value===dr) { dps.value=dr; found=true; break; } }
-      if (!found) { dps.value='__custom__'; var dc=document.getElementById('dream-custom'); if(dc){dc.style.display='block';dc.value=dr;} }
-    }
-  }
-
-  // 배너 표시 후 자동 실행
-  var banner = document.getElementById('visitor-banner');
-  if (banner) banner.style.display = 'block';
-  document.getElementById('result').classList.add('has-banner');
-
-  var birth = new Date(b);
-  var today = new Date();
-  if (birth <= today) {
-    document.getElementById('loading').style.display = 'flex';
-    setTimeout(function(){ doCalc(birth, today); }, 600);
-  }
-}
-
-// ── 카카오 초기화 ──
-if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
-  Kakao.init('6f7da35a1ebdcfc330bf8f9625c5ea87');
-}
-
-function shareKakao() {
-  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
-    copyStoryLink();
-    return;
-  }
-  var lines = _storyText.split('\n\n');
-  var desc = lines.slice(1, 3).join(' ');
-  Kakao.Share.sendDefault({
-    objectType: 'feed',
-    content: {
-      title: '그때 그 시절 — 내 추억 연대기',
-      description: desc,
-      imageUrl: 'https://pickjin.github.io/og-image.png',
-      link: {
-        mobileWebUrl: _shareUrl,
-        webUrl: _shareUrl
-      }
-    },
-    buttons: [
-      {
-        title: '내 연대기 보기',
-        link: { mobileWebUrl: _shareUrl, webUrl: _shareUrl }
-      },
-      {
-        title: '내 추억 만들기',
-        link: {
-          mobileWebUrl: window.location.href.split('?')[0],
-          webUrl: window.location.href.split('?')[0]
+    // Case Architecture Selection
+    const caseCards = document.querySelectorAll('.case-type-card');
+    caseCards.forEach(card => {
+      card.addEventListener('click', () => {
+        caseCards.forEach(c => {
+          c.classList.remove('bg-primary-fixed/40');
+          c.classList.add('bg-surface-container-low');
+          const iconContainer = c.querySelector('.w-10');
+          if (iconContainer) {
+            iconContainer.classList.remove('bg-primary', 'text-on-primary');
+            iconContainer.classList.add('bg-canvas-pure', 'text-ink-primary');
+          }
+        });
+        card.classList.remove('bg-surface-container-low');
+        card.classList.add('bg-primary-fixed/40');
+        const icon = card.querySelector('.w-10');
+        if (icon) {
+          icon.classList.remove('bg-canvas-pure', 'text-ink-primary');
+          icon.classList.add('bg-primary', 'text-on-primary');
         }
-      }
-    ]
-  });
-}
-
-// ── 페이지 로드 ──
-window.addEventListener('load', function() {
-  var today = new Date();
-  var bd = document.getElementById('birthdate');
-  if (bd) {
-    bd.max = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-    bd.value = (today.getFullYear()-30)+'-01-01';
-    fillSelects(today.getFullYear()-30);
-    bd.addEventListener('change', function() {
-      if (this.value) fillSelects(new Date(this.value).getFullYear());
+        
+        const price = parseInt(card.getAttribute('data-price'), 10);
+        activePrice = price;
+        totalPriceDisplay.textContent = '₩' + price.toLocaleString('ko-KR');
+        document.getElementById('primarySubmitBtn').querySelector('span:first-child').textContent = `인쇄 파일 생성 및 주문 (₩${price.toLocaleString('ko-KR')})`;
+      });
     });
-  }
-  loadFromUrl();
-});
-</script>
-</body>
-</html>
+
+    // Texture Finish Toggles
+    const finishMatteBtn = document.getElementById('finishMatteBtn');
+    const finishGlossBtn = document.getElementById('finishGlossBtn');
+
+    finishMatteBtn.addEventListener('click', () => {
+      finishMatteBtn.classList.add('bg-canvas-pure', 'text-ink-primary', 'shadow-sm');
+      finishMatteBtn.classList.remove('bg-canvas-parchment', 'text-ink-muted-secondary');
+      finishGlossBtn.classList.remove('bg-canvas-pure', 'text-ink-primary', 'shadow-sm');
+      finishGlossBtn.classList.add('bg-canvas-parchment', 'text-ink-muted-secondary');
+      finishGlare.style.opacity = '0.35';
+    });
+
+    finishGlossBtn.addEventListener('click', () => {
+      finishGlossBtn.classList.add('bg-canvas-pure', 'text-ink-primary', 'shadow-sm');
+      finishGlossBtn.classList.remove('bg-canvas-parchment', 'text-ink-muted-secondary');
+      finishMatteBtn.classList.remove('bg-canvas-pure', 'text-ink-primary', 'shadow-sm');
+      finishMatteBtn.classList.add('bg-canvas-parchment', 'text-ink-muted-secondary');
+      finishGlare.style.opacity = '0.85';
+    });
+
+    // Custom Text Sync
+    textInput.addEventListener('input', (e) => {
+      renderedText.textContent = e.target.value.trim() || '';
+    });
+
+    // Artwork Tab Switcher
+    const artTabUpload = document.getElementById('artTabUpload');
+    const artTabText = document.getElementById('artTabText');
+    const artTabPreset = document.getElementById('artTabPreset');
+    const uploadPanel = document.getElementById('uploadContentPanel');
+    const textPanel = document.getElementById('textContentPanel');
+    const presetPanel = document.getElementById('presetContentPanel');
+
+    function resetArtTabs() {
+      [artTabUpload, artTabText, artTabPreset].forEach(t => {
+        t.classList.remove('bg-canvas-pure', 'text-ink-primary', 'shadow-sm', 'font-semibold');
+        t.classList.add('text-ink-tertiary');
+      });
+      uploadPanel.classList.add('hidden');
+      textPanel.classList.add('hidden');
+      presetPanel.classList.add('hidden');
+      presetPanel.classList.remove('grid');
+    }
+
+    artTabUpload.addEventListener('click', () => {
+      resetArtTabs();
+      artTabUpload.classList.add('bg-canvas-pure', 'text-ink-primary', 'shadow-sm', 'font-semibold');
+      uploadPanel.classList.remove('hidden');
+    });
+
+    artTabText.addEventListener('click', () => {
+      resetArtTabs();
+      artTabText.classList.add('bg-canvas-pure', 'text-ink-primary', 'shadow-sm', 'font-semibold');
+      textPanel.classList.remove('hidden');
+      textPanel.classList.add('flex');
+    });
+
+    artTabPreset.addEventListener('click', () => {
+      resetArtTabs();
+      artTabPreset.classList.add('bg-canvas-pure', 'text-ink-primary', 'shadow-sm', 'font-semibold');
+      presetPanel.classList.remove('hidden');
+      presetPanel.classList.add('grid');
+    });
+
+    // File Upload Simulation
+    fileUpload.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          artworkImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+
+    // Modal Trigger
+    const modal = document.getElementById('kioskModal');
+    document.getElementById('previewKioskCodeBtn').addEventListener('click', () => {
+      modal.showModal();
+    });
+    document.getElementById('closeModalBtn').addEventListener('click', () => {
+      modal.close();
+    });
+  })();
+</script></main><footer class="w-full bg-canvas-parchment mt-space-section py-space-xl"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4 text-caption-meta font-caption-meta text-ink-tertiary"><div>© 2025 CaseForge Studio. Precision Hardware Aesthetics. All rights reserved.</div><div class="flex items-center gap-6"><a class="hover:text-ink-primary transition-colors" data-path="lineup" href="#">Device Specifications</a><a class="hover:text-ink-primary transition-colors" data-path="offline-vending" href="#">Kiosk Locations</a><a class="hover:text-ink-primary transition-colors" href="#">Privacy Policy</a><a class="hover:text-ink-primary transition-colors" href="#">Terms of Service</a></div></div></footer></body></html>
